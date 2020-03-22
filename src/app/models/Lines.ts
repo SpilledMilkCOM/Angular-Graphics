@@ -11,7 +11,7 @@ export class Lines implements ILineArray {
 
     addPoint(point: IPoint)
     {
-        this.points.concat(point);
+        this.points.push(point);
     }
 
     draw(context: CanvasRenderingContext2D): void

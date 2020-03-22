@@ -27,9 +27,9 @@ export class DrawingComponent implements OnInit {
 
         lines.draw(this.context);
 
-        // this.context.beginPath();
-        // this.context.moveTo(0, 0);
-        // this.context.lineTo(this.context.canvas.width, this.context.canvas.height);
-        // this.context.stroke();
+        this.context.beginPath();
+        this.context.moveTo(0, 0);
+        this.context.lineTo(this.context.canvas.width, this.context.canvas.height);
+        this.context.stroke();
     }
 }
