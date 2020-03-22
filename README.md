@@ -22,4 +22,4 @@ Rename Angular-Graphics to Angular-Graphics2.  Create a new repo in GitHub **wit
     git clone "https://github.com/yourID/yourNewRepo.git"
 
 ## Graphical References
-[Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes)
+[Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
