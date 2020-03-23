@@ -14,27 +14,11 @@ export class Lines implements ILineArray {
         this.points.push(point);
     }
 
-    draw(context: CanvasRenderingContext2D): void
-    {
-        // Has at least 2 points to make a line.
+    clone(): ILineArray {
+        var clone = new Lines();
 
-        if (this.points.length > 1)
-        {
-            context.beginPath();
-            context.moveTo(this.points[0].x, this.points[0].y);
+        this.points.forEach(element => clone.addPoint(element.clone()));
 
-            var skipCount = 1;
-
-            this.points.forEach(element => {
-                if (skipCount == 0) {
-                    context.lineTo(element.x, element.y);
-                }
-                else {
-                    skipCount--;
-                }
-            });
- 
-             context.stroke();
-        }
+        return clone;
     }
 }

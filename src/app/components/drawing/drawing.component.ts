@@ -1,6 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { Lines } from 'src/app/models/Lines';
-import { Point } from 'src/app/models/Point';
+import { Lines } from '../../models/Lines';
+import { Point } from '../../models/Point';
+import { DrawLines } from '../../models/draw/DrawLines';
+import { DrawWorld } from '../../models/draw/DrawWorld';
+import { DrawViewport } from '../../models/draw/DrawViewport';
+import { DrawLine } from '../../models/draw/DrawLine';
+import { Line } from '../../models/Line';
 
 @Component({
       selector: 'gr-drawing'
@@ -25,11 +30,15 @@ export class DrawingComponent implements OnInit {
         lines.addPoint(new Point(50,100));
         lines.addPoint(new Point(200,200));
 
-        lines.draw(this.context);
+        var drawLines = new DrawLines(lines);
+        var drawViewport = new DrawViewport(this.context);
+        var drawWorld = new DrawWorld(null, drawViewport);
 
-        this.context.beginPath();
-        this.context.moveTo(0, 0);
-        this.context.lineTo(this.context.canvas.width, this.context.canvas.height);
-        this.context.stroke();
+        drawWorld.addElement(drawLines);
+        drawWorld.addElement(new DrawLine(new Line(new Point(100, 100), new Point(300, 100))));
+        drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(drawViewport.size.width, 0))));
+        drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(0, drawViewport.size.height))));
+
+        drawWorld.draw(this.context);
     }
 }

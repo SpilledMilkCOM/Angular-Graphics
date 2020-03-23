@@ -21,5 +21,19 @@ Rename Angular-Graphics to Angular-Graphics2.  Create a new repo in GitHub **wit
 
     git clone "https://github.com/yourID/yourNewRepo.git"
 
+# TODO
+* Resizing
+* Animation
+    * Support a good frame rate
+    * Possibly detect frame rate
+* Fractals
+    * Dragon
+    * Tree
+    * Koch
+* Colors
+* "Sprites"
+* 3D
+* Figure out how to package it all up and yet still keep it open.
+
 ## Graphical References
 [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)

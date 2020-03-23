@@ -10,8 +10,7 @@ export class Point implements IPoint {
         this.y = y;
     }
 
-    draw(context: CanvasRenderingContext2D): void
-    {
-        
+    clone(): IPoint {
+        return new Point(this.x, this.y);
     }
 }
