@@ -6,10 +6,11 @@ import { DrawWorld } from '../../models/draw/DrawWorld';
 import { DrawViewport } from '../../models/draw/DrawViewport';
 import { DrawLine } from '../../models/draw/DrawLine';
 import { Line } from '../../models/Line';
-import { DrawPoint } from 'src/app/models/draw/DrawPoint';
-import { DrawRectangle } from 'src/app/models/draw/DrawRectangle';
-import { Rectangle } from 'src/app/models/Rectangle';
-import { Size } from 'src/app/models/Size';
+import { DrawPoint } from '../../models/draw/DrawPoint';
+import { DrawRectangle } from '../../models/draw/DrawRectangle';
+import { Rectangle } from '../../models/Rectangle';
+import { Size } from '../../models/Size';
+import { RightTriangle } from '../../models/RightTriangle';
 
 @Component({
       selector: 'gr-drawing'
@@ -27,6 +28,8 @@ export class DrawingComponent implements OnInit {
 
     ngOnInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
+
+        var closedLoop = true;
 
         this.context = this.canvas.nativeElement.getContext("2d");
 
@@ -61,6 +64,10 @@ export class DrawingComponent implements OnInit {
         // Test rectangle
 
         drawWorld.addElement(new DrawRectangle(new Rectangle(new Point(200, 300), new Size(10, 10))));
+
+        // Test right triangle
+
+        drawWorld.addElement(new DrawLines(new RightTriangle(new Point(200, 400), new Size(30, 30)).lines, closedLoop));
 
         drawWorld.draw(this.context);
     }

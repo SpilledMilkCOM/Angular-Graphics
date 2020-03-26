@@ -7,8 +7,9 @@ export class DrawLines implements IDrawElement {
     closedLoop: boolean;        // Support a "closed" shape.
     lines: ILineArray;
 
-    constructor(lines: ILineArray)
+    constructor(lines: ILineArray, closedLoop: boolean = false)
     {
+        this.closedLoop = closedLoop;
         this.lines = lines;
     }
 
