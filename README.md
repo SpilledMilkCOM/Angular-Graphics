@@ -4,6 +4,8 @@ REF: https://code.visualstudio.com/docs/nodejs/angular-tutorial
 ### Get the latest version of Node Package Manager:
 
     npm install -g npm
+    npm install npm@latest -g
+    npm install node@latest -g
 
 ### Get the latest version of the [**Angular CLI**](https://cli.angular.io/) *(Command Line Interface)*
 
@@ -35,5 +37,6 @@ Rename Angular-Graphics to Angular-Graphics2.  Create a new repo in GitHub **wit
 * 3D
 * Figure out how to package it all up and yet still keep it open.
 
-## Graphical References
-[Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+# :chart_with_upwards_trend: References :chart_with_downwards_trend:
+* [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+* [Markdown Emojis](https://www.webfx.com/tools/emoji-cheat-sheet/)
