@@ -4,6 +4,7 @@ import { ITransformation } from '../../interfaces/ITransformation';
 
 export class DrawLines implements IDrawElement {
 
+    closedLoop: boolean;        // Support a "closed" shape.
     lines: ILineArray;
 
     constructor(lines: ILineArray)
@@ -34,6 +35,11 @@ export class DrawLines implements IDrawElement {
                     skipCount--;
                 }
             });
+
+            if (this.closedLoop)
+            {
+                context.closePath();
+            }
  
              context.stroke();
         }

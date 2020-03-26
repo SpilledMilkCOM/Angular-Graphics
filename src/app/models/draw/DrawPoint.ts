@@ -17,6 +17,10 @@ export class DrawPoint implements IDrawElement {
 
     draw(context: CanvasRenderingContext2D): void
     {
+        context.beginPath();
+        context.moveTo(this.point.x, this.point.y);
+        context.lineTo(this.point.x + 1, this.point.y);     // TODO: Draws a "tick" mark, may want to change this to a circle.
+        context.stroke();
     }
 
     transform(transformation: ITransformation): void

@@ -3,6 +3,8 @@ import { ITransformation } from '../../interfaces/ITransformation';
 
 // Translation is a movement along each axis.
 
+// TODO: Might want to change the perspective and adjust the context (possibly) instead of adjusting all of the points.
+
 export class Translation implements ITransformation {
     translation: IPoint;
 
