@@ -13,6 +13,7 @@ import { Size } from '../../models/Size';
 import { RightTriangle } from '../../models/RightTriangle';
 import { Circle } from 'src/app/models/Circle';
 import { DrawCircle } from 'src/app/models/draw/DrawCircle';
+import { DrawDragonFractal } from 'src/app/fractals/DrawDragonFractal';
 
 @Component({
     selector: 'gr-drawing'
@@ -74,6 +75,11 @@ export class DrawingComponent implements OnInit {
         // Test circle
 
         drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
+
+        // Test dragon fractal
+
+        //drawWorld.addElement(new DrawDragonFractal(new Line(new Point(100, 100), new Point(600, 600)), 3));
+        drawWorld.addElement(new DrawDragonFractal(new Line(new Point(0, 300), new Point(600, 300)), 19));
 
         drawWorld.draw(this.context);
     }
