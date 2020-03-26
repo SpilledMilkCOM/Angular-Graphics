@@ -11,9 +11,11 @@ import { DrawRectangle } from '../../models/draw/DrawRectangle';
 import { Rectangle } from '../../models/Rectangle';
 import { Size } from '../../models/Size';
 import { RightTriangle } from '../../models/RightTriangle';
+import { Circle } from 'src/app/models/Circle';
+import { DrawCircle } from 'src/app/models/draw/DrawCircle';
 
 @Component({
-      selector: 'gr-drawing'
+    selector: 'gr-drawing'
     , template: '<canvas #canvasId width="600" height="600">Canvas not supported.</canvas>'
 })
 export class DrawingComponent implements OnInit {
@@ -35,10 +37,10 @@ export class DrawingComponent implements OnInit {
 
         var lines = new Lines();
 
-        lines.addPoint(new Point(0,0));
-        lines.addPoint(new Point(100,50));
-        lines.addPoint(new Point(50,100));
-        lines.addPoint(new Point(200,200));
+        lines.addPoint(new Point(0, 0));
+        lines.addPoint(new Point(100, 50));
+        lines.addPoint(new Point(50, 100));
+        lines.addPoint(new Point(200, 200));
 
         var drawLines = new DrawLines(lines);
         var drawViewport = new DrawViewport(this.context);
@@ -68,6 +70,10 @@ export class DrawingComponent implements OnInit {
         // Test right triangle
 
         drawWorld.addElement(new DrawLines(new RightTriangle(new Point(200, 400), new Size(30, 30)).lines, closedLoop));
+
+        // Test circle
+
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
 
         drawWorld.draw(this.context);
     }

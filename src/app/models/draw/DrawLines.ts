@@ -14,7 +14,7 @@ export class DrawLines implements IDrawElement {
     }
 
     clone(): IDrawElement {
-        return new DrawLines(this.lines.clone());
+        return new DrawLines(this.lines.clone(), this.closedLoop);
     }
     
     draw(context: CanvasRenderingContext2D): void
