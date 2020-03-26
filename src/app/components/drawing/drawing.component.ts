@@ -79,7 +79,7 @@ export class DrawingComponent implements OnInit {
         // Test dragon fractal
 
         //drawWorld.addElement(new DrawDragonFractal(new Line(new Point(100, 100), new Point(600, 600)), 3));
-        drawWorld.addElement(new DrawDragonFractal(new Line(new Point(0, 300), new Point(600, 300)), 19));
+        drawWorld.addElement(new DrawDragonFractal(new Line(new Point(200, 300), new Point(500, 300)), 17));
 
         drawWorld.draw(this.context);
     }
