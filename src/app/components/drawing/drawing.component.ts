@@ -37,12 +37,12 @@ export class DrawingComponent implements OnInit {
 
         var lines = new Lines();
 
-        lines.addPoint(new Point(0, 0));
-        lines.addPoint(new Point(100, 50));
-        lines.addPoint(new Point(50, 100));
         lines.addPoint(new Point(200, 200));
+        lines.addPoint(new Point(250, 300));
+        lines.addPoint(new Point(300, 200));
+        lines.addPoint(new Point(250, 225));
 
-        var drawLines = new DrawLines(lines);
+        var drawLines = new DrawLines(lines, closedLoop);
         var drawViewport = new DrawViewport(this.context);
         var drawWorld = new DrawWorld(null, drawViewport);
 
@@ -52,7 +52,7 @@ export class DrawingComponent implements OnInit {
 
         // Test individual lines.
 
-        drawWorld.addElement(new DrawLine(new Line(new Point(100, 100), new Point(300, 100))));
+        drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(150, 150))));
         drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(drawViewport.size.width, 0))));
         drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(0, drawViewport.size.height))));
 
