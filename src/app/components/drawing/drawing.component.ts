@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 import { Lines } from '../../models/Lines';
 import { Point } from '../../models/Point';
 import { DrawLines } from '../../models/draw/DrawLines';
@@ -75,11 +75,6 @@ export class DrawingComponent implements AfterViewInit {
         // Test circle
 
         drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
-
-        // Test dragon fractal
-
-        //drawWorld.addElement(new DrawDragonFractal(new Line(new Point(100, 100), new Point(600, 600)), 3));
-        drawWorld.addElement(new DrawDragonFractal(new Line(new Point(200, 300), new Point(500, 300)), 17));
 
         drawWorld.draw(this.context);
     }

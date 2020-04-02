@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, ViewChild, OnInit } from "@angular/core";
 import { DrawDragonFractal } from 'src/app/fractals/DrawDragonFractal';
 import { DrawWorld } from '../../models/draw/DrawWorld';
 import { DrawViewport } from '../../models/draw/DrawViewport';
@@ -7,11 +7,11 @@ import { Point } from '../../models/Point';
 
 @Component({
     selector: 'gr-fractal'
-    , template: '<canvas #canvasId width="600" height="600">Canvas not supported.</canvas>'
+    , template: '<canvas #dragonId width="600" height="600">Canvas not supported.</canvas>'
 })
-export class FractalComponent implements OnInit {
+export class FractalComponent implements AfterViewInit {
 
-    @ViewChild('canvasId')
+    @ViewChild('dragonId')
     canvas: ElementRef<HTMLCanvasElement>;
 
     private context: CanvasRenderingContext2D;
@@ -19,7 +19,7 @@ export class FractalComponent implements OnInit {
     origHeight: number = 600;
     origWidth: number = 600;
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
 
         this.context = this.canvas.nativeElement.getContext("2d");
