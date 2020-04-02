@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, AfterViewInit, ViewChild } from "@angular/core";
 import { Lines } from '../../models/Lines';
 import { Point } from '../../models/Point';
 import { DrawLines } from '../../models/draw/DrawLines';
@@ -19,17 +19,17 @@ import { DrawDragonFractal } from 'src/app/fractals/DrawDragonFractal';
     selector: 'gr-drawing'
     , template: '<canvas #canvasId width="600" height="600">Canvas not supported.</canvas>'
 })
-export class DrawingComponent implements OnInit {
+export class DrawingComponent implements AfterViewInit {
 
     @ViewChild('canvasId')
-    canvas: ElementRef<HTMLCanvasElement>;
+    canvas : ElementRef<HTMLCanvasElement>;
 
     private context: CanvasRenderingContext2D;
 
     origHeight: number = 600;
     origWidth: number = 600;
 
-    ngOnInit(): void {
+    ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
 
         var closedLoop = true;
