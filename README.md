@@ -44,3 +44,4 @@ Rename Angular-Graphics to Angular-Graphics2.  Create a new repo in GitHub **wit
 
 * [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 * [Markdown Emojis](https://www.webfx.com/tools/emoji-cheat-sheet)
+* [Angular @ViewChild: In-Depth Explanation](https://blog.angular-university.io/angular-viewchild/)
