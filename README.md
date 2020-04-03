@@ -31,6 +31,7 @@ Rename Angular-Graphics to Angular-Graphics2.  Create a new repo in GitHub **wit
   * `ng add @angular/material` *(you can also use npm)*
   * Choose a theme and import it into your styles.css file
   * Add the BrowserAnimationsModule *(required for most controls)*
+  * [Material Components](https://material.angular.io/components)
 
 ## TODO
 
