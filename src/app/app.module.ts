@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridList } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -26,6 +27,7 @@ import { FractalComponent } from './components/drawing/dragon.component';
     FormsModule,
     AppRoutingModule,
     MatButtonModule,
+    //MatGridList,
     MatInputModule,
     MatSliderModule,
     MatTabsModule

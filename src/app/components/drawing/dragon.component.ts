@@ -19,8 +19,9 @@ export class FractalComponent implements AfterViewInit {
     private origHeight: number = 600;
     private origWidth: number = 600;
 
-    @Output() elapsedMilliseconds: number = 0;
     @Input() level: number = 10;
+
+    @Output() elapsedMilliseconds: number = 0;
     @Output() segments: number = 0;
 
     public clearCanvas() {

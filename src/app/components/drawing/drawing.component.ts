@@ -1,33 +1,37 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
-import { Lines } from '../../models/Lines';
-import { Point } from '../../models/Point';
-import { DrawLines } from '../../models/draw/DrawLines';
-import { DrawWorld } from '../../models/draw/DrawWorld';
-import { DrawViewport } from '../../models/draw/DrawViewport';
+
+import { DrawCircle } from 'src/app/models/draw/DrawCircle';
 import { DrawLine } from '../../models/draw/DrawLine';
-import { Line } from '../../models/Line';
+import { DrawLines } from '../../models/draw/DrawLines';
 import { DrawPoint } from '../../models/draw/DrawPoint';
 import { DrawRectangle } from '../../models/draw/DrawRectangle';
-import { Rectangle } from '../../models/Rectangle';
-import { Size } from '../../models/Size';
-import { RightTriangle } from '../../models/RightTriangle';
+import { DrawViewport } from '../../models/draw/DrawViewport';
+import { DrawWorld } from '../../models/draw/DrawWorld';
+
 import { Circle } from 'src/app/models/Circle';
-import { DrawCircle } from 'src/app/models/draw/DrawCircle';
-import { DrawDragonFractal } from 'src/app/fractals/DrawDragonFractal';
+import { Line } from '../../models/Line';
+import { Lines } from '../../models/Lines';
+import { Point } from '../../models/Point';
+import { Rectangle } from '../../models/Rectangle';
+import { RightTriangle } from '../../models/RightTriangle';
+import { Size } from '../../models/Size';
 
 @Component({
     selector: 'gr-drawing'
-    , template: '<canvas #canvasId width="600" height="600">Canvas not supported.</canvas>'
+    , templateUrl: './drawing.component.html'
 })
 export class DrawingComponent implements AfterViewInit {
 
     @ViewChild('canvasId')
-    canvas : ElementRef<HTMLCanvasElement>;
+    canvas: ElementRef<HTMLCanvasElement>;
 
     private context: CanvasRenderingContext2D;
 
     origHeight: number = 600;
     origWidth: number = 600;
+
+    buttonText: string = "Start";
+    //timer: NodeJS.Timer;
 
     ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
@@ -77,5 +81,16 @@ export class DrawingComponent implements AfterViewInit {
         drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
 
         drawWorld.draw(this.context);
+    }
+
+    toggleAnimation(context: CanvasRenderingContext2D): void {
+
+        if (this.buttonText == "Start") {
+            this.buttonText = "Stop";
+            //this.timer = setInterval(this.drawFrame, 100, context);
+        }
+        else {
+            this.buttonText = "Start";
+        }
     }
 }
