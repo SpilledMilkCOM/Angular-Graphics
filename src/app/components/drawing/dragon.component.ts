@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Input, Output, ViewChild } from "@angular/core";
 import { DrawDragonFractal } from 'src/app/fractals/DrawDragonFractal';
 import { DrawWorld } from '../../models/draw/DrawWorld';
 import { DrawViewport } from '../../models/draw/DrawViewport';
@@ -19,10 +19,17 @@ export class FractalComponent implements AfterViewInit {
     private origHeight: number = 600;
     private origWidth: number = 600;
 
+    @Output() elapsedMilliseconds: number = 0;
     @Input() level: number = 10;
+    @Output() segments: number = 0;
 
     public clearCanvas() {
+        var start = Date.now();
+
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+
+        this.segments = 0;
+        this.elapsedMilliseconds = Date.now() - start;
     }
 
     public ngAfterViewInit(): void {
@@ -42,6 +49,8 @@ export class FractalComponent implements AfterViewInit {
 
         if (this.level >= 0 && this.level < 20) {
 
+            var start = Date.now();
+
             var drawViewport = new DrawViewport(this.context);
             var drawWorld = new DrawWorld(null, drawViewport);
 
@@ -50,6 +59,9 @@ export class FractalComponent implements AfterViewInit {
             drawWorld.addElement(new DrawDragonFractal(new Line(new Point(200, 300), new Point(500, 300)), this.level));
 
             drawWorld.draw(this.context);
+
+            this.segments = Math.pow(2, this.level);
+            this.elapsedMilliseconds = Date.now() - start;
         }
     }
 }
