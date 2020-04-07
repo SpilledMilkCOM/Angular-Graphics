@@ -9,6 +9,8 @@
     <input matInput #counterId [value]="frameCounter" [readonly]="true">
 </mat-form-field>
 
+<button mat-raised-button (click)="clearCanvas()" style="margin: 10px;">Clear</button>
+
 <div>
     <canvas #canvasId width="600" height="600">Canvas not supported.</canvas>
 </div>

@@ -38,6 +38,14 @@ export class DrawingComponent implements AfterViewInit {
     timer: any;
     drawWorld: DrawWorld;
 
+    public clearCanvas() {
+        var start = Date.now();
+
+        this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+
+        this.frameCounter = 0;
+    }
+
     ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
 
@@ -109,12 +117,11 @@ export class DrawingComponent implements AfterViewInit {
         var spaceship = drawing.drawWorld.findDrawElement("spaceship");
 
         if (spaceship != null) {
-            //spaceship.transform(new Translation(new Point(1, -4)));
+            spaceship.transform(new Translation(new Point(1, -4)));
 
             var lines = <DrawLines>spaceship;
 
-            //spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
-            spaceship.transform(new Rotation(Math.PI / 90, new Point(-300, -300)));
+            spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
         }
 
         drawing.drawWorld.draw(drawing.context);
