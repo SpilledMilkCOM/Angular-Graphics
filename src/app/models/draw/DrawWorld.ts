@@ -1,28 +1,31 @@
 import { IDrawElement } from '../../interfaces/IDrawElement';
 import { IDrawViewport } from '../../interfaces/IDrawViewport';
-import { IDrawWorld } from 'src/app/interfaces/IDrawWorld';
-import { ITransformation } from 'src/app/interfaces/ITransformation';
-import { Input } from '@angular/core';
+import { IDrawWorld } from '../../interfaces/IDrawWorld';
+import { ITransformation } from '../../interfaces/ITransformation';
 
 export class DrawWorld implements IDrawWorld, IDrawElement {
 
     elements: IDrawElement[];
+    namedElements: Map<String, IDrawElement>;
     viewport: IDrawViewport;
-
-    //timer: NodeJS.Timer;
 
     constructor(elements: IDrawElement[], viewport: IDrawViewport) {
         // Poor-mans coalesce (I remember doing this WAAAAY back)
         this.elements = elements != null ? elements : new Array<IDrawElement>();
+        this.namedElements  = new Map<String, IDrawElement>();
         this.viewport = viewport;
     }
 
-    addElement(element: IDrawElement): void {
+    addElement(element: IDrawElement, name: String = null): void {
         var clone = element.clone();
 
         clone.transform(this.viewport.transformation);
 
         this.elements.push(clone);
+
+        if (name != null) {
+            this.namedElements.set(name, clone);
+        }
     }
 
     clone(): IDrawElement {
@@ -37,6 +40,10 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         // Move things that move.
 
         this.draw(context);
+    }
+
+    findDrawElement(name: String): IDrawElement {
+        return this.namedElements.get(name);
     }
 
     transform(transformation: ITransformation): void {

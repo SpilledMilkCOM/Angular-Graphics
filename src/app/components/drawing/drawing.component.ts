@@ -15,6 +15,8 @@ import { Point } from '../../models/Point';
 import { Rectangle } from '../../models/Rectangle';
 import { RightTriangle } from '../../models/RightTriangle';
 import { Size } from '../../models/Size';
+import { Translation } from 'src/app/models/transform/Translation';
+import { Rotation } from 'src/app/models/transform/Rotation';
 
 @Component({
     selector: 'gr-drawing'
@@ -31,7 +33,10 @@ export class DrawingComponent implements AfterViewInit {
     origWidth: number = 600;
 
     buttonText: string = "Start";
-    //timer: NodeJS.Timer;
+    frameCounter: number = 0;
+    frameRate: number = 10;                 // Frames per second.
+    timer: any;
+    drawWorld: DrawWorld;
 
     ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
@@ -39,6 +44,11 @@ export class DrawingComponent implements AfterViewInit {
         var closedLoop = true;
 
         this.context = this.canvas.nativeElement.getContext("2d");
+
+        var drawViewport = new DrawViewport(this.context);
+        var drawWorld = new DrawWorld(null, drawViewport);
+
+        // Test many lines (spaceship)
 
         var lines = new Lines();
 
@@ -48,14 +58,10 @@ export class DrawingComponent implements AfterViewInit {
         lines.addPoint(new Point(250, 225));
 
         var drawLines = new DrawLines(lines, closedLoop);
-        var drawViewport = new DrawViewport(this.context);
-        var drawWorld = new DrawWorld(null, drawViewport);
 
-        // Test many lines
+        drawWorld.addElement(drawLines, "spaceship");
 
-        drawWorld.addElement(drawLines);
-
-        // Test individual lines.
+        // Test individual lines (x & y axes)
 
         drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(150, 150))));
         drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(drawViewport.size.width, 0))));
@@ -81,16 +87,36 @@ export class DrawingComponent implements AfterViewInit {
         drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
 
         drawWorld.draw(this.context);
+
+        this.drawWorld = drawWorld;
     }
 
-    toggleAnimation(context: CanvasRenderingContext2D): void {
+    public toggleAnimation(context: CanvasRenderingContext2D): void {
 
         if (this.buttonText == "Start") {
             this.buttonText = "Stop";
-            //this.timer = setInterval(this.drawFrame, 100, context);
+            this.timer = setInterval(this.drawFrame, 1000 / this.frameRate, this);
         }
         else {
             this.buttonText = "Start";
+            clearInterval(this.timer);
         }
+    }
+
+    private drawFrame(drawing: DrawingComponent): void {
+        drawing.frameCounter++;
+
+        var spaceship = drawing.drawWorld.findDrawElement("spaceship");
+
+        if (spaceship != null) {
+            //spaceship.transform(new Translation(new Point(1, -4)));
+
+            var lines = <DrawLines>spaceship;
+
+            //spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
+            spaceship.transform(new Rotation(Math.PI / 90, new Point(-300, -300)));
+        }
+
+        drawing.drawWorld.draw(drawing.context);
     }
 }

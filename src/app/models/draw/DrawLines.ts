@@ -5,7 +5,8 @@ import { ITransformation } from '../../interfaces/ITransformation';
 export class DrawLines implements IDrawElement {
 
     closedLoop: boolean;        // Support a "closed" shape.
-    lines: ILineArray;
+    
+    public lines: ILineArray;   // TODO: How to make this "readonly"
 
     constructor(lines: ILineArray, closedLoop: boolean = false)
     {
