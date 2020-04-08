@@ -6,10 +6,10 @@ import { Lines } from './Lines';
 import { Point } from './Point';
 
 export class RightTriangle implements ITriangle {
-    lines: ILineArray;
 
     // Adds more memory, but less compute when cloning. (may take this out later)
     center: IPoint;
+    segments: ILineArray;
     size: ISize;
 
     constructor(center: IPoint, size: ISize)
@@ -17,13 +17,13 @@ export class RightTriangle implements ITriangle {
         this.center = center;
         this.size = size;
 
-        this.lines = new Lines();
+        this.segments = new Lines();
 
         var topLeft = new Point(center.x - size.width / 2, center.y - size.height / 2);
 
-        this.lines.addPoint(topLeft);
-        this.lines.addPoint(new Point(topLeft.x, topLeft.y + size.height));
-        this.lines.addPoint(new Point(topLeft.x + size.width, topLeft.y + size.height));
+        this.segments.addPoint(topLeft);
+        this.segments.addPoint(new Point(topLeft.x, topLeft.y + size.height));
+        this.segments.addPoint(new Point(topLeft.x + size.width, topLeft.y + size.height));
     }
 
     clone(): ITriangle

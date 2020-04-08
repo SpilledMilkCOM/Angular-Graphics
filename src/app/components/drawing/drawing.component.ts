@@ -17,6 +17,7 @@ import { RightTriangle } from '../../models/RightTriangle';
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { Rotation } from 'src/app/models/transform/Rotation';
+import { RegularPolygon } from 'src/app/primitives/RegularPolygon';
 
 @Component({
     selector: 'gr-drawing'
@@ -33,6 +34,7 @@ export class DrawingComponent implements AfterViewInit {
     origWidth: number = 600;
 
     buttonText: string = "Start";
+    elapsedMilliseconds: number = 0;
     frameCounter: number = 0;
     frameRate: number = 10;                 // Frames per second.
     timer: any;
@@ -44,10 +46,13 @@ export class DrawingComponent implements AfterViewInit {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
         this.frameCounter = 0;
+        this.elapsedMilliseconds = Date.now() - start;
     }
 
     ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
+
+        var start = Date.now();
 
         var closedLoop = true;
 
@@ -88,15 +93,22 @@ export class DrawingComponent implements AfterViewInit {
 
         // Test right triangle
 
-        drawWorld.addElement(new DrawLines(new RightTriangle(new Point(200, 400), new Size(30, 30)).lines, closedLoop));
+        drawWorld.addElement(new DrawLines(new RightTriangle(new Point(200, 400), new Size(30, 30)).segments, closedLoop));
 
         // Test circle
 
         drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
 
+        // Test regular polygon
+
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(400, 100), 30, 3).segments, closedLoop));
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop));
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "stopsign");
+
         drawWorld.draw(this.context);
 
         this.drawWorld = drawWorld;
+        this.elapsedMilliseconds = Date.now() - start;
     }
 
     public toggleAnimation(context: CanvasRenderingContext2D): void {
@@ -122,6 +134,14 @@ export class DrawingComponent implements AfterViewInit {
             var lines = <DrawLines>spaceship;
 
             spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
+        }
+
+        var stopsign = drawing.drawWorld.findDrawElement("stopsign");
+
+        if (stopsign != null) {
+            var lines = <DrawLines>stopsign;
+
+            stopsign.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
         }
 
         drawing.drawWorld.draw(drawing.context);

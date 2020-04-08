@@ -1,7 +1,7 @@
 import { ILineArray } from './ILineArray';
 
 export interface ITriangle {
-    lines: ILineArray;
+    segments: ILineArray;
 
     clone(): ITriangle;
 }

@@ -5,13 +5,15 @@ import { DrawViewport } from '../../models/draw/DrawViewport';
 import { Line } from '../../models/Line';
 import { Point } from '../../models/Point';
 
-@Component({
-    selector: 'gr-dragon-fractal'
-    , templateUrl: './dragon.component.html'
-})
-export class DragonFractalComponent implements AfterViewInit {
+// TODO: combine the interface component, and split out the fractal component.
 
-    @ViewChild('dragonId')
+@Component({
+    selector: 'gr-koch-fractal'
+    , templateUrl: './koch.component.html'
+})
+export class KochFractalComponent implements AfterViewInit {
+
+    @ViewChild('kochId')
     private canvas: ElementRef<HTMLCanvasElement>;
 
     private context: CanvasRenderingContext2D;

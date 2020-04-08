@@ -11,6 +11,11 @@
 
 <button mat-raised-button (click)="clearCanvas()" style="margin: 10px;">Clear</button>
 
+<mat-form-field appearance="legacy">
+    <mat-label>Duration (ms)</mat-label>
+    <input matInput #levelId [value]="elapsedMilliseconds" [readonly]="true">
+</mat-form-field>
+
 <div>
     <canvas #canvasId width="600" height="600">Canvas not supported.</canvas>
 </div>
