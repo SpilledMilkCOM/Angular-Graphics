@@ -17,5 +17,5 @@
 </mat-form-field>
 
 <div>
-    <canvas #canvasId width="600" height="600">Canvas not supported.</canvas>
+    <canvas #canvasId [width]="width" [height]="height" (window:resize)="onResize($event)">Canvas not supported.</canvas>
 </div>

@@ -16,7 +16,7 @@ export class DrawRectangle implements IDrawElement {
         this.rectangle = rectangle;
 
         this.topLeft = new Point(this.rectangle.center.x - this.rectangle.size.width / 2
-                                , this.rectangle.center.y - this.rectangle.size.width / 2);
+                                , this.rectangle.center.y + this.rectangle.size.height / 2);
         this.size = rectangle.size.clone();
     }
 

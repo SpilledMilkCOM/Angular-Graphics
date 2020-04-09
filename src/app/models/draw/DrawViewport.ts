@@ -26,7 +26,7 @@ export class DrawViewport implements IDrawViewport {
         var transformations = new Transformations(null);
 
         transformations.addTransformation(new ReflectionAboutXaxis());
-        transformations.addTransformation(new Translation(new Point(0, this.size.height)));
+        transformations.addTransformation(new Translation(this.origin));
 
         this.transformation = transformations;
     }
