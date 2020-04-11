@@ -14,13 +14,15 @@ import { AppComponent } from './app.component';
 import { DrawingComponent } from './components/drawing/drawing.component';
 import { DragonFractalComponent } from './components/drawing/dragon.component';
 import { KochFractalComponent } from './components/drawing/koch.component';
+import { TreeFractalComponent } from './components/drawing/tree.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DrawingComponent,
     DragonFractalComponent,
-    KochFractalComponent
+    KochFractalComponent,
+    TreeFractalComponent
   ],
   imports: [
     BrowserModule,

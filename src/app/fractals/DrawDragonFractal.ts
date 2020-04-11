@@ -27,6 +27,11 @@ export class DrawDragonFractal implements IDrawElement {
         this.drawFrac(context, this.line, this.level);
     }
 
+    segments(): number {
+        // The base is the number of segments per level.
+        return Math.pow(2, this.level);
+    }
+
     transform(transformation: ITransformation): void {
         transformation.transform(this.line.start);
         transformation.transform(this.line.end);
@@ -36,17 +41,23 @@ export class DrawDragonFractal implements IDrawElement {
     {
         if (level == 0)
         {
-            var drawLine = new DrawLine(line);
-
-            drawLine.draw(context);
+            new DrawLine(line).draw(context);
         }
         else
         {
-            var point = new Point((line.start.x + line.end.x) / 2 + (line.end.y - line.start.y) / 2
+            // The new point is taken from (line/vector) _AB_
+            //        C
+            //      /   \
+            //     /     \
+            //    A___.___B
+
+            var pointC = new Point((line.start.x + line.end.x) / 2 + (line.end.y - line.start.y) / 2
                                 , (line.start.y + line.end.y) / 2 - (line.end.x - line.start.x) / 2);
 
-            this.drawFrac(context, new Line(line.start, point), level - 1);
-            this.drawFrac(context, new Line(line.end, point), level - 1);
+            // Two new lines _AC_ and _BC_
+
+            this.drawFrac(context, new Line(line.start, pointC), level - 1);
+            this.drawFrac(context, new Line(line.end, pointC), level - 1);
         }
     }
 }

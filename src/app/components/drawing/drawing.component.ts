@@ -143,7 +143,7 @@ export class DrawingComponent implements AfterViewInit {
         if (spaceship != null) {
             spaceship.transform(new Translation(new Point(1, -4)));
 
-            var lines = <DrawLines>spaceship;
+            var lines = <DrawLines>spaceship;       // NOTE: cast operator, casting
 
             spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
         }

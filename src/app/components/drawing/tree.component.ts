@@ -1,18 +1,20 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
-import { DrawWorld } from '../../models/draw/DrawWorld';
+
+import { DrawTreeFractal } from 'src/app/fractals/DrawTreeFractal';
 import { DrawViewport } from '../../models/draw/DrawViewport';
+import { DrawWorld } from '../../models/draw/DrawWorld';
+import { Line } from 'src/app/models/Line';
 import { Point } from '../../models/Point';
-import { DrawKochFractal } from '../../fractals/DrawKochFractal';
 
 // TODO: combine the interface component, and split out the fractal component.
 
 @Component({
-    selector: 'gr-koch-fractal'
-    , templateUrl: './koch.component.html'
+    selector: 'gr-tree-fractal'
+    , templateUrl: './tree.component.html'
 })
-export class KochFractalComponent implements AfterViewInit {
+export class TreeFractalComponent implements AfterViewInit {
 
-    @ViewChild('kochId')
+    @ViewChild('treeId')
     private canvas: ElementRef<HTMLCanvasElement>;
 
     private context: CanvasRenderingContext2D;
@@ -21,7 +23,7 @@ export class KochFractalComponent implements AfterViewInit {
     private origWidth: number = 600;
 
     elapsedMilliseconds: number = 0;
-    level: number = 5;
+    level: number = 6;
     segments: number = 0;
 
     public clearCanvas() {
@@ -55,12 +57,14 @@ export class KochFractalComponent implements AfterViewInit {
             var drawViewport = new DrawViewport(this.context);
             var drawWorld = new DrawWorld(null, drawViewport);
 
-            var fractal = new DrawKochFractal(new Point(300, 300), 300, this.level);
+            // Test dragon fractal
 
-            drawWorld.addElement(fractal);
+            drawWorld.addElement(new DrawTreeFractal(new Line(new Point(300, 0), new Point(300, 250)), this.level), "tree");
             drawWorld.draw(this.context);
 
-            this.segments = fractal.segments();
+            var foundElement = drawWorld.findDrawElement("tree");
+
+            this.segments = (<DrawTreeFractal>foundElement).segments();
             this.elapsedMilliseconds = Date.now() - start;
         }
     }

@@ -53,14 +53,13 @@ export class DragonFractalComponent implements AfterViewInit {
 
             var drawViewport = new DrawViewport(this.context);
             var drawWorld = new DrawWorld(null, drawViewport);
+            var fractal = new DrawDragonFractal(new Line(new Point(200, 300), new Point(500, 300)), this.level);
 
-            // Test dragon fractal
-
-            drawWorld.addElement(new DrawDragonFractal(new Line(new Point(200, 300), new Point(500, 300)), this.level));
+            drawWorld.addElement(fractal);
 
             drawWorld.draw(this.context);
 
-            this.segments = Math.pow(2, this.level);
+            this.segments = fractal.segments();
             this.elapsedMilliseconds = Date.now() - start;
         }
     }
