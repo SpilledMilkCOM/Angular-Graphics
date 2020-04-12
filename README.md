@@ -55,5 +55,6 @@ Use Git Bash to `git clone` your repo into your repository directory. Copy the c
 ## :chart_with_upwards_trend: References :chart_with_downwards_trend:
 
 * [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
+* [TypeScript Doc (commenting)](https://github.com/Microsoft/tsdoc)
 * [Markdown Emojis](https://www.webfx.com/tools/emoji-cheat-sheet)
 * [Angular @ViewChild: In-Depth Explanation](https://blog.angular-university.io/angular-viewchild/)
