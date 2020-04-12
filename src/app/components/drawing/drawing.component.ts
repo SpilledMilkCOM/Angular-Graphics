@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
+import { IDrawElement } from 'src/app/interfaces/IDrawElement';
+
 import { DrawCircle } from 'src/app/models/draw/DrawCircle';
 import { DrawLine } from '../../models/draw/DrawLine';
 import { DrawLines } from '../../models/draw/DrawLines';
@@ -18,6 +20,7 @@ import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { Rotation } from 'src/app/models/transform/Rotation';
 import { RegularPolygon } from 'src/app/primitives/RegularPolygon';
+import { CustomTransformation } from 'src/app/models/transform/CustomTransformation';
 
 @Component({
     selector: 'gr-drawing'
@@ -72,8 +75,29 @@ export class DrawingComponent implements AfterViewInit {
 
         var drawLines = new DrawLines(lines, closedLoop);
 
-        drawWorld.addElement(drawLines, "spaceship"
-                            , new Translation(new Point(1 / this.frameRate, -50 / this.frameRate)));
+        // drawWorld.addElement(drawLines, "spaceship"
+        //                     , new Translation(new Point(1 / this.frameRate, -50 / this.frameRate)));
+
+        drawWorld.addElement(drawLines, "spaceship");
+
+        var spaceship = drawWorld.findDrawElement("spaceship");
+
+        if (spaceship != null) {
+
+            drawWorld.addTransformation("spaceship"
+                , new CustomTransformation(spaceship, 4, (element: IDrawElement) => {
+
+                    if (element != null) {
+                        // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
+
+                        element.transform(new Translation(new Point(1, -4)));
+
+                        var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
+
+                        element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
+                    }
+                }))
+        }
 
         // Test individual lines (x & y axes)
 
@@ -104,13 +128,13 @@ export class DrawingComponent implements AfterViewInit {
         // Test regular polygon
 
         drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(400, 100), 30, 3).segments, closedLoop), "triangle"
-                            , new Rotation(Math.PI / 2 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+            , new Rotation(Math.PI / 2 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
 
         drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop), "pentagon"
-                            , new Rotation(Math.PI / 3 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+            , new Rotation(Math.PI / 3 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
 
         drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "stopsign"
-                            , new Rotation(Math.PI / 4 / this.frameRate, drawWorld.toViewport(new Point(500, 100))));     // 45 degrees per second.
+            , new Rotation(Math.PI / 4 / this.frameRate, drawWorld.toViewport(new Point(500, 100))));     // 45 degrees per second.
 
         drawWorld.draw(this.context);
 

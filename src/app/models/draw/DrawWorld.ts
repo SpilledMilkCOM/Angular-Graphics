@@ -1,8 +1,8 @@
 import { IDrawElement } from '../../interfaces/IDrawElement';
 import { IDrawViewport } from '../../interfaces/IDrawViewport';
 import { IDrawWorld } from '../../interfaces/IDrawWorld';
+import { IPoint } from '../../interfaces/IPoint';
 import { ITransformation } from '../../interfaces/ITransformation';
-import { IPoint } from 'src/app/interfaces/IPoint';
 
 export class DrawWorld implements IDrawWorld, IDrawElement {
 
@@ -40,6 +40,19 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
 
         if (frameTransform != null) {
             this.animatedElements.set(clone, frameTransform);
+        }
+    }
+
+    addTransformation(name: String = null, frameTransform: ITransformation): void {
+        var element = this.findDrawElement(name);
+
+        if (element != null) {
+            if (frameTransform == null) {
+                this.animatedElements.delete(element);
+            }
+            else {
+                this.animatedElements.set(element, frameTransform);
+            }
         }
     }
 
