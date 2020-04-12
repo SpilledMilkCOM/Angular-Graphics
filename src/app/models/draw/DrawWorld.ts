@@ -15,7 +15,7 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         this.animatedElements = new Map<IDrawElement, ITransformation>();
 
         // Poor-man's coalesce (I remember doing this WAAAAY back)
-        
+
         this.elements = elements != null ? elements : new Array<IDrawElement>();
         this.namedElements = new Map<String, IDrawElement>();
         this.viewport = viewport;
@@ -23,9 +23,9 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
 
     /** Add an element to the world
      * 
-     * @param element - The element being added to the world.
-     * @param name - The name of the element.
-     * @param frameTransform - A transformation during one frame of animation. 
+     * @param element The element being added to the world.
+     * @param name The name of the element.
+     * @param frameTransform A transformation during one frame of animation. 
      */
     addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null): void {
         var clone = element.clone();
