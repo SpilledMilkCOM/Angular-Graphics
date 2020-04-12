@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, Output, ViewChild } from "@angular/core";
-import { DrawDragonFractal } from 'src/app/fractals/DrawDragonFractal';
+import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
+import { DrawDragonFractal } from '../../fractals/DrawDragonFractal';
 import { DrawWorld } from '../../models/draw/DrawWorld';
 import { DrawViewport } from '../../models/draw/DrawViewport';
 import { Line } from '../../models/Line';
@@ -19,8 +19,10 @@ export class DragonFractalComponent implements AfterViewInit {
     private origHeight: number = 600;
     private origWidth: number = 600;
 
+    // @Input and @Output are NOT needed because this is not a child component (YET!)
+
     elapsedMilliseconds: number = 0;
-    level: number = 10;
+    level: number = 11;
     segments: number = 0;
 
     public clearCanvas() {
@@ -40,7 +42,7 @@ export class DragonFractalComponent implements AfterViewInit {
         this.refreshFractal();
     }
 
-    public onEnter(value: string) {
+    public levelChanged(value: string) {
         this.level = Number(value);
         this.refreshFractal();
     }

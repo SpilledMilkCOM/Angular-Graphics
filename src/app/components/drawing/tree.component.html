@@ -1,19 +1,10 @@
-<mat-form-field appearance="fill">
-    <mat-label>Level</mat-label>
-    <input matInput #levelId [value]="level" (keyup.enter)="onEnter(levelId.value)">
-</mat-form-field>
-
-<button mat-raised-button (click)="clearCanvas()" style="margin: 10px;">Clear</button>
-
-<mat-form-field appearance="legacy">
-    <mat-label>Segments</mat-label>
-    <input matInput #levelId [value]="segments" [readonly]="true">
-</mat-form-field>
-
-<mat-form-field appearance="legacy">
-    <mat-label>Duration (ms)</mat-label>
-    <input matInput #levelId [value]="elapsedMilliseconds" [readonly]="true">
-</mat-form-field>
+<gr-fractal-controls
+    [level]="level"
+    [segments]="segments"
+    [elapsedMilliseconds]="elapsedMilliseconds"
+    (clear)="clearCanvas()"
+    (levelChanged)="levelChanged($event)">
+</gr-fractal-controls>
 
 <div>
     <canvas #treeId width="600" height="600">Canvas not supported.</canvas>

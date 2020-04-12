@@ -43,7 +43,7 @@ export class TreeFractalComponent implements AfterViewInit {
         this.refreshFractal();
     }
 
-    public onEnter(value: string) {
+    public levelChanged(value: string) {
         this.level = Number(value);
         this.refreshFractal();
     }
