@@ -36,7 +36,7 @@ export class DrawingComponent implements AfterViewInit {
     buttonText: string = "Start";
     elapsedMilliseconds: number = 0;
     frameCounter: number = 0;
-    frameRate: number = 10;                 // Frames per second.
+    frameRate: number = 24;                 // Frames per second.
     timer: any;
     drawWorld: DrawWorld;
 
@@ -72,7 +72,8 @@ export class DrawingComponent implements AfterViewInit {
 
         var drawLines = new DrawLines(lines, closedLoop);
 
-        drawWorld.addElement(drawLines, "spaceship");
+        drawWorld.addElement(drawLines, "spaceship"
+                            , new Translation(new Point(1 / this.frameRate, -50 / this.frameRate)));
 
         // Test individual lines (x & y axes)
 
@@ -102,9 +103,14 @@ export class DrawingComponent implements AfterViewInit {
 
         // Test regular polygon
 
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(400, 100), 30, 3).segments, closedLoop));
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop));
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "stopsign");
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(400, 100), 30, 3).segments, closedLoop), "triangle"
+                            , new Rotation(Math.PI / 2 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop), "pentagon"
+                            , new Rotation(Math.PI / 3 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "stopsign"
+                            , new Rotation(Math.PI / 4 / this.frameRate, drawWorld.toViewport(new Point(500, 100))));     // 45 degrees per second.
 
         drawWorld.draw(this.context);
 
@@ -138,23 +144,17 @@ export class DrawingComponent implements AfterViewInit {
     private animateFrame(drawing: DrawingComponent): void {
         drawing.frameCounter++;
 
-        var spaceship = drawing.drawWorld.findDrawElement("spaceship");
+        drawing.drawWorld.animateFrame(drawing.context);
 
-        if (spaceship != null) {
-            spaceship.transform(new Translation(new Point(1, -4)));
+        // var spaceship = drawing.drawWorld.findDrawElement("spaceship");
 
-            var lines = <DrawLines>spaceship;       // NOTE: cast operator, casting
+        // if (spaceship != null) {
+        //     spaceship.transform(new Translation(new Point(1, -4)));
 
-            spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
-        }
+        //     var lines = <DrawLines>spaceship;       // NOTE: cast operator, casting
 
-        var stopsign = drawing.drawWorld.findDrawElement("stopsign");
-
-        if (stopsign != null) {
-            var lines = <DrawLines>stopsign;
-
-            stopsign.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
-        }
+        //     spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
+        // }
 
         // So far, this is fast enough to clear and redraw the entire frame. (even on my crappy i5, I need to test on a phone too)
 

@@ -1,7 +1,7 @@
 import { IPoint } from 'src/app/interfaces/IPoint';
 import { ITransformation } from '../../interfaces/ITransformation';
 
-// Translation is a movement along each axis.
+// Translation is a movement within the X/Y plane.
 
 // TODO: Might want to change the perspective and adjust the context (possibly) instead of adjusting all of the points.
 
