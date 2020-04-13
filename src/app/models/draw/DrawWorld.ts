@@ -56,7 +56,7 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         }
     }
 
-    animateFrame(context: CanvasRenderingContext2D) {
+    animateFrame() {
         // The prototype for this forEach is explicit and the function definition needs to be in the exact order.
         this.animatedElements.forEach((value: ITransformation, key: IDrawElement, map: Map<IDrawElement, ITransformation>) => {
             key.transform(value);
@@ -77,6 +77,10 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
 
     findDrawElement(name: String): IDrawElement {
         return this.namedElements.get(name);
+    }
+    
+    findDrawTransformation(element: IDrawElement): ITransformation {
+        return this.animatedElements.get(element);
     }
 
     /** Transform a point to the world's viewport coordinates

@@ -21,6 +21,7 @@ import { Translation } from 'src/app/models/transform/Translation';
 import { Rotation } from 'src/app/models/transform/Rotation';
 import { RegularPolygon } from 'src/app/primitives/RegularPolygon';
 import { CustomTransformation } from 'src/app/models/transform/CustomTransformation';
+import { Transformations } from 'src/app/models/transform/Transformations';
 
 @Component({
     selector: 'gr-drawing'
@@ -48,7 +49,6 @@ export class DrawingComponent implements AfterViewInit {
 
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
-        //this.frameCounter = 0;
         this.elapsedMilliseconds = Date.now() - start;
     }
 
@@ -64,14 +64,19 @@ export class DrawingComponent implements AfterViewInit {
         var drawViewport = new DrawViewport(this.context);
         var drawWorld = new DrawWorld(null, drawViewport);
 
+        // Test individual lines (x & y axes)
+
+        drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(200, 200))));
+        drawWorld.addElement(new DrawLine(new Line(new Point(400, 400), new Point(600, 600))));
+
         // Test many lines (spaceship)
 
         var lines = new Lines();
 
+        lines.addPoint(new Point(250, 225));
         lines.addPoint(new Point(200, 200));
         lines.addPoint(new Point(250, 300));
         lines.addPoint(new Point(300, 200));
-        lines.addPoint(new Point(250, 225));
 
         var drawLines = new DrawLines(lines, closedLoop);
 
@@ -83,26 +88,31 @@ export class DrawingComponent implements AfterViewInit {
         var spaceship = drawWorld.findDrawElement("spaceship");
 
         if (spaceship != null) {
+            var spaceshipLines = <DrawLines>spaceship;       // NOTE: cast operator, casting
+            var transformations = new Transformations();
 
-            drawWorld.addTransformation("spaceship"
-                , new CustomTransformation(spaceship, 4, (element: IDrawElement) => {
+            transformations.addTransformation(new Translation(new Point(1, -4)));
+            // Sending in a reference to the 1st point (as long as the reference is the first point then that will be translated first as a reference to the others)
+            transformations.addTransformation(new Rotation(Math.PI / 90, spaceshipLines.lines.points[0]));
 
-                    if (element != null) {
-                        // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
+            drawWorld.addTransformation("spaceship", transformations);
 
-                        element.transform(new Translation(new Point(1, -4)));
+            // The transformation above is still kind of a hack
 
-                        var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
+            // drawWorld.addTransformation("spaceship"
+            //     , new CustomTransformation(spaceship, lines.points.length, (element: IDrawElement) => {
 
-                        element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
-                    }
-                }))
+            //         if (element != null) {
+            //             // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
+
+            //             element.transform(new Translation(new Point(1, -4)));
+
+            //             var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
+
+            //             element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
+            //         }
+            //     }));
         }
-
-        // Test individual lines (x & y axes)
-
-        drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(200, 200))));
-        drawWorld.addElement(new DrawLine(new Line(new Point(400, 400), new Point(600, 600))));
 
         // Test points
 
@@ -133,7 +143,7 @@ export class DrawingComponent implements AfterViewInit {
         drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop), "pentagon"
             , new Rotation(Math.PI / 3 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
 
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "stopsign"
+        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "octagon"
             , new Rotation(Math.PI / 4 / this.frameRate, drawWorld.toViewport(new Point(500, 100))));     // 45 degrees per second.
 
         drawWorld.draw(this.context);
@@ -143,12 +153,18 @@ export class DrawingComponent implements AfterViewInit {
     }
 
     onResize(event) {
-        this.width = event.target.innerWidth - 30;
-        this.height = event.target.innerHeight - 250;
+        // The canvas is based on the width and height
 
-        this.drawWorld.draw(this.context);
+        this.width = event.target.innerWidth - 20;
+        this.height = event.target.innerHeight - 215;
 
-        //this.ngAfterViewInit();
+        //this.drawWorld.draw(this.context);
+
+        this.ngAfterViewInit();
+
+        // Fire a redraw after a bit.
+        //setTimeout(this.drawWorld.draw, 100, this.context);
+        //setTimeout(this.ngAfterViewInit, 250);
     }
 
     public toggleAnimation(context: CanvasRenderingContext2D): void {
@@ -168,20 +184,9 @@ export class DrawingComponent implements AfterViewInit {
     private animateFrame(drawing: DrawingComponent): void {
         drawing.frameCounter++;
 
-        drawing.drawWorld.animateFrame(drawing.context);
-
-        // var spaceship = drawing.drawWorld.findDrawElement("spaceship");
-
-        // if (spaceship != null) {
-        //     spaceship.transform(new Translation(new Point(1, -4)));
-
-        //     var lines = <DrawLines>spaceship;       // NOTE: cast operator, casting
-
-        //     spaceship.transform(new Rotation(Math.PI / 90, lines.lines.points[3]));
-        // }
-
         // So far, this is fast enough to clear and redraw the entire frame. (even on my crappy i5, I need to test on a phone too)
 
+        drawing.drawWorld.animateFrame();
         drawing.clearCanvas();
         drawing.drawWorld.draw(drawing.context);
     }

@@ -6,7 +6,7 @@ import { ITransformation } from '../../interfaces/ITransformation';
 export class Transformations implements ITransformation {
     transformations: ITransformation[];
 
-    constructor(transformations: ITransformation[])
+    constructor(transformations: ITransformation[] = null)
     {
         this.transformations = transformations != null ? transformations : new Array<ITransformation>();
     }
