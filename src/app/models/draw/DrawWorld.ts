@@ -22,26 +22,23 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
     }
 
     /** Add an element to the world
-     * (still debating on whether to clone this inside of the world)
-     * Should I send in a clone if I want to preserve a copy of the element.
      * 
-     * @param element The element being added to the world.
+     * @param element The element being added to the world. (the reference will be transformed to the viewport)
      * @param name The name of the element.
      * @param frameTransform A transformation during one frame of animation. 
      */
     addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null): void {
-        var clone = element.clone();
 
-        clone.transform(this.viewport.transformation);
+        element.transform(this.viewport.transformation);
 
-        this.elements.push(clone);
+        this.elements.push(element);
 
         if (name != null) {
-            this.namedElements.set(name, clone);
+            this.namedElements.set(name, element);
         }
 
         if (frameTransform != null) {
-            this.animatedElements.set(clone, frameTransform);
+            this.animatedElements.set(element, frameTransform);
         }
     }
 

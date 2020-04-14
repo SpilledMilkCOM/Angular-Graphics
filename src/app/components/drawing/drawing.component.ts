@@ -80,39 +80,31 @@ export class DrawingComponent implements AfterViewInit {
 
         var drawLines = new DrawLines(lines, closedLoop);
 
-        // drawWorld.addElement(drawLines, "spaceship"
-        //                     , new Translation(new Point(1 / this.frameRate, -50 / this.frameRate)));
-
         drawWorld.addElement(drawLines, "spaceship");
 
-        var spaceship = drawWorld.findDrawElement("spaceship");
+        var transformations = new Transformations();
 
-        if (spaceship != null) {
-            var spaceshipLines = <DrawLines>spaceship;       // NOTE: cast operator, casting
-            var transformations = new Transformations();
+        transformations.addTransformation(new Translation(new Point(1, -4)));
+        // Sending in a reference to the 1st point (as long as the reference is the first point then that will be translated first as a reference to the others)
+        transformations.addTransformation(new Rotation(Math.PI / 90, drawLines.lines.points[0]));
 
-            transformations.addTransformation(new Translation(new Point(1, -4)));
-            // Sending in a reference to the 1st point (as long as the reference is the first point then that will be translated first as a reference to the others)
-            transformations.addTransformation(new Rotation(Math.PI / 90, spaceshipLines.lines.points[0]));
+        drawWorld.addTransformation("spaceship", transformations);
 
-            drawWorld.addTransformation("spaceship", transformations);
+        // The transformation above is still kind of a hack
 
-            // The transformation above is still kind of a hack
+        // drawWorld.addTransformation("spaceship"
+        //     , new CustomTransformation(spaceship, lines.points.length, (element: IDrawElement) => {
 
-            // drawWorld.addTransformation("spaceship"
-            //     , new CustomTransformation(spaceship, lines.points.length, (element: IDrawElement) => {
+        //         if (element != null) {
+        //             // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
 
-            //         if (element != null) {
-            //             // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
+        //             element.transform(new Translation(new Point(1, -4)));
 
-            //             element.transform(new Translation(new Point(1, -4)));
+        //             var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
 
-            //             var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
-
-            //             element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
-            //         }
-            //     }));
-        }
+        //             element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
+        //         }
+        //     }));
 
         // Test points
 
