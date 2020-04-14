@@ -8,7 +8,7 @@ import { DrawWorld } from '../../models/draw/DrawWorld';
 import { Lines } from 'src/app/models/Lines';
 import { Point } from '../../models/Point';
 import { Rectangle } from '../../models/Rectangle';
-import { Rotation } from 'src/app/models/transform/Rotation';
+import { ReflectionAboutVerticalLine } from 'src/app/models/transform/ReflectionAboutVerticalLine';
 import { Size } from '../../models/Size';
 import { Scale } from 'src/app/models/transform/Scale';
 import { Translation } from 'src/app/models/transform/Translation';
@@ -30,7 +30,7 @@ export class FishBowlComponent implements AfterViewInit {
     buttonText: string = "Start";
     elapsedMilliseconds: number = 0;
     frameCounter: number = 0;
-    frameRate: number = 24;                 // Frames per second.
+    frameRate: number = 30;                 // Frames per second.
     timer: any;
     drawWorld: DrawWorld;
 
@@ -58,29 +58,21 @@ export class FishBowlComponent implements AfterViewInit {
 
         var lines = new Lines();
 
-        lines.addPoint(new Point(250, 300));
+        // lines.addPoint(new Point(250, 300));     // mouth
         lines.addPoint(new Point(350, 300));
         lines.addPoint(new Point(250, 350));
-        lines.addPoint(new Point(100, 275));
-        lines.addPoint(new Point(100, 325));
+        lines.addPoint(new Point(50, 250));        // tail
+        lines.addPoint(new Point(50, 350));        // tail
         lines.addPoint(new Point(250, 250));
         lines.addPoint(new Point(350, 300));
 
         var drawLines = new DrawLines(lines, !closedLoop);
 
-        drawLines.transform(new Scale(new Point(0.5, 0.5)));
+        drawLines.transform(new Scale(new Point(0.30, 0.25)));
 
         // In order to get the reference to a point, the lines need to be added to the world.
 
-        drawWorld.addElement(drawLines, "fish", new Translation(new Point(4, 0)));
-
-        // var fish = drawWorld.findDrawElement("fish");
-
-        // if (fish != null) {
-        //     drawLines = <DrawLines>fish;       // NOTE: cast operator, casting
-
-        //     drawWorld.addTransformation("fish", new Rotation(Math.PI / 4 / this.frameRate, drawLines.lines.points[0]));
-        // }
+        drawWorld.addElement(drawLines, "fish", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
 
         drawWorld.draw(this.context);
 
@@ -127,12 +119,20 @@ export class FishBowlComponent implements AfterViewInit {
 
             var fishBounds = fish.bounds();
 
-            if (fishBounds.center.x > drawing.width || fishBounds.center.x < 0) {
+            if (fishBounds.max.x > drawing.width || fishBounds.min.x < 0) {
                 var transformation = <Translation>drawing.drawWorld.findDrawTransformation(fish);
 
                 transformation.translation.x *= -1;     // Adjust the reference.
 
-                
+                // Flip the fish!
+
+                fish.transform(new ReflectionAboutVerticalLine(fishBounds.cloneRectangle().center.x));
+            }
+
+            if (fishBounds.max.y > drawing.height || fishBounds.min.y < 0) {
+                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(fish);
+
+                transformation.translation.y *= -1;     // Adjust the reference.
             }
         }
 

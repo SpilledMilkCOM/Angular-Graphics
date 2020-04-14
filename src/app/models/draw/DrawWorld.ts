@@ -22,6 +22,8 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
     }
 
     /** Add an element to the world
+     * (still debating on whether to clone this inside of the world)
+     * Should I send in a clone if I want to preserve a copy of the element.
      * 
      * @param element The element being added to the world.
      * @param name The name of the element.

@@ -7,7 +7,7 @@ import { Point } from '../Point';
 import { Size } from '../Size';
 import { Translation } from '../transform/Translation';
 import { Transformations } from '../transform/Transformations';
-import { ReflectionAboutXaxis } from '../transform/ReflectionAboutXaxis';
+import { ReflectionAboutHorizontalLine } from '../transform/ReflectionAboutHorizontalLine';
 
 export class DrawViewport implements IDrawViewport {
 
@@ -25,7 +25,7 @@ export class DrawViewport implements IDrawViewport {
 
         var transformations = new Transformations(null);
 
-        transformations.addTransformation(new ReflectionAboutXaxis());
+        transformations.addTransformation(new ReflectionAboutHorizontalLine(0));    // X-axis
         transformations.addTransformation(new Translation(this.origin));
 
         this.transformation = transformations;

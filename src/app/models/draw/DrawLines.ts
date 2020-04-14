@@ -1,9 +1,8 @@
 import { IDrawElement } from '../../interfaces/IDrawElement';
 import { ILineArray } from '../../interfaces/ILineArray';
 import { ITransformation } from '../../interfaces/ITransformation';
-import { Rectangle } from '../Rectangle';
-import { Point } from '../Point';
-import { Size } from '../Size';
+
+import { Rect } from '../Rect';
 
 export class DrawLines implements IDrawElement {
 
@@ -16,7 +15,7 @@ export class DrawLines implements IDrawElement {
         this.lines = lines;
     }
 
-    bounds(): Rectangle {
+    bounds(): Rect {
         var min = this.lines.points[0].clone();
         var max = min.clone();
         var first = true;
@@ -32,7 +31,7 @@ export class DrawLines implements IDrawElement {
             first = false;
         });
 
-        return new Rectangle(new Point((max.x + min.x) / 2, (max.y + min.y) / 2), new Size(max.x - min.x, max.y - min.y));
+        return new Rect(min, max);
     }
 
     clone(): IDrawElement {

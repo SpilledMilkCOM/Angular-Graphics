@@ -1,25 +1,24 @@
 import { IPoint } from '../../interfaces/IPoint';
 import { ITransformation } from '../../interfaces/ITransformation';
-import { ILine } from 'src/app/interfaces/ILine';
 
 /**
- * Reflected about a line Ax + By + C = 0.
- * 
- * @url: http://sdmath.com/math/geometry/reflection_across_line.html
  */
-export class ReflectionAboutLine implements ITransformation {
+export class ReflectionAboutVerticalLine implements ITransformation {
 
-    private line: ILine;
+    private x: number;
 
-    constructor(line: ILine)
+    constructor(x: number)
     {
-        this.line = line;
+        this.x = x;
     }
 
     clone(): ITransformation {
-        return new ReflectionAboutLine(this.line.clone());
+        return new ReflectionAboutVerticalLine(this.x);
     }
 
     transform(point: IPoint): void {
+        // If the transformation is about a vertical line, then the Y component does NOT change.
+
+        point.x = 2 * this.x - point.x;
     }
 }
