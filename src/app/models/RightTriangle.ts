@@ -1,7 +1,7 @@
-import { IPoint } from '../interfaces/IPoint';
-import { ISize } from '../interfaces/ISize';
-import { ITriangle } from '../interfaces/ITriangle';
-import { ILineArray } from '../interfaces/ILineArray';
+import { IPoint } from './interfaces/IPoint';
+import { ISize } from './interfaces/ISize';
+import { ITriangle } from './interfaces/ITriangle';
+import { ILineArray } from './interfaces/ILineArray';
 import { Lines } from './Lines';
 import { Point } from './Point';
 

@@ -1,8 +1,8 @@
-import { ICircle } from 'src/app/interfaces/ICircle';
-import { IDrawElement } from '../../interfaces/IDrawElement';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { ICircle } from 'src/app/models/interfaces/ICircle';
+import { IDrawElement } from '../interfaces/IDrawElement';
+import { ITransformation } from '../../models/interfaces/ITransformation';
 
-import { Rect } from '../Rect';
+import { Rect } from '../../models/Rect';
 
 export class DrawCircle implements IDrawElement {
     circle: ICircle;

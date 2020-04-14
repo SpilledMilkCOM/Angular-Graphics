@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
-import { DrawWorld } from '../../models/draw/DrawWorld';
-import { DrawViewport } from '../../models/draw/DrawViewport';
+import { DrawWorld } from '../../draw/DrawWorld';
+import { DrawViewport } from '../../draw/DrawViewport';
 import { Point } from '../../models/Point';
-import { DrawKochFractal } from '../../fractals/DrawKochFractal';
+import { DrawKochFractal } from '../../draw/fractals/DrawKochFractal';
 
 // TODO: combine the interface component, and split out the fractal component.
 

@@ -1,6 +1,6 @@
-import { IPoint } from '../interfaces/IPoint';
-import { IRegularPolygon } from '../interfaces/IRegularPolygon';
-import { ILineArray } from '../interfaces/ILineArray';
+import { IPoint } from '../models/interfaces/IPoint';
+import { IRegularPolygon } from '../models/interfaces/IRegularPolygon';
+import { ILineArray } from '../models/interfaces/ILineArray';
 import { Lines } from '../models/Lines';
 import { Point } from '../models/Point';
 

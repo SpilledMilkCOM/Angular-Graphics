@@ -1,11 +1,11 @@
-import { IDrawElement } from '../../interfaces/IDrawElement';
-import { IPoint } from '../../interfaces/IPoint';
-import { IRect } from 'src/app/interfaces/IRect';
-import { IRectangle } from '../../interfaces/IRectangle';
-import { ISize } from '../../interfaces/ISize';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IDrawElement } from '../interfaces/IDrawElement';
+import { IPoint } from '../../models/interfaces/IPoint';
+import { IRect } from 'src/app/models/interfaces/IRect';
+import { IRectangle } from '../../models/interfaces/IRectangle';
+import { ISize } from '../../models/interfaces/ISize';
+import { ITransformation } from '../../models/interfaces/ITransformation';
 
-import { Point } from '../Point';
+import { Point } from '../../models/Point';
 
 export class DrawRectangle implements IDrawElement {
     rectangle: IRectangle;

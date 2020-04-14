@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
-import { IDrawElement } from 'src/app/interfaces/IDrawElement';
+import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
 
-import { DrawCircle } from 'src/app/models/draw/DrawCircle';
-import { DrawLine } from '../../models/draw/DrawLine';
-import { DrawLines } from '../../models/draw/DrawLines';
-import { DrawPoint } from '../../models/draw/DrawPoint';
-import { DrawRectangle } from '../../models/draw/DrawRectangle';
-import { DrawViewport } from '../../models/draw/DrawViewport';
-import { DrawWorld } from '../../models/draw/DrawWorld';
+import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
+import { DrawLine } from '../../draw/primitives/DrawLine';
+import { DrawLines } from '../../draw/primitives/DrawLines';
+import { DrawPoint } from '../../draw/primitives/DrawPoint';
+import { DrawRectangle } from '../../draw/primitives/DrawRectangle';
+import { DrawViewport } from '../../draw/DrawViewport';
+import { DrawWorld } from '../../draw/DrawWorld';
 
 import { Circle } from 'src/app/models/Circle';
 import { Line } from '../../models/Line';

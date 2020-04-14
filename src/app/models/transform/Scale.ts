@@ -1,5 +1,5 @@
-import { IPoint } from 'src/app/interfaces/IPoint';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IPoint } from 'src/app/models/interfaces/IPoint';
+import { ITransformation } from '../interfaces/ITransformation';
 
 // TODO: Might want to change the perspective and adjust the context (possibly) instead of adjusting all of the points.
 

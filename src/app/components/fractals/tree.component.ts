@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
-import { DrawTreeFractal } from 'src/app/fractals/DrawTreeFractal';
-import { DrawViewport } from '../../models/draw/DrawViewport';
-import { DrawWorld } from '../../models/draw/DrawWorld';
+import { DrawTreeFractal } from 'src/app/draw/fractals/DrawTreeFractal';
+import { DrawViewport } from '../../draw/DrawViewport';
+import { DrawWorld } from '../../draw/DrawWorld';
 import { Line } from 'src/app/models/Line';
 import { Point } from '../../models/Point';
 

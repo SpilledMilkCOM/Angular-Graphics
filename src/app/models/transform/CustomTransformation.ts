@@ -1,6 +1,6 @@
-import { IPoint } from 'src/app/interfaces/IPoint';
-import { IDrawElement } from '../../interfaces/IDrawElement';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IPoint } from 'src/app/models/interfaces/IPoint';
+import { IDrawElement } from '../../draw/interfaces/IDrawElement';
+import { ITransformation } from '../interfaces/ITransformation';
 
 type CustomFunction = (element: IDrawElement) => void;
 

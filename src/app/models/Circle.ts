@@ -1,5 +1,5 @@
-import { ICircle } from '../interfaces/ICircle';
-import { IPoint } from '../interfaces/IPoint';
+import { ICircle } from './interfaces/ICircle';
+import { IPoint } from './interfaces/IPoint';
 
 export class Circle implements ICircle {
     center: IPoint;

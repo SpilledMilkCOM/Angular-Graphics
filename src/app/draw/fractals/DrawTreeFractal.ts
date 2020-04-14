@@ -1,11 +1,11 @@
 import { IDrawElement } from '../interfaces/IDrawElement';
-import { ILine } from '../interfaces/ILine';
-import { IRect } from '../interfaces/IRect';
-import { ITransformation } from '../interfaces/ITransformation';
+import { ILine } from '../../models/interfaces/ILine';
+import { IRect } from '../../models/interfaces/IRect';
+import { ITransformation } from '../../models/interfaces/ITransformation';
 
-import { DrawLine } from '../models/draw/DrawLine';
-import { Line } from '../models/Line';
-import { Point } from '../models/Point';
+import { DrawLine } from '../primitives/DrawLine';
+import { Line } from '../../models/Line';
+import { Point } from '../../models/Point';
 
 // Due to the nature of fractals, there will be quite a bit of recursion.
 // It doesn't make sense to construct a model and then dump out all of the lines.

@@ -1,6 +1,6 @@
-import { IPoint } from '../interfaces/IPoint';
-import { IRect } from '../interfaces/IRect';
-import { IRectangle } from '../interfaces/IRectangle';
+import { IPoint } from './interfaces/IPoint';
+import { IRect } from './interfaces/IRect';
+import { IRectangle } from './interfaces/IRectangle';
 
 import { Rectangle } from './Rectangle';
 import { Point } from './Point';

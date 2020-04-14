@@ -1,5 +1,5 @@
-import { IPoint } from '../interfaces/IPoint';
-import { ILineArray } from '../interfaces/ILineArray';
+import { IPoint } from './interfaces/IPoint';
+import { ILineArray } from './interfaces/ILineArray';
 
 /**
  * An array of points which can be used as a bunch of connected lines.

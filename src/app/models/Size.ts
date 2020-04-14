@@ -1,4 +1,4 @@
-import { ISize } from '../interfaces/ISize';
+import { ISize } from './interfaces/ISize';
 
 export class Size implements ISize {
     height: number;

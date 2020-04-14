@@ -1,16 +1,16 @@
 import { IDrawElement } from '../interfaces/IDrawElement';
-import { ILine } from '../interfaces/ILine';
-import { IPoint } from '../interfaces/IPoint';
-import { IRect } from '../interfaces/IRect';
-import { IRegularPolygon } from '../interfaces/IRegularPolygon';
-import { ITransformation } from '../interfaces/ITransformation';
+import { ILine } from '../../models/interfaces/ILine';
+import { IPoint } from '../../models/interfaces/IPoint';
+import { IRect } from '../../models/interfaces/IRect';
+import { IRegularPolygon } from '../../models/interfaces/IRegularPolygon';
+import { ITransformation } from '../../models/interfaces/ITransformation';
 
-import { DrawLine } from '../models/draw/DrawLine';
-import { DrawLines } from '../models/draw/DrawLines';
-import { Line } from '../models/Line';
-import { Lines } from '../models/Lines';
-import { Point } from '../models/Point';
-import { RegularPolygon } from '../primitives/RegularPolygon';
+import { DrawLine } from '../primitives/DrawLine';
+import { DrawLines } from '../primitives/DrawLines';
+import { Line } from '../../models/Line';
+import { Lines } from '../../models/Lines';
+import { Point } from '../../models/Point';
+import { RegularPolygon } from '../../primitives/RegularPolygon';
 
 // Due to the nature of fractals, there will be quite a bit of recursion.
 // It doesn't make sense to construct a model and then dump out all of the lines.

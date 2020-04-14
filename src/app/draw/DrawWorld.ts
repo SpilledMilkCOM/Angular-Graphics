@@ -1,12 +1,12 @@
-import { IDrawElement } from '../../interfaces/IDrawElement';
-import { IDrawViewport } from '../../interfaces/IDrawViewport';
-import { IDrawWorld } from '../../interfaces/IDrawWorld';
-import { IPoint } from '../../interfaces/IPoint';
-import { IRect } from 'src/app/interfaces/IRect';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IDrawElement } from './interfaces/IDrawElement';
+import { IDrawViewport } from './interfaces/IDrawViewport';
+import { IDrawWorld } from './interfaces/IDrawWorld';
+import { IPoint } from '../models/interfaces/IPoint';
+import { IRect } from 'src/app/models/interfaces/IRect';
+import { ITransformation } from '../models/interfaces/ITransformation';
 
-import { Rect } from '../Rect';
-import { Point } from '../Point';
+import { Rect } from '../models/Rect';
+import { Point } from '../models/Point';
 
 export class DrawWorld implements IDrawWorld, IDrawElement {
 
@@ -33,7 +33,8 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
      */
     addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null): void {
 
-        element.transform(this.viewport.transformation);
+        //element.transform(this.viewport.transformation);
+        this.viewport.transform(element);
 
         this.elements.push(element);
 

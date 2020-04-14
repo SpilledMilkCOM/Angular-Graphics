@@ -1,8 +1,8 @@
-import { IDrawElement } from '../../interfaces/IDrawElement';
-import { ILineArray } from '../../interfaces/ILineArray';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IDrawElement } from '../interfaces/IDrawElement';
+import { ILineArray } from '../../models/interfaces/ILineArray';
+import { ITransformation } from '../../models/interfaces/ITransformation';
 
-import { Rect } from '../Rect';
+import { Rect } from '../../models/Rect';
 
 export class DrawLines implements IDrawElement {
 

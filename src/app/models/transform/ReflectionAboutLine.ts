@@ -1,6 +1,6 @@
-import { IPoint } from '../../interfaces/IPoint';
-import { ITransformation } from '../../interfaces/ITransformation';
-import { ILine } from 'src/app/interfaces/ILine';
+import { IPoint } from '../interfaces/IPoint';
+import { ITransformation } from '../interfaces/ITransformation';
+import { ILine } from 'src/app/models/interfaces/ILine';
 
 /**
  * Reflected about a line Ax + By + C = 0.

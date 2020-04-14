@@ -1,4 +1,4 @@
-import { IPoint } from '../interfaces/IPoint';
+import { IPoint } from './interfaces/IPoint';
 
 /**
  * A Point on an X/Y plane

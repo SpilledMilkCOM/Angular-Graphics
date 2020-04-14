@@ -1,5 +1,5 @@
-import { IVector } from '../interfaces/IVector';
-import { IPoint } from '../interfaces/IPoint';
+import { IVector } from './interfaces/IVector';
+import { IPoint } from './interfaces/IPoint';
 import { Point } from './Point';
 
 export class Vector implements IVector {

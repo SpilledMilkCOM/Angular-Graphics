@@ -1,5 +1,5 @@
-import { ILine } from '../interfaces/ILine';
-import { IPoint } from '../interfaces/IPoint';
+import { ILine } from './interfaces/ILine';
+import { IPoint } from './interfaces/IPoint';
 
 export class Line implements ILine {
     start: IPoint;

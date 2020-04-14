@@ -12,11 +12,11 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DrawingComponent } from './components/drawing/drawing.component';
-import { DragonFractalComponent } from './components/drawing/dragon.component';
+import { DragonFractalComponent } from './components/fractals/dragon.component';
 import { FishBowlComponent } from './components/drawing/fishbowl.component';
-import { FractalControlsComponent } from './components/drawing/fractalControls.component';
-import { KochFractalComponent } from './components/drawing/koch.component';
-import { TreeFractalComponent } from './components/drawing/tree.component';
+import { FractalControlsComponent } from './components/fractals/fractalControls.component';
+import { KochFractalComponent } from './components/fractals/koch.component';
+import { TreeFractalComponent } from './components/fractals/tree.component';
 
 @NgModule({
   declarations: [

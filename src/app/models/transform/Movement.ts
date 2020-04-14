@@ -1,5 +1,5 @@
-import { IPoint } from '../../interfaces/IPoint';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IPoint } from '../interfaces/IPoint';
+import { ITransformation } from '../interfaces/ITransformation';
 
 export class Movement implements ITransformation {
     reference: IPoint;

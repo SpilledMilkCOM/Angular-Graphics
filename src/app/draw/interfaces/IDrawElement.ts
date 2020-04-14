@@ -1,5 +1,5 @@
-import { ITransformation } from './ITransformation';
-import { IRect } from './IRect';
+import { ITransformation } from '../../models/interfaces/ITransformation';
+import { IRect } from '../../models/interfaces/IRect';
 
 // All things being drawn to the canvas should implement this interface.
 export interface IDrawElement {

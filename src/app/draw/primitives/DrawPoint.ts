@@ -1,9 +1,9 @@
-import { IDrawElement } from '../../interfaces/IDrawElement';
-import { IPoint } from '../../interfaces/IPoint';
-import { IRect } from 'src/app/interfaces/IRect';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IDrawElement } from '../interfaces/IDrawElement';
+import { IPoint } from '../../models/interfaces/IPoint';
+import { IRect } from 'src/app/models/interfaces/IRect';
+import { ITransformation } from '../../models/interfaces/ITransformation';
 
-import { Rect } from '../Rect';
+import { Rect } from '../../models/Rect';
 
 export class DrawPoint implements IDrawElement {
 

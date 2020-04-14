@@ -1,5 +1,5 @@
-import { IPoint } from 'src/app/interfaces/IPoint';
-import { ITransformation } from '../../interfaces/ITransformation';
+import { IPoint } from 'src/app/models/interfaces/IPoint';
+import { ITransformation } from '../interfaces/ITransformation';
 
 // Translation is a movement along each axis.
 

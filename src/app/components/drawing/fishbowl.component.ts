@@ -1,12 +1,12 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
-import { IPoint } from 'src/app/interfaces/IPoint';
+import { IPoint } from 'src/app/models/interfaces/IPoint';
 
-import { DrawCircle } from 'src/app/models/draw/DrawCircle';
-import { DrawLines } from '../../models/draw/DrawLines';
-import { DrawRectangle } from '../../models/draw/DrawRectangle';
-import { DrawViewport } from '../../models/draw/DrawViewport';
-import { DrawWorld } from '../../models/draw/DrawWorld';
+import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
+import { DrawLines } from '../../draw/primitives/DrawLines';
+import { DrawRectangle } from '../../draw/primitives/DrawRectangle';
+import { DrawViewport } from '../../draw/DrawViewport';
+import { DrawWorld } from '../../draw/DrawWorld';
 
 import { Circle } from 'src/app/models/Circle';
 import { Lines } from 'src/app/models/Lines';
@@ -17,7 +17,7 @@ import { ReflectionAboutVerticalLine } from 'src/app/models/transform/Reflection
 import { Scale } from 'src/app/models/transform/Scale';
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
-import { IDrawElement } from 'src/app/interfaces/IDrawElement';
+import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
 
 @Component({
     selector: 'gr-fishbowl'
@@ -86,8 +86,16 @@ export class FishBowlComponent implements AfterViewInit {
 
         drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 300), 10)), "marble", new Translation(new Point(200 / this.frameRate, 100 / this.frameRate)));
 
+        // A bunch of bb's start at the same point and explode at different vectors
+
         for (let index = 0; index < 10; index++) {
-            drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 200), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, (100 + 10 * index) / this.frameRate)));           
+            drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 400), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, (100 + 10 * index) / this.frameRate)));
+        }
+
+        // A bunch of bb's start at the same point and explode at different vectors (restricting the y vector)
+
+        for (let index = 0; index < 10; index++) {
+            drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 500), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, 0)));
         }
 
         drawWorld.draw(this.context);

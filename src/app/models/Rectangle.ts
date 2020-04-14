@@ -1,7 +1,7 @@
-import { IPoint } from '../interfaces/IPoint';
-import { IRect } from '../interfaces/IRect';
-import { IRectangle } from '../interfaces/IRectangle';
-import { ISize } from '../interfaces/ISize';
+import { IPoint } from './interfaces/IPoint';
+import { IRect } from './interfaces/IRect';
+import { IRectangle } from './interfaces/IRectangle';
+import { ISize } from './interfaces/ISize';
 
 import { Rect } from './Rect';
 import { Point } from './Point';
