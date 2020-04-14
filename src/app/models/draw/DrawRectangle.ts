@@ -1,5 +1,6 @@
 import { IDrawElement } from '../../interfaces/IDrawElement';
 import { IPoint } from '../../interfaces/IPoint';
+import { IRect } from 'src/app/interfaces/IRect';
 import { IRectangle } from '../../interfaces/IRectangle';
 import { ISize } from '../../interfaces/ISize';
 import { ITransformation } from '../../interfaces/ITransformation';
@@ -16,14 +17,17 @@ export class DrawRectangle implements IDrawElement {
         this.rectangle = rectangle;
 
         this.topLeft = new Point(this.rectangle.center.x - this.rectangle.size.width / 2
-                                , this.rectangle.center.y + this.rectangle.size.height / 2);
+            , this.rectangle.center.y + this.rectangle.size.height / 2);
+
         this.size = rectangle.size.clone();
     }
 
-    clone(): IDrawElement {
-        var clone = new DrawRectangle(this.rectangle.clone());
+    bounds(): IRect {
+        return this.rectangle.cloneRect();
+    }
 
-        return clone;
+    clone(): IDrawElement {
+        return new DrawRectangle(this.rectangle.clone());
     }
 
     draw(context: CanvasRenderingContext2D): void {

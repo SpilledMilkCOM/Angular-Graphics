@@ -1,6 +1,9 @@
 import { IDrawElement } from '../../interfaces/IDrawElement';
 import { IPoint } from '../../interfaces/IPoint';
+import { IRect } from 'src/app/interfaces/IRect';
 import { ITransformation } from '../../interfaces/ITransformation';
+
+import { Rect } from '../Rect';
 
 export class DrawPoint implements IDrawElement {
 
@@ -9,6 +12,10 @@ export class DrawPoint implements IDrawElement {
     constructor(point: IPoint)
     {
         this.point = point;
+    }
+
+    bounds(): IRect {
+        return new Rect(this.point.clone(), this.point.clone());
     }
 
     clone(): IDrawElement {

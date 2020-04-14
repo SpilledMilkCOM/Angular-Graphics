@@ -1,7 +1,9 @@
 import { IDrawElement } from '../../interfaces/IDrawElement';
 import { ILine } from '../../interfaces/ILine';
-import { IPoint } from '../../interfaces/IPoint';
 import { ITransformation } from '../../interfaces/ITransformation';
+import { IRect } from 'src/app/interfaces/IRect';
+
+import { Rect } from '../Rect';
 
 export class DrawLine implements IDrawElement {
 
@@ -10,6 +12,18 @@ export class DrawLine implements IDrawElement {
     constructor(line: ILine)
     {
         this.line = line;
+    }
+
+    bounds(): IRect {
+        var max = this.line.end.clone();
+        var min = this.line.start.clone();
+
+        max.x = Math.max(max.x, min.x);
+        max.y = Math.max(max.y, min.y);
+        min.x = Math.min(max.x, min.x);
+        min.y = Math.min(max.y, min.y);
+
+        return new Rect(min, max);
     }
 
     clone(): IDrawElement {

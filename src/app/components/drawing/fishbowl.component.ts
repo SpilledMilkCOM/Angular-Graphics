@@ -12,6 +12,8 @@ import { ReflectionAboutVerticalLine } from 'src/app/models/transform/Reflection
 import { Size } from '../../models/Size';
 import { Scale } from 'src/app/models/transform/Scale';
 import { Translation } from 'src/app/models/transform/Translation';
+import { Circle } from 'src/app/models/Circle';
+import { DrawCircle } from 'src/app/models/draw/DrawCircle';
 
 @Component({
     selector: 'gr-fishbowl'
@@ -74,6 +76,8 @@ export class FishBowlComponent implements AfterViewInit {
 
         drawWorld.addElement(drawLines, "fish", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
 
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(500, 500), 30)), "ball", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+
         drawWorld.draw(this.context);
 
         this.drawWorld = drawWorld;
@@ -115,22 +119,38 @@ export class FishBowlComponent implements AfterViewInit {
         var fish = <DrawLines>drawing.drawWorld.findDrawElement("fish");
 
         if (fish != null) {
-            // Check the containment of the fish.
+            var bounds = fish.bounds();
 
-            var fishBounds = fish.bounds();
-
-            if (fishBounds.max.x > drawing.width || fishBounds.min.x < 0) {
+            if (bounds.max.x > drawing.width || bounds.min.x < 0) {
                 var transformation = <Translation>drawing.drawWorld.findDrawTransformation(fish);
 
                 transformation.translation.x *= -1;     // Adjust the reference.
 
                 // Flip the fish!
 
-                fish.transform(new ReflectionAboutVerticalLine(fishBounds.cloneRectangle().center.x));
+                fish.transform(new ReflectionAboutVerticalLine(bounds.cloneRectangle().center.x));
             }
 
-            if (fishBounds.max.y > drawing.height || fishBounds.min.y < 0) {
+            if (bounds.max.y > drawing.height || bounds.min.y < 0) {
                 var transformation = <Translation>drawing.drawWorld.findDrawTransformation(fish);
+
+                transformation.translation.y *= -1;     // Adjust the reference.
+            }
+        }
+
+        var ball = <DrawCircle>drawing.drawWorld.findDrawElement("ball");
+
+        if (ball != null) {
+            var bounds = ball.bounds();
+
+            if (bounds.max.x > drawing.width || bounds.min.x < 0) {
+                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(ball);
+
+                transformation.translation.x *= -1;     // Adjust the reference.
+            }
+
+            if (bounds.max.y > drawing.height || bounds.min.y < 0) {
+                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(ball);
 
                 transformation.translation.y *= -1;     // Adjust the reference.
             }

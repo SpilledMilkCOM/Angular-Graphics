@@ -2,7 +2,11 @@ import { IDrawElement } from '../../interfaces/IDrawElement';
 import { IDrawViewport } from '../../interfaces/IDrawViewport';
 import { IDrawWorld } from '../../interfaces/IDrawWorld';
 import { IPoint } from '../../interfaces/IPoint';
+import { IRect } from 'src/app/interfaces/IRect';
 import { ITransformation } from '../../interfaces/ITransformation';
+
+import { Rect } from '../Rect';
+import { Point } from '../Point';
 
 export class DrawWorld implements IDrawWorld, IDrawElement {
 
@@ -60,6 +64,14 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         this.animatedElements.forEach((value: ITransformation, key: IDrawElement, map: Map<IDrawElement, ITransformation>) => {
             key.transform(value);
         });
+    }
+     
+    bounds(): IRect {
+        
+        var min = this.viewport.origin.clone();
+        var max = new Point(this.viewport.size.width, this.viewport.size.height);
+
+        return new Rect(min, max);
     }
 
     clone(): IDrawElement {
