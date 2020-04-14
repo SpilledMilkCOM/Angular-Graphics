@@ -1,12 +1,16 @@
 import { IDrawElement } from '../interfaces/IDrawElement';
 import { ILine } from '../interfaces/ILine';
-import { ITransformation } from '../interfaces/ITransformation';
-import { DrawLine } from '../models/draw/DrawLine';
-import { Point } from '../models/Point';
-import { Line } from '../models/Line';
-import { RegularPolygon } from '../primitives/RegularPolygon';
 import { IPoint } from '../interfaces/IPoint';
+import { IRect } from '../interfaces/IRect';
 import { IRegularPolygon } from '../interfaces/IRegularPolygon';
+import { ITransformation } from '../interfaces/ITransformation';
+
+import { DrawLine } from '../models/draw/DrawLine';
+import { DrawLines } from '../models/draw/DrawLines';
+import { Line } from '../models/Line';
+import { Lines } from '../models/Lines';
+import { Point } from '../models/Point';
+import { RegularPolygon } from '../primitives/RegularPolygon';
 
 // Due to the nature of fractals, there will be quite a bit of recursion.
 // It doesn't make sense to construct a model and then dump out all of the lines.
@@ -19,6 +23,17 @@ export class DrawKochFractal implements IDrawElement {
     constructor(center: IPoint, radius: number, level: number) {
         this.level = level;
         this.triangle = new RegularPolygon(center, radius, 3);
+    }
+
+    /**
+     * Only the bounds of the seed triangle
+     */
+    bounds(): IRect {
+        var lines = new Lines();
+
+        lines.addPoints(this.triangle.segments.points);
+
+        return new DrawLines(lines).bounds();
     }
 
     clone(): IDrawElement {

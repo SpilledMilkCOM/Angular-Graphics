@@ -4,6 +4,8 @@ import { ITransformation } from '../interfaces/ITransformation';
 import { DrawLine } from '../models/draw/DrawLine';
 import { Point } from '../models/Point';
 import { Line } from '../models/Line';
+import { IRect } from '../interfaces/IRect';
+import { Rect } from '../models/Rect';
 
 // Due to the nature of fractals, there will be quite a bit of recursion.
 // It doesn't make sense to construct a model and then dump out all of the lines.
@@ -17,6 +19,10 @@ export class DrawDragonFractal implements IDrawElement {
     {
         this.level = level;
         this.line = line;
+    }
+
+    bounds(): IRect {
+        return new DrawLine(this.line).bounds();
     }
 
     clone(): IDrawElement {

@@ -25,6 +25,17 @@ export class Lines implements ILineArray {
         this.points.push(point);
     }
 
+    
+    /**
+     * Add a bunch of points.
+     * 
+     * @param points An array of points to add to the end of the list of points.
+     */
+    addPoints(points: IPoint[])
+    {
+        points.forEach(element => this.addPoint(element.clone()));
+    }
+
     /**
      * Duplicate this class.
      * 

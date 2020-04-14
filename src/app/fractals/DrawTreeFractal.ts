@@ -1,9 +1,11 @@
 import { IDrawElement } from '../interfaces/IDrawElement';
 import { ILine } from '../interfaces/ILine';
+import { IRect } from '../interfaces/IRect';
 import { ITransformation } from '../interfaces/ITransformation';
+
 import { DrawLine } from '../models/draw/DrawLine';
-import { Point } from '../models/Point';
 import { Line } from '../models/Line';
+import { Point } from '../models/Point';
 
 // Due to the nature of fractals, there will be quite a bit of recursion.
 // It doesn't make sense to construct a model and then dump out all of the lines.
@@ -19,6 +21,14 @@ export class DrawTreeFractal implements IDrawElement {
         this.level = level;
         this.trunk = trunk;
         this.segmentCount = 0;
+    }
+
+    /**
+     * Only the bounds of the seed triangle
+     */
+
+    bounds(): IRect {
+        return new DrawLine(this.trunk).bounds();
     }
 
     clone(): IDrawElement {

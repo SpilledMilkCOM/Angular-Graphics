@@ -1,19 +1,23 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
+import { IPoint } from 'src/app/interfaces/IPoint';
+
+import { DrawCircle } from 'src/app/models/draw/DrawCircle';
 import { DrawLines } from '../../models/draw/DrawLines';
 import { DrawRectangle } from '../../models/draw/DrawRectangle';
 import { DrawViewport } from '../../models/draw/DrawViewport';
 import { DrawWorld } from '../../models/draw/DrawWorld';
 
+import { Circle } from 'src/app/models/Circle';
 import { Lines } from 'src/app/models/Lines';
 import { Point } from '../../models/Point';
 import { Rectangle } from '../../models/Rectangle';
+import { ReflectionAboutHorizontalLine } from 'src/app/models/transform/ReflectionAboutHorizontalLine';
 import { ReflectionAboutVerticalLine } from 'src/app/models/transform/ReflectionAboutVerticalLine';
-import { Size } from '../../models/Size';
 import { Scale } from 'src/app/models/transform/Scale';
+import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
-import { Circle } from 'src/app/models/Circle';
-import { DrawCircle } from 'src/app/models/draw/DrawCircle';
+import { IDrawElement } from 'src/app/interfaces/IDrawElement';
 
 @Component({
     selector: 'gr-fishbowl'
@@ -76,7 +80,15 @@ export class FishBowlComponent implements AfterViewInit {
 
         drawWorld.addElement(drawLines, "fish", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(500, 500), 30)), "ball", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(500, 500), 30)), "basketball", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 20)), "baseball", new Translation(new Point(150 / this.frameRate, 75 / this.frameRate)));
+
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 300), 10)), "marble", new Translation(new Point(200 / this.frameRate, 100 / this.frameRate)));
+
+        for (let index = 0; index < 10; index++) {
+            drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 200), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, (100 + 10 * index) / this.frameRate)));           
+        }
 
         drawWorld.draw(this.context);
 
@@ -114,52 +126,55 @@ export class FishBowlComponent implements AfterViewInit {
     //----==== PRIVATE ====------------------------------------------------------------------------
 
     private animateFrame(drawing: FishBowlComponent): void {
+
+        // !!!!! DON'T REFERENCE 'this' IN THIS METHOD !!!!!
+
         drawing.frameCounter++;
 
-        var fish = <DrawLines>drawing.drawWorld.findDrawElement("fish");
+        // Contain all of the elements.
 
-        if (fish != null) {
-            var bounds = fish.bounds();
-
-            if (bounds.max.x > drawing.width || bounds.min.x < 0) {
-                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(fish);
-
-                transformation.translation.x *= -1;     // Adjust the reference.
-
-                // Flip the fish!
-
-                fish.transform(new ReflectionAboutVerticalLine(bounds.cloneRectangle().center.x));
-            }
-
-            if (bounds.max.y > drawing.height || bounds.min.y < 0) {
-                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(fish);
-
-                transformation.translation.y *= -1;     // Adjust the reference.
-            }
-        }
-
-        var ball = <DrawCircle>drawing.drawWorld.findDrawElement("ball");
-
-        if (ball != null) {
-            var bounds = ball.bounds();
-
-            if (bounds.max.x > drawing.width || bounds.min.x < 0) {
-                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(ball);
-
-                transformation.translation.x *= -1;     // Adjust the reference.
-            }
-
-            if (bounds.max.y > drawing.height || bounds.min.y < 0) {
-                var transformation = <Translation>drawing.drawWorld.findDrawTransformation(ball);
-
-                transformation.translation.y *= -1;     // Adjust the reference.
-            }
-        }
+        drawing.drawWorld.elements.forEach(element => drawing.containDrawElement(element, drawing));
 
         // So far, this is fast enough to clear and redraw the entire frame. (even on my crappy i5, I need to test on a phone too)
 
         drawing.drawWorld.animateFrame();
         drawing.clearCanvas();
         drawing.drawWorld.draw(drawing.context);
+    }
+
+    /**
+     * This may go into the viewport code.
+     * 
+     * @param elementName 
+     * @param component 
+     */
+    containDrawElement(element: IDrawElement, component: FishBowlComponent): IPoint {
+        var result = new Point(0, 0);       // Non zero if the element was contained by X or Y
+
+        if (element != null) {
+            var bounds = element.bounds();
+
+            if (bounds.max.x > component.width || bounds.min.x < 0) {
+                var transformation = <Translation>component.drawWorld.findDrawTransformation(element);
+
+                transformation.translation.x *= -1;     // Adjust the reference.
+
+                element.transform(new ReflectionAboutVerticalLine(element.bounds().cloneRectangle().center.x));
+
+                result.x = 1;
+            }
+
+            if (bounds.max.y > component.height || bounds.min.y < 0) {
+                var transformation = <Translation>component.drawWorld.findDrawTransformation(element);
+
+                transformation.translation.y *= -1;     // Adjust the reference.
+
+                element.transform(new ReflectionAboutHorizontalLine(element.bounds().cloneRectangle().center.y));
+
+                result.y = 1;
+            }
+        }
+
+        return result;
     }
 }
