@@ -44,6 +44,11 @@ export class DrawingComponent implements AfterViewInit {
     timer: any;
     drawWorld: DrawWorld;
 
+    
+    public animateSingleFrame(): void {
+        this.animateFrame(this);
+    }
+
     public clearCanvas() {
         var start = Date.now();
 
@@ -159,14 +164,12 @@ export class DrawingComponent implements AfterViewInit {
         //setTimeout(this.ngAfterViewInit, 250);
     }
 
-    public toggleAnimation(context: CanvasRenderingContext2D): void {
+    public toggleAnimation(started: boolean): void {
 
-        if (this.buttonText == "Start") {
-            this.buttonText = "Stop";
+        if (started) {
             this.timer = setInterval(this.animateFrame, 1000 / this.frameRate, this);
         }
         else {
-            this.buttonText = "Start";
             clearInterval(this.timer);
         }
     }

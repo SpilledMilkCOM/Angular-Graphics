@@ -1,8 +1,11 @@
-import { IPoint } from './IPoint';
+import { ICircle } from './ICircle';
 
+/**
+ * The objective of collision is to try to make this easy.
+ * For now, just treat everything as a circle and if their
+ * centers are closer than their radii then they have collided.
+ */
 export interface ICollision {
-    center: IPoint;
-    radius: number;
-    
-    collision(collision: ICollision): boolean;
+    clone(): ICollision;
+    collidedWith(collision: ICollision): boolean;
 }

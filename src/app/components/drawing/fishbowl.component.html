@@ -1,26 +1,13 @@
-<button mat-raised-button (click)="toggleAnimation()" style="margin: 10px;" value="">{{buttonText}}</button>
-
-<mat-form-field appearance="legacy">
-    <mat-label>Frame Counter</mat-label>
-    <input matInput #counterId [value]="frameCounter" [readonly]="true">
-</mat-form-field>
-
-<button mat-raised-button (click)="clearCanvas()" style="margin: 10px;">Clear</button>
-
-<mat-form-field appearance="legacy">
-    <mat-label>Duration (ms)</mat-label>
-    <input matInput #levelId [value]="elapsedMilliseconds" [readonly]="true">
-</mat-form-field>
-
-<mat-form-field appearance="legacy">
-    <mat-label>Width</mat-label>
-    <input matInput #widthId [value]="width" [readonly]="true">
-</mat-form-field>
-
-<mat-form-field appearance="legacy">
-    <mat-label>Height</mat-label>
-    <input matInput #heightId [value]="height" [readonly]="true">
-</mat-form-field>
+<gr-animation-controls
+    [collisions]=collisions
+    [elapsedMilliseconds]="elapsedMilliseconds"
+    [frameCounter]="frameCounter"
+    [height]="height"
+    [width]="width"
+    (clear)="clearCanvas()"
+    (frame)="animateSingleFrame()"
+    (start)="toggleAnimation($event)">
+</gr-animation-controls>
 
 <div>
     <canvas #canvasId [width]="width" [height]="height" (window:resize)="onResize($event)">Canvas not supported.</canvas>

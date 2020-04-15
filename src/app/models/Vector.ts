@@ -27,10 +27,20 @@ export class Vector implements IVector {
         return Math.sqrt(diffX * diffX + diffY * diffY);
     }
 
+    identity(): IVector {
+        return new Vector(new Point(1, 1));
+    }
+
     multiply(vector: IVector): IVector {
         // Do NOT change the internal point.
 
         return new Vector(new Point(this.point.x * vector.point.x, this.point.y * vector.point.y));
+    }
+
+    multiplyByConstant(constant: number): IVector {
+        // Do NOT change the internal point.
+
+        return new Vector(new Point(this.point.x * constant, this.point.y * constant));
     }
 
     // _|_ is the negative reciprocal

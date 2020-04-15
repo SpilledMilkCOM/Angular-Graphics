@@ -4,12 +4,14 @@ export interface IVector {
     point: IPoint;
 
     clone(): IVector;
+    identity(): IVector;
 
     // Operators - These should NOT change the internal value of the point, only return a new point
     // (there is no operator overloading in TypeScript)
     // All operators return a point (so they can be chained together)
     add(vector: IVector): IVector;
     multiply(vector: IVector): IVector;
+    multiplyByConstant(constant: number): IVector;
 
     distance(vector: IVector): number;
     perpendicular(): IVector;

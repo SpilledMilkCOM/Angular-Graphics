@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
+import { AnimationControlsComponent } from './components/drawing/animationControls.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DrawingComponent } from './components/drawing/drawing.component';
@@ -21,6 +23,7 @@ import { TreeFractalComponent } from './components/fractals/tree.component';
 @NgModule({
   declarations: [
     AppComponent,
+    AnimationControlsComponent,
     DrawingComponent,
     DragonFractalComponent,
     FishBowlComponent,
@@ -34,6 +37,7 @@ import { TreeFractalComponent } from './components/fractals/tree.component';
     FormsModule,
     AppRoutingModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatInputModule,
     MatSliderModule,
     MatTabsModule

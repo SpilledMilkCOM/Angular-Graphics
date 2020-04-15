@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
+import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
 import { IPoint } from 'src/app/models/interfaces/IPoint';
 
 import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
@@ -9,7 +10,9 @@ import { DrawViewport } from '../../draw/DrawViewport';
 import { DrawWorld } from '../../draw/DrawWorld';
 
 import { Circle } from 'src/app/models/Circle';
+import { Collision } from 'src/app/models/Collision';
 import { Lines } from 'src/app/models/Lines';
+import { Momentum } from 'src/app/models/Momentum';
 import { Point } from '../../models/Point';
 import { Rectangle } from '../../models/Rectangle';
 import { ReflectionAboutHorizontalLine } from 'src/app/models/transform/ReflectionAboutHorizontalLine';
@@ -17,7 +20,7 @@ import { ReflectionAboutVerticalLine } from 'src/app/models/transform/Reflection
 import { Scale } from 'src/app/models/transform/Scale';
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
-import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
+import { Vector } from 'src/app/models/Vector';
 
 @Component({
     selector: 'gr-fishbowl'
@@ -29,16 +32,20 @@ export class FishBowlComponent implements AfterViewInit {
     canvas: ElementRef<HTMLCanvasElement>;
 
     private context: CanvasRenderingContext2D;
+    private drawWorld: DrawWorld;
 
     height: number = 600;
     width: number = 600;
 
-    buttonText: string = "Start";
+    collisions: boolean = true;
     elapsedMilliseconds: number = 0;
     frameCounter: number = 0;
     frameRate: number = 30;                 // Frames per second.
     timer: any;
-    drawWorld: DrawWorld;
+
+    animateSingleFrame(): void {
+        this.animateFrame(this);
+    }
 
     public clearCanvas() {
         var start = Date.now();
@@ -89,13 +96,13 @@ export class FishBowlComponent implements AfterViewInit {
         // A bunch of bb's start at the same point and explode at different vectors
 
         for (let index = 0; index < 10; index++) {
-            drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 400), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, (100 + 10 * index) / this.frameRate)));
+            //drawWorld.addElement(new DrawCircle(new Circle(new Point(100 + index * 13, 400), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, (100 + 10 * index) / this.frameRate)));
         }
 
         // A bunch of bb's start at the same point and explode at different vectors (restricting the y vector)
 
-        for (let index = 0; index < 10; index++) {
-            drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 500), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, 0)));
+        for (let index = 0; index < 5; index++) {
+            drawWorld.addElement(new DrawCircle(new Circle(new Point(100 + index * 13, 500), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, 0)));
         }
 
         drawWorld.draw(this.context);
@@ -119,14 +126,12 @@ export class FishBowlComponent implements AfterViewInit {
         //setTimeout(this.ngAfterViewInit, 250);
     }
 
-    public toggleAnimation(context: CanvasRenderingContext2D): void {
+    public toggleAnimation(started: boolean): void {
 
-        if (this.buttonText == "Start") {
-            this.buttonText = "Stop";
+        if (started) {
             this.timer = setInterval(this.animateFrame, 1000 / this.frameRate, this);
         }
         else {
-            this.buttonText = "Start";
             clearInterval(this.timer);
         }
     }
@@ -142,7 +147,15 @@ export class FishBowlComponent implements AfterViewInit {
         drawing.frameCounter++;
 
         // TODO: Check for collisions (from the previous animateFrame call)...
-        // O(N log(N)) - need to save already compared elements.
+        // O(N log(N)) - need to save already compared elements (skipCount does this)
+
+        var skipCount = 0;
+
+        drawing.drawWorld.elements.forEach(element => {
+            drawing.checkForCollsions(element, drawing, skipCount);
+
+            skipCount++;
+        });
 
         // Contain all of the elements.
 
@@ -157,13 +170,81 @@ export class FishBowlComponent implements AfterViewInit {
         drawing.drawWorld.draw(drawing.context);
     }
 
+    private checkForCollsions(collisionElement: IDrawElement, drawing: FishBowlComponent, skipCount: number) {
+        var collisionCircle = collisionElement as DrawCircle;
+
+        drawing.drawWorld.elements.forEach(element => {
+
+            if (skipCount <= 0) {
+                var elementCircle = element as DrawCircle;
+
+                // The element cannot collide with itself.
+
+                if (collisionElement !== element
+                    && collisionCircle.circle !== undefined         // Verifying that the elements are circles.
+                    && elementCircle.circle !== undefined) {
+                    var transformation = <Translation>drawing.drawWorld.findDrawTransformation(collisionCircle);
+                    var transformation2 = <Translation>drawing.drawWorld.findDrawTransformation(elementCircle);
+
+                    // TODO: Check the distance.
+                    // Apply the next transformation.
+                    // If they are further apart, then don't do anything
+                    // Otherwise check for a collision
+
+                    // The collisions act as if they hit on center and trade momentum,
+                    // but there are glancing blows that should adjust the angle of tragectory.
+
+                    // Has there been a collision based on the previous transformation?
+                    // (You shouldn't have to do both of these since the "else" piece
+                    // should prevent the circle from being inside the other circle in the first place.)
+
+                    if (drawing.checkForCollision(collisionCircle, elementCircle)) {
+                        drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+
+                    } else {
+                        // Will there be a collision at the next transformation?
+
+                        var nextCollisionCircle = <DrawCircle>collisionCircle.clone();
+                        var nextElementCircle = <DrawCircle>elementCircle.clone();
+
+                        nextCollisionCircle.transform(transformation);
+                        nextElementCircle.transform(transformation2);
+
+                        if (drawing.checkForCollision(nextCollisionCircle, nextElementCircle)) {
+                            drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+                        }
+                    }
+                }
+            }
+
+            skipCount--;
+        });
+    }
+
+    private checkForCollision(collisionCircle: DrawCircle, elementCircle: DrawCircle): boolean {
+        var collision = new Collision(collisionCircle.circle)
+        var collision2 = new Collision(elementCircle.circle)
+
+        return collision.collidedWith(collision2);
+    }
+
+    private reflectCircles(collisionCircle: DrawCircle, transformation: Translation, elementCircle: DrawCircle, transformation2: Translation): void {
+        var momentum = new Momentum(collisionCircle.mass, new Vector(transformation.translation));
+        var momentum2 = new Momentum(elementCircle.mass, new Vector(transformation2.translation));
+
+        momentum.reflectWith(momentum2);
+
+        transformation.translation = momentum.velocity.point;
+        transformation2.translation = momentum2.velocity.point;
+    }
+
     /**
      * This may go into the viewport code.
      * 
      * @param elementName
      * @param component
      */
-    containDrawElement(element: IDrawElement, component: FishBowlComponent): IPoint {
+    private containDrawElement(element: IDrawElement, component: FishBowlComponent): IPoint {
         var result = new Point(0, 0);       // Non zero if the element was contained by X or Y
 
         if (element != null) {

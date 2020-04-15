@@ -6,9 +6,11 @@ import { Rect } from '../../models/Rect';
 
 export class DrawCircle implements IDrawElement {
     circle: ICircle;
+    mass: number;
 
     constructor(circle: ICircle) {
         this.circle = circle;
+        this.mass = Math.PI * this.circle.radius * this.circle.radius;      // Effectively the area for now.
     }
     
     bounds(): Rect {
@@ -22,11 +24,9 @@ export class DrawCircle implements IDrawElement {
 
         return new Rect(min, max);
     }
-
+    
     clone(): IDrawElement {
-        var clone = new DrawCircle(this.circle.clone());
-
-        return clone;
+        return new DrawCircle(this.circle.clone());
     }
 
     draw(context: CanvasRenderingContext2D): void {
