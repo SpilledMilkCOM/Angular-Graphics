@@ -55,6 +55,10 @@ export class FishBowlComponent implements AfterViewInit {
         this.elapsedMilliseconds = Date.now() - start;
     }
 
+    public collisionsChanged(isChecked: boolean): void {
+        
+    }
+
     ngAfterViewInit(): void {
         // https://www.w3schools.com/TAgs/ref_canvas.asp
 

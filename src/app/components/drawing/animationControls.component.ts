@@ -19,6 +19,7 @@ export class AnimationControlsComponent {
 
     // Events that the parent is listening to.
     @Output() clear = new EventEmitter();
+    @Output() collisionsChanged = new EventEmitter<boolean>();
     @Output() frame = new EventEmitter();
     @Output() start = new EventEmitter<boolean>();
 
@@ -26,6 +27,10 @@ export class AnimationControlsComponent {
 
     public clickClear() {
         this.clear.emit();
+    }
+
+    public clickCollisions() {
+        this.collisionsChanged.emit(this.collisions);
     }
 
     public clickFrame() {

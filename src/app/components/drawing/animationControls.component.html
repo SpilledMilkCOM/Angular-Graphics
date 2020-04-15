@@ -9,7 +9,7 @@
 
 <button mat-raised-button (click)="clickClear()" style="margin: 5px;">Clear</button>
 
-<mat-checkbox [checked]="collisions">Collisions</mat-checkbox>
+<mat-checkbox [checked]="collisions" (click)="clickCollisions()">Collisions</mat-checkbox>
 
 <mat-form-field appearance="legacy" class="gr-small-field">
     <mat-label>Duration (ms)</mat-label>

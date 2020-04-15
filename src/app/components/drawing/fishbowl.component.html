@@ -1,10 +1,11 @@
 <gr-animation-controls
-    [collisions]=collisions
+    [collisions]="collisions"
     [elapsedMilliseconds]="elapsedMilliseconds"
     [frameCounter]="frameCounter"
     [height]="height"
     [width]="width"
     (clear)="clearCanvas()"
+    (collisionsChanged)="collisionsChanged($event)"
     (frame)="animateSingleFrame()"
     (start)="toggleAnimation($event)">
 </gr-animation-controls>
