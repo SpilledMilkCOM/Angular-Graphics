@@ -136,12 +136,19 @@ export class FishBowlComponent implements AfterViewInit {
     private animateFrame(drawing: FishBowlComponent): void {
 
         // !!!!! DON'T REFERENCE 'this' IN THIS METHOD !!!!!
+        // (THIS is effectively a STATIC method because there is NO 'this')
+        // (this is being passed in as an argument)
 
         drawing.frameCounter++;
 
+        // TODO: Check for collisions (from the previous animateFrame call)...
+        // O(N log(N)) - need to save already compared elements.
+
         // Contain all of the elements.
 
-        drawing.drawWorld.elements.forEach(element => drawing.containDrawElement(element, drawing));
+        drawing.drawWorld.elements.forEach(element => {
+            drawing.containDrawElement(element, drawing);
+        });
 
         // So far, this is fast enough to clear and redraw the entire frame. (even on my crappy i5, I need to test on a phone too)
 
@@ -153,8 +160,8 @@ export class FishBowlComponent implements AfterViewInit {
     /**
      * This may go into the viewport code.
      * 
-     * @param elementName 
-     * @param component 
+     * @param elementName
+     * @param component
      */
     containDrawElement(element: IDrawElement, component: FishBowlComponent): IPoint {
         var result = new Point(0, 0);       // Non zero if the element was contained by X or Y
