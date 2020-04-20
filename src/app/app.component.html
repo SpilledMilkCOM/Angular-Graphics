@@ -1,43 +1,16 @@
+<nav class='navbar navbar-expand navbar-light bg-light'>
+  <a class='navbar-brand'>{{pageTitle}}</a>
+  <ul class='nav nav-pills'>
+    <li><a class='nav-link' [routerLink]="['/home']">Home</a></li>
+    <li><a class='nav-link' [routerLink]="['/fractals']">Fractals</a></li>
+  </ul>
+</nav>
+
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
-   {{ title }}
+    {{ title }}
   </h1>
 </div>
-
-<!-- <mat-slider min="1" max="100" step="1" value="1"></mat-slider> -->
-
-<mat-tab-group>
-  <mat-tab label="Test">
-    <!-- ng-template allows the tab content to be rendered when shown. -->
-    <ng-template matTabContent>
-      <gr-drawing></gr-drawing>
-    </ng-template>
-  </mat-tab>
-  
-  <mat-tab label="Fish Bowl">
-    <ng-template matTabContent>
-      <gr-fishbowl></gr-fishbowl>
-    </ng-template>
-  </mat-tab>
-
-  <mat-tab label="Dragon">
-    <ng-template matTabContent>
-      <gr-dragon-fractal></gr-dragon-fractal>
-    </ng-template>
-  </mat-tab>
-
-  <mat-tab label="Koch">
-    <ng-template matTabContent>
-      <gr-koch-fractal></gr-koch-fractal>
-    </ng-template>
-  </mat-tab>
-
-  <mat-tab label="Tree">
-    <ng-template matTabContent>
-      <gr-tree-fractal></gr-tree-fractal>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
 
 <router-outlet></router-outlet>

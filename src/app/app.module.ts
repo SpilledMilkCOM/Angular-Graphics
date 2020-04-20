@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,14 +21,19 @@ import { FractalControlsComponent } from './components/fractals/fractalControls.
 import { KochFractalComponent } from './components/fractals/koch.component';
 import { TreeFractalComponent } from './components/fractals/tree.component';
 
+import { HomeComponent } from './views/home/home.component';
+import { FractalsComponent } from './views/fractals/fractals.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     AnimationControlsComponent,
+    HomeComponent,
     DrawingComponent,
     DragonFractalComponent,
     FishBowlComponent,
     FractalControlsComponent,
+    FractalsComponent,
     KochFractalComponent,
     TreeFractalComponent
   ],
@@ -40,7 +46,18 @@ import { TreeFractalComponent } from './components/fractals/tree.component';
     MatCheckboxModule,
     MatInputModule,
     MatSliderModule,
-    MatTabsModule
+    MatTabsModule,
+
+    // If there were many modules that define routing then the ORDER WOULD MATTER!
+    // Since this is an array the imports processing is done in order and you'd want the
+    // Root routes to be defined last so they would overwrite anything defined before.
+
+    RouterModule.forRoot([    // Order matters in this array, routing will pick the first match!
+      { path: 'fractals', component: FractalsComponent },
+      { path: 'home', component: HomeComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+      { path: '**', redirectTo: 'home', pathMatch: 'full' }
+    ])
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
