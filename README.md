@@ -2,7 +2,11 @@
 
 ## REF: [Using Angular in Visual Studio Code](https://code.visualstudio.com/docs/nodejs/angular-tutorial)
 
-## Get the latest version of Node Package Manager
+## Get the latest version of Node.js
+
+Install the latest version of Node on their [website](https://nodejs.org/en/download/).
+
+## Get the latest version of Node Package Manager (npm)
 
     npm install -g npm
     npm install npm@latest -g
@@ -36,6 +40,19 @@ Use Git Bash to `git clone` your repo into your repository directory. Copy the c
   * Add the BrowserAnimationsModule *(required for most controls)*
   * [Material Components](https://material.angular.io/components)
 
+## Publish to GitHub Pages
+
+Note that **this** project is called "Angular-Graphics"; you will want to substitute **your** project name here.
+Create a new branch called "gh-pages" in your GitHub repo.
+
+    npm install -g gh-pages
+    ng build --prod --base-href /Angular-Graphics/
+    gh-pages -d dist
+
+It just **WORKED**! (*not really*)  The code is there in the gh-pages branch, but there is an issue with GitHub Pages
+that doesn't handle the Angular (or React) routing very well.  So you have to follow the link in the references below
+to finish up.
+
 ## TODO
 
 * Share common controls
@@ -58,3 +75,4 @@ Use Git Bash to `git clone` your repo into your repository directory. Copy the c
 * [TypeScript Doc (commenting)](https://github.com/Microsoft/tsdoc)
 * [Markdown Emojis](https://www.webfx.com/tools/emoji-cheat-sheet)
 * [Angular @ViewChild: In-Depth Explanation](https://blog.angular-university.io/angular-viewchild/)
+* [Publish to GitHub Pages](https://www.telerik.com/blogs/quick-angular-2-hosting-angular-cli-github-pages)
