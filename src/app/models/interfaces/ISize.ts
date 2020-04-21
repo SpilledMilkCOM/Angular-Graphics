@@ -1,6 +1,0 @@
-export interface ISize {
-    height: number;
-    width: number;
-
-    clone(): ISize;
-}
