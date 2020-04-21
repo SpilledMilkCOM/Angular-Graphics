@@ -9,6 +9,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { AnimationControlsComponent } from './components/drawing/animationControls.component';
@@ -47,6 +48,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     MatInputModule,
     MatSliderModule,
     MatTabsModule,
+    MatToolbarModule,
 
     // If there were many modules that define routing then the ORDER WOULD MATTER!
     // Since this is an array the imports processing is done in order and you'd want the
