@@ -19,9 +19,9 @@ export class Momentum implements IMomentum {
         //      v1 = -(m2 * v2) / m1
         //      v1 = v2 * (-m2 / m1)
 
-        var reflectedVelocity = momentum.velocity.multiplyByConstant(-momentum.mass / this.mass);
+        var reflectedVelocity = momentum.velocity.multiplyByConstant(momentum.mass / this.mass);
 
-        momentum.velocity.set(this.velocity.multiplyByConstant(-this.mass / momentum.mass));
+        momentum.velocity.set(this.velocity.multiplyByConstant(this.mass / momentum.mass));
 
         this.velocity = reflectedVelocity;
     }

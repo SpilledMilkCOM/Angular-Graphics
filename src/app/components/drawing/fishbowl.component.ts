@@ -56,7 +56,7 @@ export class FishBowlComponent implements AfterViewInit {
     }
 
     public collisionsChanged(isChecked: boolean): void {
-        
+
     }
 
     ngAfterViewInit(): void {
@@ -91,11 +91,14 @@ export class FishBowlComponent implements AfterViewInit {
 
         drawWorld.addElement(drawLines, "fish", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(500, 500), 30)), "basketball", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(500, 500), 30)), "basketball", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 20)), "baseball", new Translation(new Point(150 / this.frameRate, 75 / this.frameRate)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 20)), "baseball", new Translation(new Point(150 / this.frameRate, 75 / this.frameRate)));
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 300), 10)), "marble", new Translation(new Point(200 / this.frameRate, 100 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 500), 10)), "marble3", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 500), 10)), "marble1", new Translation(new Point(-50 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 500), 10)), "marble2", new Translation(new Point(100 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 505), 10)), "marble4", new Translation(new Point(-100 / this.frameRate, 0)));
 
         // A bunch of bb's start at the same point and explode at different vectors
 
@@ -106,7 +109,7 @@ export class FishBowlComponent implements AfterViewInit {
         // A bunch of bb's start at the same point and explode at different vectors (restricting the y vector)
 
         for (let index = 0; index < 5; index++) {
-            drawWorld.addElement(new DrawCircle(new Circle(new Point(100 + index * 13, 500), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, 0)));
+            //           drawWorld.addElement(new DrawCircle(new Circle(new Point(100 + index * 13, 500), 5)), "bb" + index, new Translation(new Point((200 - 10 * index) / this.frameRate, 0)));
         }
 
         drawWorld.draw(this.context);
@@ -120,6 +123,8 @@ export class FishBowlComponent implements AfterViewInit {
 
         this.width = event.target.innerWidth - 20;
         this.height = event.target.innerHeight - 215;
+
+        // TODO: Need to figure out why the context is invalid after a resize.
 
         //this.drawWorld.draw(this.context);
 
@@ -146,7 +151,7 @@ export class FishBowlComponent implements AfterViewInit {
 
         // !!!!! DON'T REFERENCE 'this' IN THIS METHOD !!!!!
         // (THIS is effectively a STATIC method because there is NO 'this')
-        // (this is being passed in as an argument)
+        // ('this' is being passed in as an argument (drawing))
 
         drawing.frameCounter++;
 
@@ -177,52 +182,54 @@ export class FishBowlComponent implements AfterViewInit {
     private checkForCollsions(collisionElement: IDrawElement, drawing: FishBowlComponent, skipCount: number) {
         var collisionCircle = collisionElement as DrawCircle;
 
-        drawing.drawWorld.elements.forEach(element => {
+        if (collisionCircle.circle !== undefined) {             // Verifying that the elements are circles.
 
-            if (skipCount <= 0) {
-                var elementCircle = element as DrawCircle;
+            drawing.drawWorld.elements.forEach(element => {
 
-                // The element cannot collide with itself.
+                if (skipCount <= 0) {
+                    var elementCircle = element as DrawCircle;
 
-                if (collisionElement !== element
-                    && collisionCircle.circle !== undefined         // Verifying that the elements are circles.
-                    && elementCircle.circle !== undefined) {
-                    var transformation = <Translation>drawing.drawWorld.findDrawTransformation(collisionCircle);
-                    var transformation2 = <Translation>drawing.drawWorld.findDrawTransformation(elementCircle);
+                    // The element cannot collide with itself.
 
-                    // TODO: Check the distance.
-                    // Apply the next transformation.
-                    // If they are further apart, then don't do anything
-                    // Otherwise check for a collision
+                    if (collisionElement !== element
+                        && elementCircle.circle !== undefined) {        // Verifying that the elements are circles.
+                        var transformation = <Translation>drawing.drawWorld.findDrawTransformation(collisionCircle);
+                        var transformation2 = <Translation>drawing.drawWorld.findDrawTransformation(elementCircle);
 
-                    // The collisions act as if they hit on center and trade momentum,
-                    // but there are glancing blows that should adjust the angle of tragectory.
+                        // TODO: Check the distance.
+                        // Apply the next transformation.
+                        // If they are further apart, then don't do anything
+                        // Otherwise check for a collision
 
-                    // Has there been a collision based on the previous transformation?
-                    // (You shouldn't have to do both of these since the "else" piece
-                    // should prevent the circle from being inside the other circle in the first place.)
+                        // TODO: The collisions act as if they hit on center and trade momentum,
+                        // but there are glancing blows that should adjust the angle of tragectory.
 
-                    if (drawing.checkForCollision(collisionCircle, elementCircle)) {
-                        drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+                        // Has there been a collision based on the previous transformation?
+                        // (You shouldn't have to do both of these since the "else" piece
+                        // should prevent the circle from being inside the other circle in the first place.)
 
-                    } else {
-                        // Will there be a collision at the next transformation?
-
-                        var nextCollisionCircle = <DrawCircle>collisionCircle.clone();
-                        var nextElementCircle = <DrawCircle>elementCircle.clone();
-
-                        nextCollisionCircle.transform(transformation);
-                        nextElementCircle.transform(transformation2);
-
-                        if (drawing.checkForCollision(nextCollisionCircle, nextElementCircle)) {
+                        if (drawing.checkForCollision(collisionCircle, elementCircle)) {
                             drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+
+                        } else {
+                            // Will there be a collision at the next transformation?
+
+                            var nextCollisionCircle = <DrawCircle>collisionCircle.clone();
+                            var nextElementCircle = <DrawCircle>elementCircle.clone();
+
+                            nextCollisionCircle.transform(transformation);
+                            nextElementCircle.transform(transformation2);
+
+                            if (drawing.checkForCollision(nextCollisionCircle, nextElementCircle)) {
+                                drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+                            }
                         }
                     }
                 }
-            }
 
-            skipCount--;
-        });
+                skipCount--;
+            });
+        }
     }
 
     private checkForCollision(collisionCircle: DrawCircle, elementCircle: DrawCircle): boolean {
