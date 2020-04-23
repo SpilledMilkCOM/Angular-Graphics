@@ -21,6 +21,8 @@ import { Scale } from 'src/app/models/transform/Scale';
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { Vector } from 'src/app/models/Vector';
+import { DrawLine } from 'src/app/draw/primitives/DrawLine';
+import { Line } from 'src/app/models/Line';
 
 @Component({
     selector: 'gr-fishbowl'
@@ -39,8 +41,9 @@ export class FishBowlComponent implements AfterViewInit {
 
     collisions: boolean = true;
     elapsedMilliseconds: number = 0;
+    elements: number = 0;
     frameCounter: number = 0;
-    frameRate: number = 30;                 // Frames per second.
+    frameRate: number = 60;                 // Frames per second.
     timer: any;
 
     animateSingleFrame(): void {
@@ -56,7 +59,11 @@ export class FishBowlComponent implements AfterViewInit {
     }
 
     public collisionsChanged(isChecked: boolean): void {
+        this.collisions = isChecked;
+    }
 
+    public frameRateChanged(event: string) {
+        this.frameRate = parseInt(event);
     }
 
     ngAfterViewInit(): void {
@@ -95,10 +102,14 @@ export class FishBowlComponent implements AfterViewInit {
 
         // drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 20)), "baseball", new Translation(new Point(150 / this.frameRate, 75 / this.frameRate)));
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 500), 10)), "marble3", new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 500), 10)), "marble1", new Translation(new Point(-50 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 500), 10)), "marble2", new Translation(new Point(100 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 505), 10)), "marble4", new Translation(new Point(-100 / this.frameRate, 0)));
+        var index = 0;
+
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(75, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(50, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, -50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 505), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
 
         // A bunch of bb's start at the same point and explode at different vectors
 
@@ -116,6 +127,7 @@ export class FishBowlComponent implements AfterViewInit {
 
         this.drawWorld = drawWorld;
         this.elapsedMilliseconds = Date.now() - start;
+        this.elements = drawWorld.elements.length;          // Number of elements
     }
 
     onResize(event) {
@@ -177,6 +189,7 @@ export class FishBowlComponent implements AfterViewInit {
         drawing.drawWorld.animateFrame();
         drawing.clearCanvas();
         drawing.drawWorld.draw(drawing.context);
+        drawing.elements = drawing.drawWorld.elements.length;          // Number of elements
     }
 
     private checkForCollsions(collisionElement: IDrawElement, drawing: FishBowlComponent, skipCount: number) {
@@ -211,6 +224,14 @@ export class FishBowlComponent implements AfterViewInit {
                         if (drawing.checkForCollision(collisionCircle, elementCircle)) {
                             drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
 
+                            // If you don't clone the centers, the lines will transform with the circles.
+
+                            drawing.drawWorld.addElement(new DrawLine(new Line(collisionCircle.circle.center, elementCircle.circle.center)), null, null, true);
+
+                            // var vectorStart = new Vector(collisionCircle.circle.center.clone());
+                            // var vectorEnd = new Vector(elementCircle.circle.center.clone());
+
+                            // vectorStart.add(vectorEnd.multiplyByConstant(-1));
                         } else {
                             // Will there be a collision at the next transformation?
 
@@ -221,7 +242,25 @@ export class FishBowlComponent implements AfterViewInit {
                             nextElementCircle.transform(transformation2);
 
                             if (drawing.checkForCollision(nextCollisionCircle, nextElementCircle)) {
+                                var isViewportRelative = true;
+
                                 drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+
+                                // If you don't clone the centers, the lines will transform with the circles.
+
+                                //drawing.drawWorld.addElement(new DrawLine(new Line(collisionCircle.circle.center, elementCircle.circle.center)), null, null, true);
+                                drawing.drawWorld.addElement(new DrawLine(new Line(collisionCircle.circle.center.clone(), elementCircle.circle.center.clone())), null, null, isViewportRelative);
+
+                                var vectorStart = new Vector(collisionCircle.circle.center.clone());
+                                var vectorEnd = new Vector(elementCircle.circle.center.clone());
+
+                                var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).perpendicular();
+
+                                var perpLine = new DrawLine(new Line(new Point(0, 0), new Point(vectorPerp.point.x, vectorPerp.point.y)));
+
+                                perpLine.transform(new Translation(vectorStart.point));
+
+                                drawing.drawWorld.addElement(perpLine, null, null, isViewportRelative);
                             }
                         }
                     }

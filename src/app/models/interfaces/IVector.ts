@@ -10,10 +10,12 @@ export interface IVector {
     // (there is no operator overloading in TypeScript)
     // All operators return a point (so they can be chained together)
     add(vector: IVector): IVector;
+    dot(vector: IVector): number;
     multiply(vector: IVector): IVector;
     multiplyByConstant(constant: number): IVector;
 
     distance(vector: IVector): number;
+    midpoint(vector: IVector): IVector;
     perpendicular(): IVector;
 
     // Changes this point and returns this point

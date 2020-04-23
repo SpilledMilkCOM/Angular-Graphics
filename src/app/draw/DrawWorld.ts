@@ -29,12 +29,15 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
      * 
      * @param element The element being added to the world. (the reference will be transformed to the viewport)
      * @param name The name of the element.
-     * @param frameTransform A transformation during one frame of animation. 
+     * @param frameTransform A transformation during one frame of animation.
+     * @param skipViewportTransform The element is already viewport relative.
      */
-    addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null): void {
+    addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null, skipViewportTransform: boolean = false): void {
 
-        //element.transform(this.viewport.transformation);
-        this.viewport.transform(element);
+        if (! skipViewportTransform)
+        {
+            this.viewport.transform(element);
+        }
 
         this.elements.push(element);
 

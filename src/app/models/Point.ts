@@ -29,4 +29,5 @@ export class Point implements IPoint {
     clone(): IPoint {
         return new Point(this.x, this.y);
     }
+
 }

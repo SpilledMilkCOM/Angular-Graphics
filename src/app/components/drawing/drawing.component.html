@@ -1,10 +1,13 @@
 <gr-animation-controls
     [elapsedMilliseconds]="elapsedMilliseconds"
+    [elements]="elements"
     [frameCounter]="frameCounter"
+    [frameRate]="frameRate"
     [height]="height"
     [width]="width"
     (clear)="clearCanvas()"
     (frame)="animateSingleFrame()"
+    (frameRateChanged)="frameRateChanged($event)"
     (start)="toggleAnimation($event)">
 </gr-animation-controls>
 

@@ -18,6 +18,12 @@ export class Momentum implements IMomentum {
         // Conservation of momentum is => m1 * v1 + m2 * v2 = 0
         //      v1 = -(m2 * v2) / m1
         //      v1 = v2 * (-m2 / m1)
+        //
+        // Reflection is m1 * v1 - m1 * v1 = 0
+        // The velocity is negative (in the other direction)
+        //
+        // Also the total momentum before and after the collision must equal.
+        //      m1 * v1 + m2 * v2 = m1' * v1' + m2' + v2'
 
         var reflectedVelocity = momentum.velocity.multiplyByConstant(momentum.mass / this.mass);
 

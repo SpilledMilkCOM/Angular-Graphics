@@ -17,11 +17,11 @@
 </mat-form-field>
 
 <mat-form-field appearance="legacy" class="gr-small-field">
-    <mat-label>Width</mat-label>
-    <input matInput #widthId [value]="width" [readonly]="true">
+    <mat-label>Frame Rate</mat-label>
+    <input matInput #frameRateId [value]="frameRate" (keyup.enter)="onEnter(frameRateId.value)">
 </mat-form-field>
 
 <mat-form-field appearance="legacy" class="gr-small-field">
-    <mat-label>Height</mat-label>
-    <input matInput #heightId [value]="height" [readonly]="true">
+    <mat-label>Elements</mat-label>
+    <input matInput #elementsId [value]="elements" [readonly]="true">
 </mat-form-field>

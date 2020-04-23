@@ -27,8 +27,24 @@ export class Vector implements IVector {
         return Math.sqrt(diffX * diffX + diffY * diffY);
     }
 
+    /**
+     * A scalar projection of 'this' vector onto the vector parameter.
+     * @param vector 
+     */
+    dot(vector: IVector): number {
+        return this.point.x * vector.point.x + this.point.y * vector.point.y;
+    }
+
     identity(): IVector {
         return new Vector(new Point(1, 1));
+    }
+
+    /**
+     * Find the midpoint between the two points.
+     * @param point 
+     */
+    midpoint(vector: IVector): IVector {
+        return new Vector(new Point((vector.point.x + this.point.x) / 2, (vector.point.y + this.point.y) / 2));
     }
 
     multiply(vector: IVector): IVector {

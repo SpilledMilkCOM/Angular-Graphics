@@ -22,6 +22,7 @@ import { Rotation } from 'src/app/models/transform/Rotation';
 import { RegularPolygon } from 'src/app/primitives/RegularPolygon';
 import { CustomTransformation } from 'src/app/models/transform/CustomTransformation';
 import { Transformations } from 'src/app/models/transform/Transformations';
+import { Vector } from 'src/app/models/Vector';
 
 @Component({
     selector: 'gr-drawing'
@@ -39,12 +40,12 @@ export class DrawingComponent implements AfterViewInit {
 
     buttonText: string = "Start";
     elapsedMilliseconds: number = 0;
+    elements: number = 0;
     frameCounter: number = 0;
     frameRate: number = 24;                 // Frames per second.
     timer: any;
     drawWorld: DrawWorld;
 
-    
     public animateSingleFrame(): void {
         this.animateFrame(this);
     }
@@ -55,6 +56,10 @@ export class DrawingComponent implements AfterViewInit {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
         this.elapsedMilliseconds = Date.now() - start;
+    }
+
+    public frameRateChanged(event: string) {
+        this.frameRate = parseInt(event);
     }
 
     ngAfterViewInit(): void {
@@ -68,11 +73,6 @@ export class DrawingComponent implements AfterViewInit {
 
         var drawViewport = new DrawViewport(this.context);
         var drawWorld = new DrawWorld(null, drawViewport);
-
-        // Test individual lines (x & y axes)
-
-        drawWorld.addElement(new DrawLine(new Line(new Point(0, 0), new Point(200, 200))));
-        drawWorld.addElement(new DrawLine(new Line(new Point(400, 400), new Point(600, 600))));
 
         // Test many lines (spaceship)
 
@@ -130,7 +130,30 @@ export class DrawingComponent implements AfterViewInit {
 
         // Test circle
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(400, 400), 30)));
+        var circle1 = new DrawCircle(new Circle(new Point(400, 400), 20));
+        var circle2 = new DrawCircle(new Circle(new Point(450, 420), 20));
+
+        drawWorld.addElement(circle1, "circle1");
+        drawWorld.addElement(circle2, "circle2");
+
+        // Connect the centers (the centers are viewport relative)
+
+        var centerLine = new DrawLine(new Line(circle1.circle.center, circle2.circle.center));
+
+        drawWorld.addElement(centerLine, null, null, true);
+
+        var vector1 = new Vector(centerLine.line.start);
+        var vector2 = new Vector(centerLine.line.end);
+
+        // A perpendicular vector to the center line.
+
+        var vectorPerp = vector1.add(vector2.multiplyByConstant(-1)).perpendicular();        // Substract the centers to get a vector from 1 to 2
+
+        var perpLine = new DrawLine(new Line(new Point(0,0), new Point(vectorPerp.point.x, vectorPerp.point.y)));
+
+        perpLine.transform(new Translation(vector1.point));
+
+        drawWorld.addElement(perpLine, null, null, true);
 
         // Test regular polygon
 
@@ -147,6 +170,7 @@ export class DrawingComponent implements AfterViewInit {
 
         this.drawWorld = drawWorld;
         this.elapsedMilliseconds = Date.now() - start;
+        this.elements = drawWorld.elements.length;          // Number of elements
     }
 
     onResize(event) {
@@ -184,5 +208,6 @@ export class DrawingComponent implements AfterViewInit {
         drawing.drawWorld.animateFrame();
         drawing.clearCanvas();
         drawing.drawWorld.draw(drawing.context);
+        drawing.elements = drawing.drawWorld.elements.length;          // Number of elements
     }
 }

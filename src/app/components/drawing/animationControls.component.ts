@@ -12,6 +12,7 @@ export class AnimationControlsComponent {
     // Display (input) only (so the parent can inject values into this control)
     @Input() collisions: boolean = false;
     @Input() elapsedMilliseconds: number = 0;
+    @Input() elements: number = 0;
     @Input() height: number = 0;
     @Input() frameCounter: number = 0;
     @Input() frameRate: number = 24;                 // Frames per second.
@@ -21,6 +22,7 @@ export class AnimationControlsComponent {
     @Output() clear = new EventEmitter();
     @Output() collisionsChanged = new EventEmitter<boolean>();
     @Output() frame = new EventEmitter();
+    @Output() frameRateChanged = new EventEmitter<string>();
     @Output() start = new EventEmitter<boolean>();
 
     buttonText: string = "Start";
@@ -50,5 +52,9 @@ export class AnimationControlsComponent {
         }
 
         this.start.emit(started);
+    }
+  
+    public onEnter(value: string) {
+        this.frameRateChanged.emit(value);
     }
 }
