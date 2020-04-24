@@ -31,8 +31,10 @@ export class AnimationControlsComponent {
         this.clear.emit();
     }
 
-    public clickCollisions() {
-        this.collisionsChanged.emit(this.collisions);
+    public clickCollisions(value: boolean) {
+        //this.collisions = !value;
+
+        this.collisionsChanged.emit(!value);
     }
 
     public clickFrame() {

@@ -26,7 +26,7 @@ import { Line } from 'src/app/models/Line';
 
 @Component({
     selector: 'gr-fishbowl'
-    , templateUrl: './drawing.component.html'
+    , templateUrl: './fishbowl.component.html'
 })
 export class FishBowlComponent implements AfterViewInit {
 
@@ -170,13 +170,16 @@ export class FishBowlComponent implements AfterViewInit {
         // TODO: Check for collisions (from the previous animateFrame call)...
         // O(N log(N)) - need to save already compared elements (skipCount does this)
 
-        var skipCount = 0;
+        if (drawing.collisions)
+        {
+            var skipCount = 0;
 
-        drawing.drawWorld.elements.forEach(element => {
-            drawing.checkForCollsions(element, drawing, skipCount);
-
-            skipCount++;
-        });
+            drawing.drawWorld.elements.forEach(element => {
+                drawing.checkForCollsions(element, drawing, skipCount);
+    
+                skipCount++;
+            });
+        }
 
         // Contain all of the elements.
 

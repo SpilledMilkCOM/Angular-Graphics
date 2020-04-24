@@ -20,7 +20,6 @@ import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { Rotation } from 'src/app/models/transform/Rotation';
 import { RegularPolygon } from 'src/app/primitives/RegularPolygon';
-import { CustomTransformation } from 'src/app/models/transform/CustomTransformation';
 import { Transformations } from 'src/app/models/transform/Transformations';
 import { Vector } from 'src/app/models/Vector';
 
@@ -39,6 +38,7 @@ export class DrawingComponent implements AfterViewInit {
     width: number = 600;
 
     buttonText: string = "Start";
+    collisions: boolean;
     elapsedMilliseconds: number = 0;
     elements: number = 0;
     frameCounter: number = 0;
