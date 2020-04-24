@@ -20,8 +20,11 @@ import { DragonFractalComponent } from './components/fractals/dragon.component';
 import { FishBowlComponent } from './components/drawing/fishbowl.component';
 import { FractalControlsComponent } from './components/fractals/fractalControls.component';
 import { KochFractalComponent } from './components/fractals/koch.component';
+import { OrbitsComponent } from './components/art/orbits.component';
+import { SpokesComponent } from './components/art/spokes.component';
 import { TreeFractalComponent } from './components/fractals/tree.component';
 
+import { ArtComponent } from './views/art/art.component';
 import { HomeComponent } from './views/home/home.component';
 import { FractalsComponent } from './views/fractals/fractals.component';
 
@@ -29,6 +32,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
   declarations: [
     AppComponent,
     AnimationControlsComponent,
+    ArtComponent,
     HomeComponent,
     DrawingComponent,
     DragonFractalComponent,
@@ -36,6 +40,8 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     FractalControlsComponent,
     FractalsComponent,
     KochFractalComponent,
+    OrbitsComponent,
+    SpokesComponent,
     TreeFractalComponent
   ],
   imports: [
@@ -55,6 +61,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     // Root routes to be defined last so they would overwrite anything defined before.
 
     RouterModule.forRoot([    // Order matters in this array, routing will pick the first match!
+      { path: 'art', component: ArtComponent },
       { path: 'fractals', component: FractalsComponent },
       { path: 'home', component: HomeComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },

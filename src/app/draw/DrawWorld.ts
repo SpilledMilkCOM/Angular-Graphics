@@ -78,6 +78,10 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         return new Rect(min, max);
     }
 
+    clear(): void {
+        this.elements = new Array<IDrawElement>();
+    }
+
     clone(): IDrawElement {
         throw new Error("Cannot clone the world (for now).");
     }

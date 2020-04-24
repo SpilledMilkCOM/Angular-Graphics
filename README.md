@@ -16,7 +16,7 @@ Install the latest version of Node on their [website](https://nodejs.org/en/down
 
     npm install -g @angular/cli
 
-## Create the From your repo directory, run the following command which will create the folder `Angular-Graphics`
+## Create the project from your repo directory, run the following command which will create the folder `Angular-Graphics`
 
     c:\repositories> ng new Angular-Graphics
     Add Angular routing?    Yes

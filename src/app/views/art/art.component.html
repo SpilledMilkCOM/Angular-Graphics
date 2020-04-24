@@ -1,0 +1,19 @@
+<h1>
+  {{ title }}
+</h1>
+
+<mat-tab-group>
+  <mat-tab label="Hypno">
+    <!-- ng-template allows the tab content to be rendered when shown. -->
+    <ng-template matTabContent>
+      <gr-orbits></gr-orbits>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Spokes">
+    <ng-template matTabContent>
+      <gr-spokes></gr-spokes>
+    </ng-template>
+  </mat-tab>
+
+</mat-tab-group>
