@@ -1,8 +1,55 @@
-<h1>
-  {{ title }}
-</h1>
+<mat-grid-list #gridListId cols="7" rowHeight="5em" (window:resize)="onResize($event)">
+  <mat-grid-tile>
+    <h1>
+      {{ title }}
+    </h1>
+  </mat-grid-tile>
 
-<mat-tab-group>
+  <mat-grid-tile>
+    <mat-form-field appearance="legacy" class="gr-home-field">
+      <mat-label>GridList Width</mat-label>
+      <input matInput [value]="gridListWidth" [readonly]="true">
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field appearance="legacy" class="gr-home-field">
+      <mat-label>GridList Height</mat-label>
+      <input matInput [value]="gridListHeight" [readonly]="true">
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field appearance="legacy" class="gr-home-field">
+      <mat-label>TabGroup Width</mat-label>
+      <input matInput [value]="tabGroupWidth" [readonly]="true">
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field appearance="legacy" class="gr-home-field">
+      <mat-label>TabGroup Height</mat-label>
+      <input matInput [value]="tabGroupHeight" [readonly]="true">
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field appearance="legacy" class="gr-home-field">
+      <mat-label>Window Width</mat-label>
+      <input matInput [value]="windowWidth" [readonly]="true">
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <mat-form-field appearance="legacy" class="gr-home-field">
+      <mat-label>Window Height</mat-label>
+      <input matInput [value]="windowHeight" [readonly]="true">
+    </mat-form-field>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+<mat-tab-group #tabGroupId>
   <mat-tab label="Test">
     <!-- ng-template allows the tab content to be rendered when shown. -->
     <ng-template matTabContent>

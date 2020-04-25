@@ -36,8 +36,9 @@ export class FishBowlComponent implements AfterViewInit {
     private context: CanvasRenderingContext2D;
     private drawWorld: DrawWorld;
 
-    height: number = 600;
-    width: number = 600;
+    // Height and width of the canvas.
+    canvasHeight: number = 600;
+    canvasWidth: number = 600;
 
     collisions: boolean = true;
     elapsedMilliseconds: number = 0;
@@ -64,6 +65,8 @@ export class FishBowlComponent implements AfterViewInit {
 
     public frameRateChanged(event: string) {
         this.frameRate = parseInt(event);
+
+        // TODO: Adjust the Transformations based on the new frame rate.
     }
 
     ngAfterViewInit(): void {
@@ -104,12 +107,13 @@ export class FishBowlComponent implements AfterViewInit {
 
         var index = 0;
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(75, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(50, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, -50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 500), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 505), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(75, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(50, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, -50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 105), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(330, 105), 15)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
 
         // A bunch of bb's start at the same point and explode at different vectors
 
@@ -133,8 +137,8 @@ export class FishBowlComponent implements AfterViewInit {
     onResize(event) {
         // The canvas is based on the width and height
 
-        this.width = event.target.innerWidth - 20;
-        this.height = event.target.innerHeight - 215;
+        this.canvasWidth = event.target.innerWidth - 20;
+        this.canvasHeight = event.target.innerHeight - 305;
 
         // TODO: Need to figure out why the context is invalid after a resize.
 
@@ -303,7 +307,7 @@ export class FishBowlComponent implements AfterViewInit {
         if (element != null) {
             var bounds = element.bounds();
 
-            if (bounds.max.x > component.width || bounds.min.x < 0) {
+            if (bounds.max.x > component.canvasWidth || bounds.min.x < 0) {
                 var transformation = <Translation>component.drawWorld.findDrawTransformation(element);
 
                 transformation.translation.x *= -1;     // Adjust the reference.
@@ -313,7 +317,7 @@ export class FishBowlComponent implements AfterViewInit {
                 result.x = 1;
             }
 
-            if (bounds.max.y > component.height || bounds.min.y < 0) {
+            if (bounds.max.y > component.canvasHeight || bounds.min.y < 0) {
                 var transformation = <Translation>component.drawWorld.findDrawTransformation(element);
 
                 transformation.translation.y *= -1;     // Adjust the reference.

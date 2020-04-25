@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -51,6 +52,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     AppRoutingModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatGridListModule,
     MatInputModule,
     MatSliderModule,
     MatTabsModule,

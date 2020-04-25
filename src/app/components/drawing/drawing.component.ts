@@ -34,8 +34,8 @@ export class DrawingComponent implements AfterViewInit {
 
     private context: CanvasRenderingContext2D;
 
-    height: number = 600;
-    width: number = 600;
+    canvasHeight: number = 600;
+    canvasWidth: number = 600;
 
     buttonText: string = "Start";
     collisions: boolean;
@@ -176,8 +176,8 @@ export class DrawingComponent implements AfterViewInit {
     onResize(event) {
         // The canvas is based on the width and height
 
-        this.width = event.target.innerWidth - 20;
-        this.height = event.target.innerHeight - 215;
+        this.canvasWidth = event.target.innerWidth - 20;
+        this.canvasHeight = event.target.innerHeight - 305;
 
         //this.drawWorld.draw(this.context);
 
