@@ -20,6 +20,7 @@ import { DrawingComponent } from './components/drawing/drawing.component';
 import { DragonFractalComponent } from './components/fractals/dragon.component';
 import { FishBowlComponent } from './components/drawing/fishbowl.component';
 import { FractalControlsComponent } from './components/fractals/fractalControls.component';
+import { grHomeFieldComponent } from './components/controls/gr-home-field/gr-home-field.component';
 import { KochFractalComponent } from './components/fractals/koch.component';
 import { OrbitsComponent } from './components/art/orbits.component';
 import { SpokesComponent } from './components/art/spokes.component';
@@ -40,6 +41,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     FishBowlComponent,
     FractalControlsComponent,
     FractalsComponent,
+    grHomeFieldComponent,
     KochFractalComponent,
     OrbitsComponent,
     SpokesComponent,
