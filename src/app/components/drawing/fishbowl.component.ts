@@ -113,7 +113,7 @@ export class FishBowlComponent implements AfterViewInit {
         // drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
         // drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
         drawWorld.addElement(new DrawCircle(new Circle(new Point(275, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 105), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 115), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
         // drawWorld.addElement(new DrawCircle(new Circle(new Point(330, 105), 15)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
 
         // A bunch of bb's start at the same point and explode at different vectors
@@ -232,12 +232,7 @@ export class FishBowlComponent implements AfterViewInit {
                             var vectorStart = new Vector(collisionCircle.circle.center.clone());
                             var vectorEnd = new Vector(elementCircle.circle.center.clone());
 
-                            // A line perpendicular to the centers
-                            // The circles will reflect in the direction of that perpendiclar line.
-
-                            var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).perpendicular()
-
-                            drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2, vectorPerp);
+                            drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
 
                             // If you don't clone the centers, the lines will transform with the circles.
 
@@ -266,30 +261,27 @@ export class FishBowlComponent implements AfterViewInit {
                                 var vectorStart = new Vector(collisionCircle.circle.center.clone());
                                 var vectorEnd = new Vector(elementCircle.circle.center.clone());
 
-                                // A line perpendicular to the centers
-                                // The circles will reflect in the direction of that perpendiclar line.
+                                // The circles will reflect about a line (vector) connecting the centers.
 
-                                var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).perpendicular();
-
-                                var perpLine = new DrawLine(new Line(new Point(0, 0), new Point(vectorPerp.point.x, vectorPerp.point.y)));
-
-                                perpLine.transform(new Translation(vectorStart.point));
-
-                                drawing.drawWorld.addElement(perpLine, null, null, isViewportRelative);
+                                var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).unitVector();
 
                                 var vectorTranslation = new Vector(transformation.translation);
 
-                                vectorPerp = vectorPerp.unitVector();
+                                var vectorReflect = vectorTranslation.reflect(vectorPerp);
 
-                                var vectorReflect = vectorTranslation.add(vectorPerp.multiplyByConstant(-2 * vectorPerp.dot(vectorTranslation)));
+                                // Make the vector larger so we can see it.
+
+                                vectorReflect = vectorReflect.multiplyByConstant(vectorStart.add(vectorEnd.multiplyByConstant(-1)).magnitude());
 
                                 var reflectLine = new DrawLine(new Line(new Point(0, 0), new Point(vectorReflect.point.x, vectorReflect.point.y)));
 
-                                reflectLine.transform(new Translation(vectorStart.point));
+                                reflectLine.transform(new Translation(vectorStart.midpoint(vectorEnd).point));
 
                                 drawing.drawWorld.addElement(reflectLine, null, null, isViewportRelative);
 
-                                drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2, vectorPerp);
+                                // Actually reflect the circles (change their transformations)
+
+                                drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
                             }
                         }
                     }
@@ -309,19 +301,28 @@ export class FishBowlComponent implements AfterViewInit {
 
     /**
      * 
-     * REF: https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
-     * r=d−2(d⋅n)n - where d⋅n is the dot product, and n must be normalized.
-     * 
      * @param collisionCircle 
      * @param transformation 
      * @param elementCircle 
      * @param transformation2 
      * @param perpendicular 
      */
-    private reflectCircles(collisionCircle: DrawCircle, transformation: Translation, elementCircle: DrawCircle, transformation2: Translation
-        , perpendicular: IVector): void {
-        var momentum = new Momentum(collisionCircle.mass, new Vector(transformation.translation));
-        var momentum2 = new Momentum(elementCircle.mass, new Vector(transformation2.translation));
+    private reflectCircles(collisionCircle: DrawCircle, transformation: Translation, elementCircle: DrawCircle, transformation2: Translation): void {
+        var vectorStart = new Vector(collisionCircle.circle.center.clone());
+        var vectorEnd = new Vector(elementCircle.circle.center.clone());
+
+        // A vector connecting the centers is CLOSE to the perpendicular to the reflection line.
+        // (subtracting the centers results in that vector)
+
+        var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).unitVector();
+
+        var vectorTranslation = new Vector(transformation.translation).reflect(vectorPerp);
+        var vectorTranslation2 = new Vector(transformation2.translation).reflect(vectorPerp);
+
+        var momentum = new Momentum(collisionCircle.mass, vectorTranslation);
+        var momentum2 = new Momentum(elementCircle.mass, vectorTranslation2);
+
+        // Might change this to "conserve" since the vectors have already been reflected above.
 
         momentum.reflectWith(momentum2);
 

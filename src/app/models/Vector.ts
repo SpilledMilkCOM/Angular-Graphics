@@ -71,6 +71,22 @@ export class Vector implements IVector {
         return new Vector(new Point(-1 * this.point.y, this.point.x));
     }
 
+    /**
+     * Reflect this vector about a vector.
+     * 
+     * REF: https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+     *      r = d − 2 * (d ⋅ n) * n
+     *      where:
+     *          d - this vector
+     *          n - perpendicular unit vector of the reflected line
+     *          (d ⋅ n) is the dot product, and n must be normalized.
+     * 
+     * @param perpendicular - The perpendicular unit vector about which this vector is reflected.
+     */
+    public reflect(perpendicular: IVector): IVector {
+        return this.add(perpendicular.multiplyByConstant(-2 * perpendicular.dot(this)));
+    }
+
     public set(vector: IVector): IVector {
         // Changing the internal structure (without cloning)
 

@@ -18,6 +18,7 @@ export interface IVector {
     magnitude(): number;
     midpoint(vector: IVector): IVector;
     perpendicular(): IVector;
+    reflect(perpendicular: IVector): IVector
     unitVector(): IVector;
 
     // Changes this point and returns this point

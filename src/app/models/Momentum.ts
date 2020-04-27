@@ -25,9 +25,9 @@ export class Momentum implements IMomentum {
         // Also the total momentum before and after the collision must equal.
         //      m1 * v1 + m2 * v2 = m1' * v1' + m2' + v2'
 
-        var reflectedVelocity = momentum.velocity.multiplyByConstant(momentum.mass / this.mass);
+        var reflectedVelocity = momentum.velocity.multiplyByConstant(-momentum.mass / this.mass);
 
-        momentum.velocity.set(this.velocity.multiplyByConstant(this.mass / momentum.mass));
+        momentum.velocity.set(this.velocity.multiplyByConstant(-this.mass / momentum.mass));
 
         this.velocity = reflectedVelocity;
     }
