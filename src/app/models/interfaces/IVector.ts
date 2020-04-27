@@ -15,8 +15,10 @@ export interface IVector {
     multiplyByConstant(constant: number): IVector;
 
     distance(vector: IVector): number;
+    magnitude(): number;
     midpoint(vector: IVector): IVector;
     perpendicular(): IVector;
+    unitVector(): IVector;
 
     // Changes this point and returns this point
     // Not sure if chaining is a good idea for "set", but we'll see.

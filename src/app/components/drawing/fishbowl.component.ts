@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
 import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
 import { IPoint } from 'src/app/models/interfaces/IPoint';
+import { IVector } from 'src/app/models/interfaces/IVector';
 
 import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
 import { DrawLines } from '../../draw/primitives/DrawLines';
@@ -107,13 +108,13 @@ export class FishBowlComponent implements AfterViewInit {
 
         var index = 0;
 
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(75, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(50, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, -50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(50, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, -50 / this.frameRate)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(275, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
         drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 105), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
-        drawWorld.addElement(new DrawCircle(new Circle(new Point(330, 105), 15)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(330, 105), 15)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
 
         // A bunch of bb's start at the same point and explode at different vectors
 
@@ -174,13 +175,12 @@ export class FishBowlComponent implements AfterViewInit {
         // TODO: Check for collisions (from the previous animateFrame call)...
         // O(N log(N)) - need to save already compared elements (skipCount does this)
 
-        if (drawing.collisions)
-        {
+        if (drawing.collisions) {
             var skipCount = 0;
 
             drawing.drawWorld.elements.forEach(element => {
                 drawing.checkForCollsions(element, drawing, skipCount);
-    
+
                 skipCount++;
             });
         }
@@ -229,7 +229,15 @@ export class FishBowlComponent implements AfterViewInit {
                         // should prevent the circle from being inside the other circle in the first place.)
 
                         if (drawing.checkForCollision(collisionCircle, elementCircle)) {
-                            drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
+                            var vectorStart = new Vector(collisionCircle.circle.center.clone());
+                            var vectorEnd = new Vector(elementCircle.circle.center.clone());
+
+                            // A line perpendicular to the centers
+                            // The circles will reflect in the direction of that perpendiclar line.
+
+                            var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).perpendicular()
+
+                            drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2, vectorPerp);
 
                             // If you don't clone the centers, the lines will transform with the circles.
 
@@ -251,15 +259,15 @@ export class FishBowlComponent implements AfterViewInit {
                             if (drawing.checkForCollision(nextCollisionCircle, nextElementCircle)) {
                                 var isViewportRelative = true;
 
-                                drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2);
-
                                 // If you don't clone the centers, the lines will transform with the circles.
 
-                                //drawing.drawWorld.addElement(new DrawLine(new Line(collisionCircle.circle.center, elementCircle.circle.center)), null, null, true);
                                 drawing.drawWorld.addElement(new DrawLine(new Line(collisionCircle.circle.center.clone(), elementCircle.circle.center.clone())), null, null, isViewportRelative);
 
                                 var vectorStart = new Vector(collisionCircle.circle.center.clone());
                                 var vectorEnd = new Vector(elementCircle.circle.center.clone());
+
+                                // A line perpendicular to the centers
+                                // The circles will reflect in the direction of that perpendiclar line.
 
                                 var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).perpendicular();
 
@@ -268,6 +276,20 @@ export class FishBowlComponent implements AfterViewInit {
                                 perpLine.transform(new Translation(vectorStart.point));
 
                                 drawing.drawWorld.addElement(perpLine, null, null, isViewportRelative);
+
+                                var vectorTranslation = new Vector(transformation.translation);
+
+                                vectorPerp = vectorPerp.unitVector();
+
+                                var vectorReflect = vectorTranslation.add(vectorPerp.multiplyByConstant(-2 * vectorPerp.dot(vectorTranslation)));
+
+                                var reflectLine = new DrawLine(new Line(new Point(0, 0), new Point(vectorReflect.point.x, vectorReflect.point.y)));
+
+                                reflectLine.transform(new Translation(vectorStart.point));
+
+                                drawing.drawWorld.addElement(reflectLine, null, null, isViewportRelative);
+
+                                drawing.reflectCircles(collisionCircle, transformation, elementCircle, transformation2, vectorPerp);
                             }
                         }
                     }
@@ -285,7 +307,19 @@ export class FishBowlComponent implements AfterViewInit {
         return collision.collidedWith(collision2);
     }
 
-    private reflectCircles(collisionCircle: DrawCircle, transformation: Translation, elementCircle: DrawCircle, transformation2: Translation): void {
+    /**
+     * 
+     * REF: https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+     * r=d−2(d⋅n)n - where d⋅n is the dot product, and n must be normalized.
+     * 
+     * @param collisionCircle 
+     * @param transformation 
+     * @param elementCircle 
+     * @param transformation2 
+     * @param perpendicular 
+     */
+    private reflectCircles(collisionCircle: DrawCircle, transformation: Translation, elementCircle: DrawCircle, transformation2: Translation
+        , perpendicular: IVector): void {
         var momentum = new Momentum(collisionCircle.mass, new Vector(transformation.translation));
         var momentum2 = new Momentum(elementCircle.mass, new Vector(transformation2.translation));
 

@@ -9,17 +9,17 @@ export class Vector implements IVector {
         this.point = point;
     }
 
-    add(vector: IVector): IVector {
+    public add(vector: IVector): IVector {
         // Do NOT change the internal point.
 
         return new Vector(new Point(this.point.x + vector.point.x, this.point.y + vector.point.y));
     }
 
-    clone(): IVector {
+    public clone(): IVector {
         return new Vector(this.point.clone());
     }
 
-    distance(vector: IVector): number {
+    public distance(vector: IVector): number {
         // Is this "cheaper" than calling the Math.pow(x, 2) method?
         var diffX = this.point.x - vector.point.x;
         var diffY = this.point.y - vector.point.y;
@@ -27,15 +27,22 @@ export class Vector implements IVector {
         return Math.sqrt(diffX * diffX + diffY * diffY);
     }
 
+    public magnitude(): number {
+        return Math.sqrt(this.point.x * this.point.x + this.point.y * this.point.y);
+    }
+
     /**
      * A scalar projection of 'this' vector onto the vector parameter.
      * @param vector 
      */
-    dot(vector: IVector): number {
+    public dot(vector: IVector): number {
         return this.point.x * vector.point.x + this.point.y * vector.point.y;
     }
 
-    identity(): IVector {
+    /**
+     * The identity vector (1, 1)
+     */
+    public identity(): IVector {
         return new Vector(new Point(1, 1));
     }
 
@@ -43,28 +50,28 @@ export class Vector implements IVector {
      * Find the midpoint between the two points.
      * @param point 
      */
-    midpoint(vector: IVector): IVector {
+    public midpoint(vector: IVector): IVector {
         return new Vector(new Point((vector.point.x + this.point.x) / 2, (vector.point.y + this.point.y) / 2));
     }
 
-    multiply(vector: IVector): IVector {
+    public multiply(vector: IVector): IVector {
         // Do NOT change the internal point.
 
         return new Vector(new Point(this.point.x * vector.point.x, this.point.y * vector.point.y));
     }
 
-    multiplyByConstant(constant: number): IVector {
+    public multiplyByConstant(constant: number): IVector {
         // Do NOT change the internal point.
 
         return new Vector(new Point(this.point.x * constant, this.point.y * constant));
     }
 
     // _|_ is the negative reciprocal
-    perpendicular(): IVector {
+    public perpendicular(): IVector {
         return new Vector(new Point(-1 * this.point.y, this.point.x));
     }
 
-    set(vector: IVector): IVector {
+    public set(vector: IVector): IVector {
         // Changing the internal structure (without cloning)
 
         this.point.x = vector.point.x;
@@ -72,4 +79,16 @@ export class Vector implements IVector {
 
         return this;
     }
+
+    /**
+     * Retains the same direction of this vector, but with a magnitude of 1.
+     * 
+     * NOTE: Based on similar triangles and the ratio of their sides.
+     */
+    public unitVector(): IVector {
+        var magnitude = this.magnitude();
+
+        return this.multiplyByConstant(1 / magnitude);
+    }
+
 }
