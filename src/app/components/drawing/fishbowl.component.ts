@@ -108,12 +108,20 @@ export class FishBowlComponent implements AfterViewInit {
 
         var index = 0;
 
-        // drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
         // drawWorld.addElement(new DrawCircle(new Circle(new Point(50, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, -50 / this.frameRate)));
-        // drawWorld.addElement(new DrawCircle(new Circle(new Point(100, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
-        // drawWorld.addElement(new DrawCircle(new Circle(new Point(250, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-50 / this.frameRate, 0)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(75, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, -50 / this.frameRate)));
+
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(150, 150), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 50 / this.frameRate)));
+        // drawWorld.addElement(new DrawCircle(new Circle(new Point(175, 150), 10)), "marble" + (index++).toString(), new Translation(new Point(0, 0)));
+
+        // 90 degree reflection
         drawWorld.addElement(new DrawCircle(new Circle(new Point(275, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
         drawWorld.addElement(new DrawCircle(new Circle(new Point(300, 115), 10)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
+
+        // marble catching another marble in exactly the same direction.
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(150, 200), 10)), "marble" + (index++).toString(), new Translation(new Point(200 / this.frameRate, 0)));
+        drawWorld.addElement(new DrawCircle(new Circle(new Point(200, 200), 10)), "marble" + (index++).toString(), new Translation(new Point(100 / this.frameRate, 0)));
+
         // drawWorld.addElement(new DrawCircle(new Circle(new Point(330, 105), 15)), "marble" + (index++).toString(), new Translation(new Point(-100 / this.frameRate, 0)));
 
         // A bunch of bb's start at the same point and explode at different vectors
@@ -263,13 +271,14 @@ export class FishBowlComponent implements AfterViewInit {
 
                                 // The circles will reflect about a line (vector) connecting the centers.
 
-                                var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).unitVector();
+                                //var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).unitVector();
+                                var vectorPerp = vectorEnd.add(vectorStart.multiplyByConstant(-1)).unitVector();
 
                                 var vectorTranslation = new Vector(transformation.translation);
 
                                 var vectorReflect = vectorTranslation.reflect(vectorPerp);
 
-                                // Make the vector larger so we can see it.
+                                // Make the vector is larger so we can see it.
 
                                 vectorReflect = vectorReflect.multiplyByConstant(vectorStart.add(vectorEnd.multiplyByConstant(-1)).magnitude());
 
@@ -316,18 +325,23 @@ export class FishBowlComponent implements AfterViewInit {
 
         var vectorPerp = vectorStart.add(vectorEnd.multiplyByConstant(-1)).unitVector();
 
-        var vectorTranslation = new Vector(transformation.translation).reflect(vectorPerp);
-        var vectorTranslation2 = new Vector(transformation2.translation).reflect(vectorPerp);
+        var vectorTranslation = new Vector(transformation.translation).reflect(vectorPerp).round(10);
 
-        var momentum = new Momentum(collisionCircle.mass, vectorTranslation);
-        var momentum2 = new Momentum(elementCircle.mass, vectorTranslation2);
+        vectorPerp = vectorEnd.add(vectorStart.multiplyByConstant(-1)).unitVector();
 
-        // Might change this to "conserve" since the vectors have already been reflected above.
+        var vectorTranslation2 = new Vector(transformation2.translation).reflect(vectorPerp).round(10);
 
-        momentum.reflectWith(momentum2);
+        // var momentum = new Momentum(collisionCircle.mass, vectorTranslation);
+        // var momentum2 = new Momentum(elementCircle.mass, vectorTranslation2);
 
-        transformation.translation = momentum.velocity.point;
-        transformation2.translation = momentum2.velocity.point;
+        // // Might change this to "conserve" since the vectors have already been reflected above.
+
+        // momentum.reflectWith(momentum2);
+
+        // transformation.translation = momentum.velocity.point;
+        // transformation2.translation = momentum2.velocity.point;
+        transformation.translation = vectorTranslation.point;
+        transformation2.translation = vectorTranslation2.point;
     }
 
     /**

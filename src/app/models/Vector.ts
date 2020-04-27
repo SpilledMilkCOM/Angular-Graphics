@@ -9,6 +9,10 @@ export class Vector implements IVector {
         this.point = point;
     }
 
+    public abs(): IVector {
+        return new Vector(new Point(Math.abs(this.point.x), Math.abs(this.point.y)));
+    }
+
     public add(vector: IVector): IVector {
         // Do NOT change the internal point.
 
@@ -69,6 +73,12 @@ export class Vector implements IVector {
     // _|_ is the negative reciprocal
     public perpendicular(): IVector {
         return new Vector(new Point(-1 * this.point.y, this.point.x));
+    }
+
+    public round(decimals: number): IVector {
+        var precision = Math.pow(0.1, decimals);
+
+        return new Vector(new Point(Math.round(this.point.x / precision) * precision, Math.round(this.point.y / precision) * precision));
     }
 
     /**

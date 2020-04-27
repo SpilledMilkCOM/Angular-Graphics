@@ -9,6 +9,7 @@ export interface IVector {
     // Operators - These should NOT change the internal value of the point, only return a new point
     // (there is no operator overloading in TypeScript)
     // All operators return a point (so they can be chained together)
+    abs(): IVector;
     add(vector: IVector): IVector;
     dot(vector: IVector): number;
     multiply(vector: IVector): IVector;
@@ -18,7 +19,8 @@ export interface IVector {
     magnitude(): number;
     midpoint(vector: IVector): IVector;
     perpendicular(): IVector;
-    reflect(perpendicular: IVector): IVector
+    reflect(perpendicular: IVector): IVector;
+    round(decimals: number): IVector;
     unitVector(): IVector;
 
     // Changes this point and returns this point
