@@ -18,6 +18,7 @@ import { ReflectionAboutVerticalLine } from 'src/app/models/transform/Reflection
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { CustomTransformation } from 'src/app/models/transform/CustomTransformation';
+import { GravityTransformation } from 'src/app/models/transform/GravityTransformation';
 
 @Component({
     selector: 'gr-gravity'
@@ -85,7 +86,7 @@ export class GravityComponent implements AfterViewInit {
         //drawWorld.addElement(new DrawCircle(new Circle(new Point(275, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(200 / this.frameRate, 200 / this.frameRate)));
 
         var marble = new DrawCircle(new Circle(new Point(275, 400), 10));
-        var translation = new Translation(new Point(0, 0));
+        var translation = new Translation(new Point(0, -5));
         var containment = this.containment;
 
         drawWorld.addElement(marble, "marble" + (index++).toString()
@@ -105,6 +106,12 @@ export class GravityComponent implements AfterViewInit {
                     }
                 }
             }));
+
+        marble = new DrawCircle(new Circle(new Point(300, 400), 10));
+        var translation2 = new Translation(new Point(1, -5));
+
+        drawWorld.addElement(marble, "marble" + (index++).toString()
+            , new GravityTransformation(marble, translation2, 0.25, 0.9, this.containment));
 
         drawWorld.draw(this.context);
 
