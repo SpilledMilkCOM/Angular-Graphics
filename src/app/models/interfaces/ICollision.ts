@@ -1,5 +1,3 @@
-import { ICircle } from './ICircle';
-
 /**
  * The objective of collision is to try to make this easy.
  * For now, just treat everything as a circle and if their

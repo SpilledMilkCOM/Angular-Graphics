@@ -5,6 +5,7 @@ import { IPoint } from 'src/app/models/interfaces/IPoint';
 import { IVector } from 'src/app/models/interfaces/IVector';
 
 import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
+import { DrawLine } from 'src/app/draw/primitives/DrawLine';
 import { DrawLines } from '../../draw/primitives/DrawLines';
 import { DrawRectangle } from '../../draw/primitives/DrawRectangle';
 import { DrawViewport } from '../../draw/DrawViewport';
@@ -12,9 +13,12 @@ import { DrawWorld } from '../../draw/DrawWorld';
 
 import { Circle } from 'src/app/models/Circle';
 import { Collision } from 'src/app/models/Collision';
+import { ContainmentService } from 'src/app/services/containment.service';
+import { Line } from 'src/app/models/Line';
 import { Lines } from 'src/app/models/Lines';
 import { Momentum } from 'src/app/models/Momentum';
 import { Point } from '../../models/Point';
+import { Rect } from 'src/app/models/Rect';
 import { Rectangle } from '../../models/Rectangle';
 import { ReflectionAboutHorizontalLine } from 'src/app/models/transform/ReflectionAboutHorizontalLine';
 import { ReflectionAboutVerticalLine } from 'src/app/models/transform/ReflectionAboutVerticalLine';
@@ -22,8 +26,6 @@ import { Scale } from 'src/app/models/transform/Scale';
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { Vector } from 'src/app/models/Vector';
-import { DrawLine } from 'src/app/draw/primitives/DrawLine';
-import { Line } from 'src/app/models/Line';
 
 @Component({
     selector: 'gr-fishbowl'
@@ -47,6 +49,9 @@ export class FishBowlComponent implements AfterViewInit {
     frameCounter: number = 0;
     frameRate: number = 60;                 // Frames per second.
     timer: any;
+
+    constructor(private containment: ContainmentService) {     // Injected service.
+    }
 
     animateSingleFrame(): void {
         this.animateFrame(this);
@@ -141,6 +146,8 @@ export class FishBowlComponent implements AfterViewInit {
         this.drawWorld = drawWorld;
         this.elapsedMilliseconds = Date.now() - start;
         this.elements = drawWorld.elements.length;          // Number of elements
+
+        this.containment.setBounds(new Rect(new Point(0, 0), new Point(this.context.canvas.width, this.context.canvas.height)));
     }
 
     onResize(event) {
@@ -196,7 +203,7 @@ export class FishBowlComponent implements AfterViewInit {
         // Contain all of the elements.
 
         drawing.drawWorld.elements.forEach(element => {
-            drawing.containDrawElement(element, drawing);
+            drawing.containment.contain(element, <Translation>drawing.drawWorld.findDrawTransformation(element));
         });
 
         // So far, this is fast enough to clear and redraw the entire frame. (even on my crappy i5, I need to test on a phone too)
@@ -342,41 +349,5 @@ export class FishBowlComponent implements AfterViewInit {
         // transformation2.translation = momentum2.velocity.point;
         transformation.translation = vectorTranslation.point;
         transformation2.translation = vectorTranslation2.point;
-    }
-
-    /**
-     * This may go into the viewport code.
-     * 
-     * @param elementName
-     * @param component
-     */
-    private containDrawElement(element: IDrawElement, component: FishBowlComponent): IPoint {
-        var result = new Point(0, 0);       // Non zero if the element was contained by X or Y
-
-        if (element != null) {
-            var bounds = element.bounds();
-
-            if (bounds.max.x > component.canvasWidth || bounds.min.x < 0) {
-                var transformation = <Translation>component.drawWorld.findDrawTransformation(element);
-
-                transformation.translation.x *= -1;     // Adjust the reference.
-
-                element.transform(new ReflectionAboutVerticalLine(element.bounds().cloneRectangle().center.x));
-
-                result.x = 1;
-            }
-
-            if (bounds.max.y > component.canvasHeight || bounds.min.y < 0) {
-                var transformation = <Translation>component.drawWorld.findDrawTransformation(element);
-
-                transformation.translation.y *= -1;     // Adjust the reference.
-
-                element.transform(new ReflectionAboutHorizontalLine(element.bounds().cloneRectangle().center.y));
-
-                result.y = 1;
-            }
-        }
-
-        return result;
     }
 }

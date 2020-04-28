@@ -1,0 +1,17 @@
+<gr-animation-controls
+    [collisions]="collisions"
+    [elapsedMilliseconds]="elapsedMilliseconds"
+    [elements]="elements"
+    [frameCounter]="frameCounter"
+    [frameRate]="frameRate"
+    [height]="height"
+    [width]="width"
+    (clear)="clearCanvas()"
+    (collisionsChanged)="collisionsChanged($event)"
+    (frame)="animateSingleFrame()"
+    (start)="toggleAnimation($event)">
+</gr-animation-controls>
+
+<div>
+    <canvas #canvasId [width]="canvasWidth" [height]="canvasHeight" (window:resize)="onResize($event)">Canvas not supported.</canvas>
+</div>
