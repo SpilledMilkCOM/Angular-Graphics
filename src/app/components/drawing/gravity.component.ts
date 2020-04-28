@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
 import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
-import { IPoint } from 'src/app/models/interfaces/IPoint';
 
 import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
 import { DrawRectangle } from '../../draw/primitives/DrawRectangle';
@@ -13,8 +12,6 @@ import { ContainmentService } from 'src/app/services/containment.service';
 import { Point } from '../../models/Point';
 import { Rect } from 'src/app/models/Rect';
 import { Rectangle } from '../../models/Rectangle';
-import { ReflectionAboutHorizontalLine } from 'src/app/models/transform/ReflectionAboutHorizontalLine';
-import { ReflectionAboutVerticalLine } from 'src/app/models/transform/ReflectionAboutVerticalLine';
 import { Size } from '../../models/Size';
 import { Translation } from 'src/app/models/transform/Translation';
 import { CustomTransformation } from 'src/app/models/transform/CustomTransformation';
@@ -81,10 +78,6 @@ export class GravityComponent implements AfterViewInit {
         drawWorld.addElement(new DrawRectangle(new Rectangle(new Point(drawViewport.size.width / 2, drawViewport.size.height / 2), new Size(drawViewport.size.width, drawViewport.size.height))));
 
         var index = 0;
-
-        // Tested containment service
-        //drawWorld.addElement(new DrawCircle(new Circle(new Point(275, 100), 10)), "marble" + (index++).toString(), new Translation(new Point(200 / this.frameRate, 200 / this.frameRate)));
-
         var marble = new DrawCircle(new Circle(new Point(275, 400), 10));
         var translation = new Translation(new Point(0, -5));
         var containment = this.containment;
