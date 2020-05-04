@@ -1,0 +1,5 @@
+.red-border {
+    color: red;
+    border-style:  ridge;
+    border-width: 4px;
+}

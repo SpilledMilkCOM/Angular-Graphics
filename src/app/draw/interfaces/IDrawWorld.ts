@@ -7,4 +7,5 @@ export interface IDrawWorld {
     viewport: IDrawViewport;
 
     addElement(element: IDrawElement): void;
+    setViewport(viewport: IDrawViewport): void;
 }

@@ -10,7 +10,11 @@ export class Size implements ISize {
         this.width = width;
     }
 
-    clone(): ISize {
+    public clone(): ISize {
         return new Size(this.width, this.height);
+    }
+
+    public equals(size: ISize): boolean {
+        return this.height == size.height && this.width == size.width;
     }
 }

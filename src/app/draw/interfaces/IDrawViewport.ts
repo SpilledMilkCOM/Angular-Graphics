@@ -9,5 +9,7 @@ export interface IDrawViewport {
     transformation: ITransformation;
 
     adjustTransformation(transformation: ITransformation): void;
+    equals(viewport: IDrawViewport): boolean;
+    toWorldTransformation(): ITransformation;
     transform(element: IDrawElement): void;
 }

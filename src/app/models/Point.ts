@@ -26,8 +26,12 @@ export class Point implements IPoint {
      * 
      * @returns A duplicate of this point
      */
-    clone(): IPoint {
+    public clone(): IPoint {
         return new Point(this.x, this.y);
+    }
+
+    public equals(point: IPoint): boolean {
+        return this.x == point.x && this.y == point.y;
     }
 
 }

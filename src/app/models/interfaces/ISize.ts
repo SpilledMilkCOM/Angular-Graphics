@@ -3,4 +3,5 @@ export interface ISize {
     width: number;
 
     clone(): ISize;
+    equals(size: ISize): boolean;
 }

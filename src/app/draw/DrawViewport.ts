@@ -9,6 +9,7 @@ import { ReflectionAboutHorizontalLine } from '../models/transform/ReflectionAbo
 import { Size } from '../models/Size';
 import { Translation } from '../models/transform/Translation';
 import { Transformations } from '../models/transform/Transformations';
+import { Vector } from '../models/Vector';
 
 /**
  * The viewport represents the canvas with the origin at the bottom left and increases in Y go UP!
@@ -42,12 +43,27 @@ export class DrawViewport implements IDrawViewport {
 
     }
 
+    public equals(viewport: IDrawViewport) {
+        return this.origin.equals(viewport.origin) && this.size.equals(viewport.size);
+    }
+
+    public toWorldTransformation(): ITransformation {
+        var transformations = new Transformations(null);
+
+        // Referse the translation first to move the point back, and then reflect about the X-axis.
+
+        transformations.addTransformation(new Translation(new Vector(this.origin).multiplyByConstant(-1).point));
+        transformations.addTransformation(new ReflectionAboutHorizontalLine(0));    // X-axis
+
+        return transformations;
+    }
+
     /**
      * Transform the element so its coordinates are viewport relative.
      * 
      * @param element The element to be transformed to the viewport.
      */
-    transform(element: IDrawElement): void {
+    public transform(element: IDrawElement): void {
         element.transform(this.transformation);
     }
 }

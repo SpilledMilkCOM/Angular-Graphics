@@ -6,4 +6,5 @@ export interface IPoint {
     y: number;
 
     clone(): IPoint;
+    equals(point: IPoint): boolean;
 }

@@ -7,6 +7,8 @@ import { ITransformation } from '../models/interfaces/ITransformation';
 
 import { Rect } from '../models/Rect';
 import { Point } from '../models/Point';
+import { Transformations } from '../models/transform/Transformations';
+import { Translation } from '../models/transform/Translation';
 
 export class DrawWorld implements IDrawWorld, IDrawElement {
 
@@ -32,10 +34,9 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
      * @param frameTransform A transformation during one frame of animation.
      * @param skipViewportTransform The element is already viewport relative.
      */
-    addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null, skipViewportTransform: boolean = false): void {
+    public addElement(element: IDrawElement, name: String = null, frameTransform: ITransformation = null, skipViewportTransform: boolean = false): void {
 
-        if (! skipViewportTransform)
-        {
+        if (!skipViewportTransform) {
             this.viewport.transform(element);
         }
 
@@ -69,13 +70,17 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
             key.transform(value);
         });
     }
-     
+
     bounds(): IRect {
-        
+
         var min = this.viewport.origin.clone();
         var max = new Point(this.viewport.size.width, this.viewport.size.height);
 
         return new Rect(min, max);
+    }
+
+    changeViewport(viewport: IDrawViewport): void {
+
     }
 
     clear(): void {
@@ -97,9 +102,21 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
     findDrawElement(name: String): IDrawElement {
         return this.namedElements.get(name);
     }
-    
+
     findDrawTransformation(element: IDrawElement): ITransformation {
         return this.animatedElements.get(element);
+    }
+
+    public setViewport(viewport: IDrawViewport): void {
+
+        if (!this.viewport.equals(viewport)) {
+            // Change the elements' coordinates from the old viewport to world coordinates,
+            // then add the new viewport's transformation to this list of transforations.
+
+            this.transform(new Translation(new Point(0, viewport.origin.y - this.viewport.origin.y)));
+
+            this.viewport = viewport;
+        }
     }
 
     /** Transform a point to the world's viewport coordinates
