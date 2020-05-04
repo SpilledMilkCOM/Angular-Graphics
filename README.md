@@ -1,4 +1,4 @@
-# Angular From Scratch
+# Angular From Scratch [(demo)](http://zrhoz.com)
 
 ## REF: [Using Angular in Visual Studio Code](https://code.visualstudio.com/docs/nodejs/angular-tutorial)
 
@@ -53,9 +53,13 @@ It just **WORKED**! (*not really*)  The code is there in the gh-pages branch, bu
 that doesn't handle the Angular (or React) routing very well.  So you have to follow the link in the references below
 to finish up.
 
+Try it [HERE...](https://spilledmilkcom.github.io/Angular-Graphics/)
+
+I couldn't really get the hack to work for a SPA, but in theory it's **supposed** to work for Git Hub Pages (not for me).
+This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!!
+
 ## TODO
 
-* Share common controls
 * Resizing **-started-**
 * Animation **-started-**
   * Support a good frame rate
@@ -76,3 +80,4 @@ to finish up.
 * [Markdown Emojis](https://www.webfx.com/tools/emoji-cheat-sheet)
 * [Angular @ViewChild: In-Depth Explanation](https://blog.angular-university.io/angular-viewchild/)
 * [Publish to GitHub Pages](https://www.telerik.com/blogs/quick-angular-2-hosting-angular-cli-github-pages)
+* [SPA Hack '404 not found'](http://www.backalleycoder.com/2016/05/13/sghpa-the-single-page-app-hack-for-github-pages/)
