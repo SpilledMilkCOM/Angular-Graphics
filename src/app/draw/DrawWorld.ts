@@ -9,6 +9,7 @@ import { Rect } from '../models/Rect';
 import { Point } from '../models/Point';
 import { Transformations } from '../models/transform/Transformations';
 import { Translation } from '../models/transform/Translation';
+import { Rotation } from '../models/transform/Rotation';
 
 export class DrawWorld implements IDrawWorld, IDrawElement {
 
@@ -112,8 +113,12 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         if (!this.viewport.equals(viewport)) {
             // Change the elements' coordinates from the old viewport to world coordinates,
             // then add the new viewport's transformation to this list of transforations.
+            // TODO: The viewport should probably do this, but for now...
 
-            this.transform(new Translation(new Point(0, viewport.origin.y - this.viewport.origin.y)));
+            var translation = new Translation(new Point(0, viewport.origin.y - this.viewport.origin.y));
+
+            this.transform(translation);
+            this.transformTransformations(translation);
 
             this.viewport = viewport;
         }
@@ -141,4 +146,17 @@ export class DrawWorld implements IDrawWorld, IDrawElement {
         this.elements.forEach(element => element.transform(transformation));
     }
 
+    //----==== PRIVATE ====------------------------------------------------------------------------
+
+    /** Transform select transformations that are relative to a point.
+     * 
+     * @param transformation - The transformation to apply
+     */
+    private transformTransformations(transformation: ITransformation): void {
+        this.animatedElements.forEach((value: ITransformation, key: IDrawElement, map: Map<IDrawElement, ITransformation>) => {
+            if ((<Rotation>value).about != null) {
+                transformation.transform((<Rotation>value).about);
+            }
+        });
+    }
 }
