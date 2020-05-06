@@ -2,7 +2,7 @@
 
 ## REF: [Using Angular in Visual Studio Code](https://code.visualstudio.com/docs/nodejs/angular-tutorial)
 
-## Get the latest version of Node.js
+## :open_file_folder: Get the latest version of Node.js
 
 Install the latest version of Node on their [website](https://nodejs.org/en/download/).
 
@@ -11,6 +11,7 @@ Install the latest version of Node on their [website](https://nodejs.org/en/down
     npm install -g npm
     npm install npm@latest -g
     npm install node@latest -g
+    npm install node@12.0
 
 ## Get the latest version of the [**Angular CLI**](https://cli.angular.io/) *(Command Line Interface)*
 
@@ -58,7 +59,7 @@ Try it [HERE...](https://spilledmilkcom.github.io/Angular-Graphics/)
 I couldn't really get the hack to work for a SPA, but in theory it's **supposed** to work for Git Hub Pages (not for me).
 This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!!
 
-## TODO
+## :1234: TODO
 
 * Resizing **-started-**
 * Animation **-started-**
@@ -73,7 +74,7 @@ This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!
 * 3D
 * Figure out how to package it all up and yet still keep it open.
 
-## :chart_with_upwards_trend: References :chart_with_downwards_trend:
+## :information_source: References
 
 * [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 * [TypeScript Doc (commenting)](https://github.com/Microsoft/tsdoc)
