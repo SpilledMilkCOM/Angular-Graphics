@@ -1,7 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from "@angular/core";
 
-import { IDrawElement } from 'src/app/draw/interfaces/IDrawElement';
-
 import { DrawCircle } from 'src/app/draw/primitives/DrawCircle';
 import { DrawLine } from '../../draw/primitives/DrawLine';
 import { DrawLines } from '../../draw/primitives/DrawLines';
@@ -46,6 +44,8 @@ export class DrawingComponent implements AfterViewInit {
     frameRate: number = 24;                 // Frames per second.
     timer: any;
     drawWorld: DrawWorld;
+
+    private redrawing: boolean = false;
 
     public animateSingleFrame(): void {
         this.animateFrame(this);
@@ -180,21 +180,31 @@ export class DrawingComponent implements AfterViewInit {
 
         // Adjust the viewport size based on the actual size of the window.
 
+        this.redrawing = false;
         this.onResize(null);
     }
 
     public onResize(event) {
-        this.canvasWidth = window.innerWidth - 35;
-        this.canvasHeight = window.innerHeight - 305;
+        var width = window.innerWidth - 35;
+        var height = window.innerHeight - 305;
 
-        // The properties above are bound to the canvas, BUT are not immediate changes with respect to the context.
-        // By setting these properties you destroy the canas' context so you will need to get a reference to a NEW context.
+        if (this.canvasWidth != width || this.canvasHeight != height && event != null) {
+            this.canvasWidth = width;
+            this.canvasHeight = height;
 
-        // Fire a redraw after a bit.
-        // TODO: Reduce the timer to try to "eliminate" the flicker
+            // The properties above are bound to the canvas, BUT are not immediate changes with respect to the context.
+            // By setting these properties you destroy the canas' context so you will need to get a reference to a NEW context.
 
-        setTimeout(this.redrawCanvas, 1000 / this.frameRate, this);     // This only fires ONCE.
-        //setTimeout(this.redrawCanvas, 100, this);     // This only fires ONCE.
+            // Fire a redraw after a bit.
+            // TODO: Reduce the timer to try to "eliminate" the flicker
+            setTimeout(this.redrawCanvas, 1000 / this.frameRate, this);     // This only fires ONCE.
+        }
+        else {
+            // The canvas wasn't actually resized.
+
+            setTimeout(this.redrawCanvas, 500, this);     // This only fires ONCE.
+            //this.redrawCanvas(this);
+        }
     }
 
     public toggleAnimation(started: boolean): void {
@@ -223,20 +233,27 @@ export class DrawingComponent implements AfterViewInit {
     }
 
     private redrawCanvas(drawing: DrawingComponent): void {
+
         // !!! DO NOT USE 'this' IN THIS METHOD !!!!
 
-        var viewRect = drawing.drawWorld.findDrawElement("viewRect") as DrawRectangle;
+        if (!drawing.redrawing) {
+            drawing.redrawing = true;   // Potential race condition due to time threads.
 
-        if (viewRect != null) {
-            viewRect.size = new Size(drawing.canvasWidth, drawing.canvasHeight);
+            var viewRect = drawing.drawWorld.findDrawElement("viewRect") as DrawRectangle;
+
+            if (viewRect != null) {
+                viewRect.size = new Size(drawing.canvasWidth, drawing.canvasHeight);
+            }
+    
+            // The canvas is based on the width and height
+    
+            drawing.context = drawing.canvas.nativeElement.getContext("2d");
+            drawing.drawWorld.setViewport(new DrawViewport(drawing.context));
+            drawing.clearCanvas();
+    
+            drawing.drawWorld.draw(drawing.context);
+
+            drawing.redrawing = false;   // Potential race condition due to time threads.
         }
-
-        // The canvas is based on the width and height
-
-        drawing.context = drawing.canvas.nativeElement.getContext("2d");
-        drawing.drawWorld.setViewport(new DrawViewport(drawing.context));
-        drawing.clearCanvas();
-
-        drawing.drawWorld.draw(drawing.context);
     }
 }

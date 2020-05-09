@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -7,7 +8,9 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -54,10 +57,13 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
+    FlexLayoutModule,
     MatButtonModule,
     MatCheckboxModule,
     MatGridListModule,
+    MatIconModule,
     MatInputModule,
+    MatMenuModule,
     MatSliderModule,
     MatTabsModule,
     MatToolbarModule,

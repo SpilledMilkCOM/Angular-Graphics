@@ -80,5 +80,7 @@ This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!
 * [TypeScript Doc (commenting)](https://github.com/Microsoft/tsdoc)
 * [Markdown Emojis](https://www.webfx.com/tools/emoji-cheat-sheet)
 * [Angular @ViewChild: In-Depth Explanation](https://blog.angular-university.io/angular-viewchild/)
+* [Angular Material flex-layout](https://github.com/angular/flex-layout/wiki/Declarative-API-Overview)
+* [Angular Material Icon Font](https://material.io/resources/icons/?style=baseline)
 * [Publish to GitHub Pages](https://www.telerik.com/blogs/quick-angular-2-hosting-angular-cli-github-pages)
 * [SPA Hack '404 not found'](http://www.backalleycoder.com/2016/05/13/sghpa-the-single-page-app-hack-for-github-pages/)
