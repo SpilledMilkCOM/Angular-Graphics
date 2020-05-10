@@ -8,7 +8,8 @@ import { MatMenuTrigger } from '@angular/material/menu';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Angular & <canvas/>';
+  public title = 'Angular & <canvas/>';
+  public mainMenu = [["home", "Home"], ["art", "Art"], ["fractals", "Fractals"], ["test", "Test"],];
 
   @ViewChild(MatMenuTrigger) trigger: MatMenuTrigger;
 

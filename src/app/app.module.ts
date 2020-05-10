@@ -31,8 +31,9 @@ import { SpokesComponent } from './components/art/spokes.component';
 import { TreeFractalComponent } from './components/fractals/tree.component';
 
 import { ArtComponent } from './views/art/art.component';
-import { HomeComponent } from './views/home/home.component';
 import { FractalsComponent } from './views/fractals/fractals.component';
+import { HomeComponent } from './views/home/home.component';
+import { TestComponent } from './views/test/test.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
     KochFractalComponent,
     OrbitsComponent,
     SpokesComponent,
+    TestComponent,
     TreeFractalComponent
   ],
   imports: [
@@ -76,6 +78,7 @@ import { FractalsComponent } from './views/fractals/fractals.component';
       { path: 'art', component: ArtComponent },
       { path: 'fractals', component: FractalsComponent },
       { path: 'home', component: HomeComponent },
+      { path: 'test', component: TestComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ])

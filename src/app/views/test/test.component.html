@@ -1,0 +1,53 @@
+<mat-grid-list #gridListId cols="7" rowHeight="5em" (window:resize)="onResize($event)">
+  <mat-grid-tile>
+    <h1>
+      {{ title }}
+    </h1>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <gr-home-field label="GridList Width" [value]="gridListWidth"></gr-home-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <gr-home-field label="GridList Height" [value]="gridListHeight"></gr-home-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <gr-home-field label="TabGroup Width" [value]="tabGroupWidth"></gr-home-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <gr-home-field label="TabGroup Height" [value]="tabGroupHeight"></gr-home-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <gr-home-field label="Window Width" [value]="windowWidth"></gr-home-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <gr-home-field label="Window Height" [value]="windowWidth"></gr-home-field>
+  </mat-grid-tile>
+</mat-grid-list>
+
+<mat-tab-group #tabGroupId>
+  <mat-tab label="Test">
+    <!-- ng-template allows the tab content to be rendered when shown. -->
+    <ng-template matTabContent>
+      <gr-drawing></gr-drawing>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Fish Bowl">
+    <ng-template matTabContent>
+      <gr-fishbowl></gr-fishbowl>
+    </ng-template>
+  </mat-tab>
+
+  <mat-tab label="Gravity">
+    <ng-template matTabContent>
+      <gr-gravity></gr-gravity>
+    </ng-template>
+  </mat-tab>
+
+</mat-tab-group>

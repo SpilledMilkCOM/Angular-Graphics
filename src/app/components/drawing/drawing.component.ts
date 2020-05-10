@@ -20,6 +20,7 @@ import { Rotation } from 'src/app/models/transform/Rotation';
 import { RegularPolygon } from 'src/app/primitives/RegularPolygon';
 import { Transformations } from 'src/app/models/transform/Transformations';
 import { Vector } from 'src/app/models/Vector';
+import { Rect } from 'src/app/models/Rect';
 
 @Component({
     selector: 'gr-drawing'
@@ -78,99 +79,99 @@ export class DrawingComponent implements AfterViewInit {
         var drawViewport = new DrawViewport(this.context);
         var drawWorld = new DrawWorld(null, drawViewport);
 
-        // Test many lines (spaceship)
-
-        var lines = new Lines();
-
-        lines.addPoint(new Point(250, 225));
-        lines.addPoint(new Point(200, 200));
-        lines.addPoint(new Point(250, 300));
-        lines.addPoint(new Point(300, 200));
-
-        var drawLines = new DrawLines(lines, closedLoop);
-
-        drawWorld.addElement(drawLines, "spaceship");
-
-        var transformations = new Transformations();
-
-        transformations.addTransformation(new Translation(new Point(1, -4)));
-        // Sending in a reference to the 1st point (as long as the reference is the first point then that will be translated first as a reference to the others)
-        transformations.addTransformation(new Rotation(Math.PI / 90, drawLines.lines.points[0]));
-
-        drawWorld.addTransformation("spaceship", transformations);
-
-        // The transformation above is still kind of a hack
-
-        // drawWorld.addTransformation("spaceship"
-        //     , new CustomTransformation(spaceship, lines.points.length, (element: IDrawElement) => {
-
-        //         if (element != null) {
-        //             // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
-
-        //             element.transform(new Translation(new Point(1, -4)));
-
-        //             var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
-
-        //             element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
-        //         }
-        //     }));
-
-        // Test points
-
-        drawWorld.addElement(new DrawPoint(new Point(300, 300)));
-        drawWorld.addElement(new DrawPoint(new Point(300, 310)));
-        drawWorld.addElement(new DrawPoint(new Point(310, 300)));
-        drawWorld.addElement(new DrawPoint(new Point(310, 310)));
-
         // Test rectangle
 
-        drawWorld.addElement(new DrawRectangle(new Rectangle(new Point(500, 300), new Size(100, 10))));
-        drawWorld.addElement(new DrawRectangle(new Rectangle(new Point(75, 75), new Size(100, 100))));
+        // drawWorld.addElement(new DrawRectangle(new Rectangle(new Point(500, 300), new Size(100, 10))));
+        // drawWorld.addElement(new DrawRectangle(new Rectangle(new Point(75, 75), new Size(100, 100))));
         drawWorld.addElement(new DrawRectangle(new Rectangle(
             new Point(drawViewport.size.width / 2, drawViewport.size.height / 2)
             , new Size(drawViewport.size.width, drawViewport.size.height))), "viewRect");
 
-        // Test right triangle
+        // // Test many lines (spaceship)
 
-        drawWorld.addElement(new DrawLines(new RightTriangle(new Point(200, 400), new Size(30, 30)).segments, closedLoop));
+        // var lines = new Lines();
 
-        // Test circle
+        // lines.addPoint(new Point(250, 225));
+        // lines.addPoint(new Point(200, 200));
+        // lines.addPoint(new Point(250, 300));
+        // lines.addPoint(new Point(300, 200));
 
-        var circle1 = new DrawCircle(new Circle(new Point(400, 400), 20));
-        var circle2 = new DrawCircle(new Circle(new Point(450, 420), 20));
+        // var drawLines = new DrawLines(lines, closedLoop);
 
-        drawWorld.addElement(circle1, "circle1");
-        drawWorld.addElement(circle2, "circle2");
+        // drawWorld.addElement(drawLines, "spaceship");
 
-        // Connect the centers (the centers are viewport relative)
+        // var transformations = new Transformations();
 
-        var centerLine = new DrawLine(new Line(circle1.circle.center, circle2.circle.center));
+        // transformations.addTransformation(new Translation(new Point(1, -4)));
+        // // Sending in a reference to the 1st point (as long as the reference is the first point then that will be translated first as a reference to the others)
+        // transformations.addTransformation(new Rotation(Math.PI / 90, drawLines.lines.points[0]));
 
-        drawWorld.addElement(centerLine, null, null, true);
+        // drawWorld.addTransformation("spaceship", transformations);
 
-        var vector1 = new Vector(centerLine.line.start);
-        var vector2 = new Vector(centerLine.line.end);
+        // // The transformation above is still kind of a hack
 
-        // A perpendicular vector to the center line.
+        // // drawWorld.addTransformation("spaceship"
+        // //     , new CustomTransformation(spaceship, lines.points.length, (element: IDrawElement) => {
 
-        var vectorPerp = vector1.add(vector2.multiplyByConstant(-1)).perpendicular();        // Substract the centers to get a vector from 1 to 2
+        // //         if (element != null) {
+        // //             // Since the draw element is a bunch of lines, then I only want to do this ONCE per batch.
 
-        var perpLine = new DrawLine(new Line(new Point(0, 0), new Point(vectorPerp.point.x, vectorPerp.point.y)));
+        // //             element.transform(new Translation(new Point(1, -4)));
 
-        perpLine.transform(new Translation(vector1.point));
+        // //             var spaceshipLines = <DrawLines>element;       // NOTE: cast operator, casting
 
-        drawWorld.addElement(perpLine, null, null, true);
+        // //             element.transform(new Rotation(Math.PI / 90, spaceshipLines.lines.points[3]));
+        // //         }
+        // //     }));
 
-        // Test regular polygon
+        // // Test points
 
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(400, 100), 30, 3).segments, closedLoop), "triangle"
-            , new Rotation(Math.PI / 2 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+        // drawWorld.addElement(new DrawPoint(new Point(300, 300)));
+        // drawWorld.addElement(new DrawPoint(new Point(300, 310)));
+        // drawWorld.addElement(new DrawPoint(new Point(310, 300)));
+        // drawWorld.addElement(new DrawPoint(new Point(310, 310)));
 
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop), "pentagon"
-            , new Rotation(Math.PI / 3 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+        // // Test right triangle
 
-        drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "octagon"
-            , new Rotation(Math.PI / 4 / this.frameRate, drawWorld.toViewport(new Point(500, 100))));     // 45 degrees per second.
+        // drawWorld.addElement(new DrawLines(new RightTriangle(new Point(200, 400), new Size(30, 30)).segments, closedLoop));
+
+        // // Test circle
+
+        // var circle1 = new DrawCircle(new Circle(new Point(400, 400), 20));
+        // var circle2 = new DrawCircle(new Circle(new Point(450, 420), 20));
+
+        // drawWorld.addElement(circle1, "circle1");
+        // drawWorld.addElement(circle2, "circle2");
+
+        // // Connect the centers (the centers are viewport relative)
+
+        // var centerLine = new DrawLine(new Line(circle1.circle.center, circle2.circle.center));
+
+        // drawWorld.addElement(centerLine, null, null, true);
+
+        // var vector1 = new Vector(centerLine.line.start);
+        // var vector2 = new Vector(centerLine.line.end);
+
+        // // A perpendicular vector to the center line.
+
+        // var vectorPerp = vector1.add(vector2.multiplyByConstant(-1)).perpendicular();        // Substract the centers to get a vector from 1 to 2
+
+        // var perpLine = new DrawLine(new Line(new Point(0, 0), new Point(vectorPerp.point.x, vectorPerp.point.y)));
+
+        // perpLine.transform(new Translation(vector1.point));
+
+        // drawWorld.addElement(perpLine, null, null, true);
+
+        // // Test regular polygon
+
+        // drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(400, 100), 30, 3).segments, closedLoop), "triangle"
+        //     , new Rotation(Math.PI / 2 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+
+        // drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(450, 100), 30, 5).segments, closedLoop), "pentagon"
+        //     , new Rotation(Math.PI / 3 / this.frameRate, drawWorld.toViewport(new Point(400, 100))));
+
+        // drawWorld.addElement(new DrawLines(new RegularPolygon(new Point(500, 100), 30, 8).segments, closedLoop), "octagon"
+        //     , new Rotation(Math.PI / 4 / this.frameRate, drawWorld.toViewport(new Point(500, 100))));     // 45 degrees per second.
 
         drawWorld.draw(this.context);
 
@@ -239,18 +240,22 @@ export class DrawingComponent implements AfterViewInit {
         if (!drawing.redrawing) {
             drawing.redrawing = true;   // Potential race condition due to time threads.
 
+            // The canvas is based on the width and height
+
+            drawing.context = drawing.canvas.nativeElement.getContext("2d");
+            drawing.drawWorld.setViewport(new DrawViewport(drawing.context));
+
+            // The viewRect needs to stay centered in the frame and should NOT move like all the other objects.
+
             var viewRect = drawing.drawWorld.findDrawElement("viewRect") as DrawRectangle;
 
             if (viewRect != null) {
                 viewRect.size = new Size(drawing.canvasWidth, drawing.canvasHeight);
+                viewRect.topLeft = new Point(0, 0);
+                viewRect.rectangle = new Rectangle(viewRect.topLeft, viewRect.size);
             }
-    
-            // The canvas is based on the width and height
-    
-            drawing.context = drawing.canvas.nativeElement.getContext("2d");
-            drawing.drawWorld.setViewport(new DrawViewport(drawing.context));
+
             drawing.clearCanvas();
-    
             drawing.drawWorld.draw(drawing.context);
 
             drawing.redrawing = false;   // Potential race condition due to time threads.

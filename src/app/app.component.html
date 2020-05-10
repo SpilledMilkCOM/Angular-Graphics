@@ -3,22 +3,20 @@
   <div fxFlex="auto">
     <button mat-button [routerLink]="['/home']"><strong>{{title}}</strong></button>
   </div>
-  <div fxFlex="10%" fxHide.sm fxHide.lt-sm>
-    <button mat-button [routerLink]="['/home']">Home</button>
-  </div>
-  <div fxFlex="10%" fxHide.sm fxHide.lt-sm>
-    <button mat-button [routerLink]="['/art']">Art</button>
-  </div>
-  <div fxFlex="10%" fxHide.sm fxHide.lt-sm>
-    <button mat-button [routerLink]="['/fractals']">Fractals</button>
+
+  <div fxFlex="10%" fxHide.sm fxHide.lt-sm *ngFor="let menuItem of mainMenu">
+    <button mat-button [routerLink]="['/' + menuItem[0]]">{{menuItem[1]}}</button>
   </div>
 
   <div fxFlex="5%" fxHide.gt-sm>
 
     <mat-menu #appMenu>
+      <!-- <button mat-menu-item [routerLink]="['/' + menuItem[0]]">{{menuItem[1]}}</button> -->
+
       <button mat-menu-item [routerLink]="['/home']">Home</button>
       <button mat-menu-item [routerLink]="['/art']">Art</button>
       <button mat-menu-item [routerLink]="['/fractals']">Fractals</button>
+      <button mat-menu-item [routerLink]="['/test']">Test</button>
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="appMenu">
