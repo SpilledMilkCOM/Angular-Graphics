@@ -65,6 +65,7 @@ This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!
 * Animation **-started-**
   * Support a good frame rate
   * Possibly detect frame rate
+  * Flocking Simulation [Boids](http://www.red3d.com/cwr/boids/)
 * Fractals
   * Dragon
   * Koch
@@ -84,3 +85,4 @@ This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!
 * [Angular Material Icon Font](https://material.io/resources/icons/?style=baseline)
 * [Publish to GitHub Pages](https://www.telerik.com/blogs/quick-angular-2-hosting-angular-cli-github-pages)
 * [SPA Hack '404 not found'](http://www.backalleycoder.com/2016/05/13/sghpa-the-single-page-app-hack-for-github-pages/)
+* [Flocking Simulation](https://www.youtube.com/watch?v=mhjuuHl6qHM)
