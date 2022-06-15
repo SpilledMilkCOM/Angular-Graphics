@@ -8,20 +8,26 @@ Install the latest version of Node on their [website](https://nodejs.org/en/down
 
 ## Get the latest version of Node Package Manager (npm)
 
-    npm install -g npm
-    npm install npm@latest -g
-    npm install node@latest -g
-    npm install node@12.0
+~~~PowerShell
+npm install -g npm
+npm install npm@latest -g
+npm install node@latest -g
+npm install node@12.0
+~~~
 
 ## Get the latest version of the [**Angular CLI**](https://cli.angular.io/) *(Command Line Interface)*
 
-    npm install -g @angular/cli
+~~~PowerShell
+npm install -g @angular/cli
+~~~
 
 ## Create the project from your repo directory, run the following command which will create the folder `Angular-Graphics`
 
-    c:\repositories> ng new Angular-Graphics
-    Add Angular routing?    Yes
-    Choose style:           CSS
+~~~PowerShell
+c:\repositories> ng new Angular-Graphics
+Add Angular routing?    Yes
+Choose style:           CSS
+~~~
 
 ## Get your initial creation into Git
 
@@ -31,7 +37,9 @@ Angular set up a preliminary git repo, but this should go into GitHub, or some r
 
 Use Git Bash to `git clone` your repo into your repository directory. Copy the contents of your renamed Angular-Graphics2 folder into your newly cloned Angular-Graphics folder, but **EXCLUDE** the .git folder that the Angular CLI created otherwise you'll have to change the remote in the folder you want to use.  Once the files are all copied to the cloned folder, then you can commit and push and you'll see your "initial commit" in your GitHub repo.
 
-    git clone "https://github.com/yourID/yourNewRepo.git"
+~~~PowerShell
+git clone "https://github.com/yourID/yourNewRepo.git"
+~~~
 
 ## Angular Material
 
@@ -59,7 +67,7 @@ Try it [HERE...](https://spilledmilkcom.github.io/Angular-Graphics/)
 I couldn't really get the hack to work for a SPA, but in theory it's **supposed** to work for Git Hub Pages (not for me).
 This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!!
 
-## :1234: TODO
+## 🔢 TODO
 
 * Resizing **-started-**
 * Animation **-started-**
@@ -75,7 +83,7 @@ This hack is a MUST when deploying to a GoDaddy PLESK server.  THANK YOU DANIEL!
 * 3D
 * Figure out how to package it all up and yet still keep it open.
 
-## :information_source: References
+## 📚 References
 
 * [Canvas Drawing API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 * [TypeScript Doc (commenting)](https://github.com/Microsoft/tsdoc)
