@@ -1,4 +1,4 @@
-# Angular From Scratch [(demo)](http://zrhoz.com)
+# Angular From Scratch
 
 ## REF: [Using Angular in Visual Studio Code](https://code.visualstudio.com/docs/nodejs/angular-tutorial)
 
